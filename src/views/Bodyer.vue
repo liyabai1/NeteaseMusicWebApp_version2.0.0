@@ -20,6 +20,7 @@ export default {
 <style lang="scss" scoped>
 .BodyerBox {
   flex: 1;
+  height: 0;
   display: flex;
 }
 </style>

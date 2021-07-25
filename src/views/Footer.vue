@@ -3,7 +3,7 @@
     <div class="player">
 
       <div class="songInfo">
-        <img src="" alt="封面">
+        <img src="" alt="封面" @click="viewSongPlay = !viewSongPlay">
         <div>
           <p>歌名</p>
           <p>歌手</p>
@@ -35,17 +35,33 @@
       </div>
 
     </div>
-
-    <div class="songPlay" v-show="false">
-      歌曲播放页
-    </div>
+    <transition name="songPlay">
+      <div class="songPlay" :style="{height: height + 'px'}" v-if="viewSongPlay">
+        <song-play></song-play>
+      </div>
+    </transition>
   </div>
 </template>
 <script>
+import SongPlay from "@/components/SongPlay"
 export default {
   data () {
     return {
-      playing: false
+      playing: false,
+      viewSongPlay: false,
+      height: 0
+    }
+  },
+  components:{
+    SongPlay
+  },
+  mounted(){
+    // 设置歌曲播放详情页的高度
+    this.setPlayPageH()
+  },
+  methods:{
+    setPlayPageH(){
+      this.height = window.innerHeight - 70;
     }
   }
 }
@@ -185,6 +201,29 @@ export default {
         }
       }
     }
+  }
+
+  .songPlay {
+    width: 100%;
+    height: 500px;
+    background-color: #aaaaaa;
+    position: fixed;
+    bottom: 70px;
+  }
+}
+
+.songPlay-enter-active {
+  animation: bounce-in 0.5s linear;
+}
+.songPlay-leave-active {
+  animation: bounce-in 0.5s linear reverse;
+}
+@keyframes bounce-in {
+  0% {
+    bottom: -1000px;
+  }
+  100% {
+    bottom: 0px;
   }
 }
 </style>

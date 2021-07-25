@@ -282,8 +282,13 @@ export default {
     }
 
     .userName {
-      flex: 1;
+      width: 125px;
+      height: 25px;
+      line-height: 25px;
       font-size: 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       color: #aaaaaa;
     }
   }
