@@ -1,0 +1,22 @@
+/** 导入主题的样式 */
+@import "./theme";
+@import "./variable";
+
+/** 生成主题css样式 */
+@mixin theme {
+  @each $theme_name, $theme_items in $theme {
+    .theme-#{$theme_name} {
+      background-color: map-get($map:$theme_items, $key: background-color);
+      color: map-get($map: $theme_items, $key: color);
+      & i {
+        color: map-get($map: $theme_items, $key: background-color);
+      }
+    }
+  }
+}
+
+
+/** 根据UI图片大小px 转为rem */
+@function toRem($px) {
+  @return ($px/$html-font-size) * 1rem;
+}

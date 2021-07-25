@@ -1,32 +1,50 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <header-box></header-box>
+    <bodyer-box></bodyer-box>
+    <footer-box></footer-box>
   </div>
 </template>
-
+<script>
+import HeaderBox from '@/views/Header'
+import BodyerBox from '@/views/Bodyer'
+import FooterBox from '@/views/Footer'
+export default {
+  date () {
+    return {}
+  },
+  components: {
+    HeaderBox,
+    BodyerBox,
+    FooterBox
+  }
+}
+</script>
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+/** 引入主题 */
+@include theme();
+
+* {
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  list-style: none;
+}
+html {
+  width: 100%;
+  height: 100%;
+  font-size: $html-font-size;
+}
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-size: 16px;
 }
 </style>

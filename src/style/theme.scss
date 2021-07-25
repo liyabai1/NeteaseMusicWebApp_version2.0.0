@@ -1,0 +1,32 @@
+/** 主题切换 */
+$theme-red: (
+  background-color: #ff0000,
+  color: #000000,
+);
+
+$theme-green: (
+  background-color: #00ff00,
+  color: #000000,
+);
+
+$theme-blue: (
+  background-color: #0000ff,
+  color: #000000,
+);
+
+$theme-yellow: (
+  background-color: #ffff00,
+  color: #000000,
+);
+$theme-black:(
+  background-color: #222222,
+  color: #cccccc,
+);
+
+$theme: (
+  "red": $theme-red,
+  "green": $theme-green,
+  "blue": $theme-blue,
+  "yellow": $theme-yellow,
+  "black": $theme-black,
+);
