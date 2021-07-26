@@ -10,7 +10,7 @@ export const GET_DATA = axios.create({
 })
 // 添加请求拦截器
 GET_DATA.interceptors.request.use(function (config) {
-  console.log('正在请求')
+  // console.log('正在请求')
   // 在发送请求之前做些什么
   return config
 }, function (error) {
@@ -20,7 +20,7 @@ GET_DATA.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 GET_DATA.interceptors.response.use(function (response) {
-  console.log('请求成功', response)
+  // console.log('请求成功', response)
   // 2xx 范围内的状态码都会触发该函数。
   // 对响应数据做点什么
   return response

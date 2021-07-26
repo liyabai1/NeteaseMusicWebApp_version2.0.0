@@ -12,7 +12,20 @@ function login (phone, password) {
   })
 }
 
+
+/**
+ * 获取用户歌单
+ * @param {string} userId 
+ */
+function getUserlist(userId){
+  return GET_DATA({
+    url: '/user/playlist',
+    params: {uid: userId}
+  })
+}
+
 const HTTPS = {
-  login: login
+  login,
+  getUserlist
 }
 export default HTTPS

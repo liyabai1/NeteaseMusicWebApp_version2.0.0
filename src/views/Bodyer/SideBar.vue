@@ -19,9 +19,9 @@ export default {
   },
   computed:{
     hasLogin:function(){
-      return false
+      return this.$store.state.login.userInfo.hasLogin
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

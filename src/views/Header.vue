@@ -200,6 +200,14 @@ export default {
       this.logined = true
       this.userName = localStorage.getItem('nickName')
       this.avatarUrl = localStorage.getItem('avatarUrl')
+
+      // 将用户信息保存在loginModule模块中
+      let userInfo = {
+        userName: localStorage.getItem('nickName'),
+        userId: localStorage.getItem('userId'),
+        avatarUrl: localStorage.getItem('avatarUrl')
+      }
+      this.$store.commit('login/setUserInfo',userInfo) 
     },
 
     /**
