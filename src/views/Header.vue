@@ -148,7 +148,11 @@ export default {
          * 每次进如页面时判断cookie是否失效，如果失效了，删除本地缓存的用户信息
          */
         (async () => {
-          const res = await HTTPS.login(15877550184, '12345.1122Lyb').then((res) => res.data)
+          const res = await HTTPS.login(15877550184, '12345.1122Lyb').then((res) => {
+           return res.data
+          },(err)=>{
+           return err
+          })
           console.log(res)
           // 保存用户的头像链接
           localStorage.setItem('avatarUrl', res.profile.avatarUrl)
