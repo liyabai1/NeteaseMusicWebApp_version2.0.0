@@ -27,17 +27,19 @@
       v-if="inputFouces"
       ></div>
     </div>
-    <el-button type="text" @click="login()">
-      <div class="userBox">
-        <img
-        :src="avatarUrl"
-        v-if="logined" />
-        <i
-        class="iconfont"
-        v-else>&#xe65f;</i>
-        <span class="userName">{{ userName }}</span>
-      </div>
-    </el-button>
+
+    <!-- 用户信息|头像、用户名 -->
+    <div class="userBox"  @click="login()">
+      <img
+      :src="avatarUrl"
+      v-if="logined" />
+      <i
+      class="iconfont"
+      v-else>&#xe65f;</i>
+      <span class="userName">{{ userName }}</span>
+    </div>
+
+    <!-- 主题选择 -->
     <div class="changeThemeBox">
       <i
       class="iconfont changeThemeBtn"
@@ -141,27 +143,48 @@ export default {
         alert('请输入密码')
         return
       }
-      if (Number(this.phoneNum) !== 'NaN' && Number(this.phoneNum) === parseInt(this.phoneNum)) {
+      let regPhone = /[0-9]{11}/g
+      if (regPhone.test(this.phoneNum)) {
         /**
          * 登录逻辑
          * 将用户的头像，用户名等信息储存在本地缓存中
          * 每次进如页面时判断cookie是否失效，如果失效了，删除本地缓存的用户信息
          */
         (async () => {
-          const res = await HTTPS.login(15877550184, '12345.1122Lyb').then((res) => {
-           return res.data
+          _this.$message("正在登录...")
+          const res = await HTTPS.login(_this.phoneNum, _this.passwords).then((res) => {
+            // 登录成功
+            if (res.data.code === 200) {
+              _this.$message({
+                message: "登录成功",
+                type: "success",
+                center: true
+              })
+              return res.data
+            }else{
+              _this.$message({
+                message: `登录失败：${res.data.message}`,
+                type: "warning",
+                center: true
+              })
+            }
           },(err)=>{
-           return err
+            return err
           })
-          console.log(res)
-          // 保存用户的头像链接
-          localStorage.setItem('avatarUrl', res.profile.avatarUrl)
-          // 保存用户的用户名
-          localStorage.setItem('nickName', res.profile.nickname)
-          // 保存cookie的失效日期
-          localStorage.setItem('cookieInvalid', getCookieInvalidTime(res.cookie))
-          // 渲染用户信息到页面
-          _this.renderUserInfo()
+
+          // 如果有数据返回，则设置用户信息到缓存中
+          if (res) {
+            // 保存用户的头像链接
+            localStorage.setItem('avatarUrl', res.profile.avatarUrl)
+            // 保存用户的用户名
+            localStorage.setItem('nickName', res.profile.nickname)
+            // 保存用户Id
+            localStorage.setItem('userId',res.profile.userId)
+            // 保存cookie的失效日期
+            localStorage.setItem('cookieInvalid', getCookieInvalidTime(res.cookie))
+            // 渲染用户信息到页面
+            _this.renderUserInfo()
+          }
         })()
       } else {
         alert('请检查手机号格式')
@@ -183,8 +206,9 @@ export default {
      * 用户登录已失效，删除用户的信息
      */
     delLocationStoring () {
-      this.userName = localStorage.removeItem('nickName')
-      this.avatarUrl = localStorage.removeItem('avatarUrl')
+      localStorage.removeItem('nickName')
+      localStorage.removeItem('avatarUrl')
+      localStorage.removeItem('userId')
     }
   }
 }
@@ -318,11 +342,6 @@ export default {
       border-radius: 5px;
       border: 1px solid black;
     }
-  }
-
-  .el-button {
-    width: 180px;
-    margin-left: toRem(110px);
   }
 }
 .inputContainer {

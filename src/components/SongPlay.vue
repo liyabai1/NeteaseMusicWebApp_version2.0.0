@@ -1,4 +1,5 @@
 <template>
+<!-- 播放组件点击专辑封面后向上弹出的播放页面 -->
   <div class="songPlayBox">歌曲播放页</div>
 </template>
 <script>
