@@ -8,6 +8,7 @@
     .theme-#{$theme_name} {
       background-color: map-get($map:$theme_items, $key: background-color);
       color: map-get($map: $theme_items, $key: color);
+      border-bottom: 2px solid map-get($map:$theme_items, $key: background-color);
       & i {
         color: map-get($map: $theme_items, $key: background-color);
       }
