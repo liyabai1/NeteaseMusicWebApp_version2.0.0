@@ -44,7 +44,6 @@ export default {
      * 获取用户歌单
      */
     getUserSongList(){
-      console.log("执行")
       this.$store.dispatch("login/getUserSongList")
     },
 
@@ -74,7 +73,6 @@ export default {
   watch:{
     // 监听用户是否登录，如果登录则请求用户的歌单数据
     loading: function (newV,oldV){
-      console.log(newV,oldV)
       if (newV || oldV){
         this.getUserSongList()
       }

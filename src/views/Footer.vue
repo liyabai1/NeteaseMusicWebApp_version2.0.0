@@ -68,6 +68,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .footerBox {
+  z-index: 99;
   height: 70px;
   border-top: 2px solid #aaaaaa;
   background-color: #eeeeee;

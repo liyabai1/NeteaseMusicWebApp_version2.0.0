@@ -208,7 +208,7 @@ export default {
         userId: localStorage.getItem('userId'),
         avatarUrl: localStorage.getItem('avatarUrl')
       }
-      this.$store.commit(`login/${LOGIN.SETUSERINFO}`,userInfo) 
+      this.$store.commit(`login/${LOGIN.SET_USER_INFO}`,userInfo) 
     },
 
     /**
@@ -224,6 +224,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .headerBox {
+  z-index: 50;
   height: 60px;
   display: flex;
   align-items: center;

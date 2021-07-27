@@ -12,7 +12,9 @@
 import UserSonglist from "@/views/Bodyer/UserSonglist"
 export default {
   data(){
-    return{}
+    return{
+      
+    }
   },
   components:{
     UserSonglist

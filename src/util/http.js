@@ -24,8 +24,41 @@ function getUserlist(userId){
   })
 }
 
+/**
+ * 获取banner轮播图
+ */
+function getBannerData(){
+  return GET_DATA({
+    url: "/banner",
+    params: {
+      type: 0
+    }
+  })
+}
+
+/**
+ * 获取推荐歌单  未登录状态下
+ */
+function getRecomListNotLogin(){
+  return GET_DATA({
+    url: '/personalized'
+  })
+}
+
+/**
+ * 获取推荐歌单  登录状态下  需要用户在登录状态下
+ */
+function getRecomList(){
+  return GET_DATA({
+    url: "/recommend/resource"
+  })
+}
+
 const HTTPS = {
   login,
-  getUserlist
+  getUserlist,
+  getBannerData,
+  getRecomListNotLogin,
+  getRecomList
 }
 export default HTTPS
