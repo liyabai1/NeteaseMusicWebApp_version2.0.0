@@ -25,11 +25,7 @@ export default {
       return this.$store.state.home.recomListLoading
     }
   },
-  watch: {
-    recomListLoading: function (newV,oldV){
-      console.log(newV,oldV)
-    }
-  }
+  watch: {}
 }
 </script>
 <style lang="scss" scoped>

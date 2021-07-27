@@ -181,6 +181,8 @@ export default {
             localStorage.setItem('nickName', res.profile.nickname)
             // 保存用户Id
             localStorage.setItem('userId',res.profile.userId)
+            // 保存cookie
+            localStorage.setItem('cookie',res.cookie)
             // 保存cookie的失效日期
             localStorage.setItem('cookieInvalid', getCookieInvalidTime(res.cookie))
             // 渲染用户信息到页面
@@ -218,13 +220,13 @@ export default {
       localStorage.removeItem('nickName')
       localStorage.removeItem('avatarUrl')
       localStorage.removeItem('userId')
+      localStorage.removeItem('cookie')
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 .headerBox {
-  z-index: 50;
   height: 60px;
   display: flex;
   align-items: center;

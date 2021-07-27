@@ -17,7 +17,7 @@ const homeModule = {
      */
     [HOME.SET_BANNER_DATA] (state,bannerData){
       bannerData = bannerData.banners
-      console.log(bannerData)
+      // console.log(bannerData)
       bannerData.forEach(item=>{
         let tempBanner = {
           imageUrl: item.imageUrl
@@ -27,10 +27,10 @@ const homeModule = {
     },
 
     /**
-     * 推荐歌单数据
+     * 推荐歌单数据 未登录状态
      */
     [HOME.SET_RECOM_LIST] (state,recomList){
-      console.log(recomList.result)
+      // console.log(recomList.result)
       recomList = recomList.result;
       let temp = []
       /** 歌单需要的字段 */
@@ -48,6 +48,26 @@ const homeModule = {
         temp.push(tempList)
       })
       state.recomList = temp
+    },
+
+    /**
+     * 推荐歌单数据  登录状态
+     */
+    [HOME.SET_RECOM_LIST_LOGIN] (state,recomList){
+      // console.log(recomList.recommend)
+      recomList = recomList.recommend;
+      let temp =[]
+      recomList.forEach(item => {
+        let tempList = {
+          listId: item.id,
+          listName: item.name,
+          picUrl: item.picUrl,
+          playCount: item.playCount
+        }
+        temp.push(tempList)
+      })
+      state.recomList = temp
+
     },
 
     /**
@@ -87,7 +107,6 @@ const homeModule = {
       .then(
         res => {
           if (res.data.code === 200) {
-            console.log(res.data)
             store.commit(HOME.SET_RECOM_LIST,res.data)
           }
           store.commit(HOME.SET_RECOM_REQUEST_STATUS,false)
@@ -105,13 +124,18 @@ const homeModule = {
     getRecomList: function (store){
       // 正在请求中
       store.commit(HOME.SET_RECOM_REQUEST_STATUS,true)
-      HTTPS.getRecomList()
+      let cookie = localStorage.getItem("cookie")
+      HTTPS.getRecomList(cookie)
       .then(
         res => {
-          console.log(res.data)
+          if (res.data.code === 200) {
+            store.commit(HOME.SET_RECOM_LIST_LOGIN,res.data)
+          }
+          store.commit(HOME.SET_RECOM_REQUEST_STATUS,false)
         },
         err => {
           console.error(err)
+          store.commit(HOME.SET_RECOM_REQUEST_STATUS,false)
         }
       )
     }

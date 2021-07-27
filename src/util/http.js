@@ -48,9 +48,12 @@ function getRecomListNotLogin(){
 /**
  * 获取推荐歌单  登录状态下  需要用户在登录状态下
  */
-function getRecomList(){
+function getRecomList(cookie){
   return GET_DATA({
-    url: "/recommend/resource"
+    url: "/recommend/resource",
+    params: {
+      cookie: cookie
+    }
   })
 }
 
