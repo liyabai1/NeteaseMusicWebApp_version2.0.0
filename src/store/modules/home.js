@@ -86,7 +86,7 @@ const homeModule = {
       HTTPS.getBannerData()
       .then(
         (res)=>{
-          console.log(res.data)
+          // console.log("轮播图response",res.data)
           if (res.data.code === 200) {
             store.commit(HOME.SET_BANNER_DATA,res.data)
           }
