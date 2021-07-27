@@ -85,6 +85,7 @@
 <script>
 import HTTPS from '@/util/http.js'
 import { getCookieInvalidTime } from '@/module/cookie.js'
+import { LOGIN } from "@/module/mutation-name.js"
 export default {
   data () {
     return {
@@ -207,7 +208,7 @@ export default {
         userId: localStorage.getItem('userId'),
         avatarUrl: localStorage.getItem('avatarUrl')
       }
-      this.$store.commit('login/setUserInfo',userInfo) 
+      this.$store.commit(`login/${LOGIN.SETUSERINFO}`,userInfo) 
     },
 
     /**

@@ -1,4 +1,5 @@
 import HTTPS from '@/util/http.js'
+import { LOGIN } from "@/module/mutation-name.js"
 const loginModule = {
   namespaced: true,
   state: {
@@ -12,13 +13,13 @@ const loginModule = {
   mutations: {
 
     // 将用户的登录信息保存在userInfo中
-    setUserInfo(state,data){
+    [LOGIN.SETUSERINFO] (state,data){
       state.userInfo = data
       state.userInfo.hasLogin = true
     },
 
     // 保存用户歌单userList
-    setUserList(state,data){
+    [LOGIN.SETUSERLIST] (state,data){
       data = data.playlist;
       // 对用户歌单的有用信息进行筛选
       /** 
@@ -47,7 +48,7 @@ const loginModule = {
       HTTPS.getUserlist(userId)
       .then(res=>{
         console.log(res.data)
-        store.commit('setUserList',res.data)
+        store.commit(LOGIN.SETUSERLIST,res.data)
       },(err)=>{
         this.$message({
           message: `获取歌单失败。状态码：${err.status}`,
