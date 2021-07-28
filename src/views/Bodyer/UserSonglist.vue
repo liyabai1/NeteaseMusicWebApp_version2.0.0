@@ -16,7 +16,7 @@
     <p>收藏的歌单</p>
     <usersonglist-ske :load="loading">
       <router-link
-      tag="div" 
+      tag="div"
       class="listNameBox"
       active-class="linkActive"
       v-for="items in getCollList(songlistData)"
@@ -29,51 +29,51 @@
   </div>
 </template>
 <script>
-import UsersonglistSke from "@/components/Skeleton/UsersonglistSke"
+import UsersonglistSke from '@/components/Skeleton/UsersonglistSke'
 export default {
-  data(){
-    return{
+  data () {
+    return {
       songlistData: this.$store.state.login.userList
     }
   },
-  components:{
+  components: {
     UsersonglistSke
   },
-  methods:{
+  methods: {
     /**
      * 获取用户歌单
      */
-    getUserSongList(){
-      this.$store.dispatch("login/getUserSongList")
+    getUserSongList () {
+      this.$store.dispatch('login/getUserSongList')
     },
 
     /**
      * 提取用户创建的歌单
      */
-    getCreatList(allList){
-      return allList.filter(item=> item.creatorId === this.$store.state.login.userInfo.userId)
+    getCreatList (allList) {
+      return allList.filter(item => item.creatorId === this.$store.state.login.userInfo.userId)
     },
 
     /**
      * 提取用户收藏的歌单
      */
-    getCollList(allList){
-      return allList.filter(item=> item.creatorId !== this.$store.state.login.userInfo.userId)
+    getCollList (allList) {
+      return allList.filter(item => item.creatorId !== this.$store.state.login.userInfo.userId)
     }
   },
-  filters:{
-    
+  filters: {
+
   },
-  computed:{
-    loading: function (){
-      // return false
+  computed: {
+    loading: function () {
+      // return true
       return !this.$store.state.login.userInfo.hasLogin
     }
   },
-  watch:{
+  watch: {
     // 监听用户是否登录，如果登录则请求用户的歌单数据
-    loading: function (newV,oldV){
-      if (newV || oldV){
+    loading: function (newV, oldV) {
+      if (newV || oldV) {
         this.getUserSongList()
       }
     }
