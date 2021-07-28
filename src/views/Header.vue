@@ -22,10 +22,6 @@
           v-model="keyWords"
         />
       </div>
-      <div
-      class="historyBox"
-      v-if="inputFouces"
-      ></div>
     </div>
 
     <!-- 用户信息|头像、用户名 -->
@@ -47,9 +43,6 @@
       >
       &#xe7c0;
       </i>
-      <div
-      class="selectColorContainer"
-      v-show="viewTheme"></div>
     </div>
 
     <!-- 登录框 -->
@@ -294,14 +287,6 @@ export default {
         background: #cccccc;
       }
     }
-
-    .historyBox {
-      width: 100%;
-      height: 500px;
-      background-color: grey;
-      border-radius: 15px;
-      margin-top: 5px;
-    }
   }
 
   /** */
@@ -344,15 +329,6 @@ export default {
       height: 20px;
       color: #cccccc;
       cursor: pointer;
-    }
-
-    /* 主题选择框 */
-    .selectColorContainer {
-      width: 200px;
-      height: 100px;
-      background: #eeeeee;
-      border-radius: 5px;
-      border: 1px solid black;
     }
   }
 }
