@@ -9,7 +9,7 @@
         <el-image :src="item.picUrl" lazy></el-image>
         <div class="playCountBox">
           <i class="iconfont">&#xed2e;</i>
-          <div class="playCount">{{item.playCount}}</div>
+          <div class="playCount">{{item.playCount | changeView}}</div>
         </div>
       </div>
       <div class="listTitle">{{item.listName}}</div>
@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+import { changePlaycount } from '@/module/changePlaycount.js'
 export default {
   data () {
     return {
@@ -42,6 +43,11 @@ export default {
       if (newV) {
         this.$store.dispatch('getRecomList')
       }
+    }
+  },
+  filters: {
+    changeView: function (playCount) {
+      return changePlaycount(playCount)
     }
   }
 }
