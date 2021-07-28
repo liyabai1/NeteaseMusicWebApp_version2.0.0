@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted(){
-    // // 首次加载
+    // // 首次加载  element-UI 会自动首次加载
     // this.load()
   },
   methods: {
@@ -51,6 +51,7 @@ export default {
               /** 封面  | picUrl */
               /** 标题  | title */
               res.forEach( item => {
+                // 获取的独家放送有MV和视频两种类型，视频类型的id字段为videoId,
                 if (item.id === 0) {
                   item.id = item.videoId
                 }

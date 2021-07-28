@@ -33,7 +33,7 @@ export default {
     imgHeight: String
   },
   mounted(){
-    console.log("传入独家放送数据",this.personList)
+    
   },
   watch: {
     

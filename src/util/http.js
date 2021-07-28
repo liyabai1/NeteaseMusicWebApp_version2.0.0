@@ -41,7 +41,10 @@ function getBannerData(){
  */
 function getRecomListNotLogin(){
   return GET_DATA({
-    url: '/personalized'
+    url: '/personalized',
+    params: {
+      limit: 8 
+    }
   })
 }
 
@@ -52,7 +55,7 @@ function getRecomList(cookie){
   return GET_DATA({
     url: "/recommend/resource",
     params: {
-      cookie: cookie
+      cookie: cookie,
     }
   })
 }

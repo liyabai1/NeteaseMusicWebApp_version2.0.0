@@ -60,6 +60,7 @@ const homeModule = {
     [HOME.SET_RECOM_LIST_LOGIN] (state, recomList) {
       console.log(recomList.recommend)
       recomList = recomList.recommend
+      recomList.splice(7)
       const temp = []
       recomList.forEach(item => {
         const tempList = {
