@@ -3,7 +3,6 @@
   <el-skeleton 
   :loading="load" 
   animated 
-  :throttle="10000"
   style="width:100%"
   >
     <template slot="template">
