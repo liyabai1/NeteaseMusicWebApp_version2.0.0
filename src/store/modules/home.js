@@ -9,7 +9,11 @@ const homeModule = {
     // 推荐歌单数据  可能是登录的歌单数据，也可能是未登录的歌单数据
     recomList: [],
     // 推荐歌单是否正在请求
-    recomListLoading: false
+    recomListLoading: false,
+    // 首页的独家放送入口数据
+    personalizedData: [],
+    // 首页的独家放送是否正在请求
+    personLoading: true
   },
   mutations: {
     /**
@@ -74,6 +78,26 @@ const homeModule = {
      */
     [HOME.SET_RECOM_REQUEST_STATUS] (state, data) {
       state.recomListLoading = data
+    },
+
+    /**
+     * 首页独家放松数据
+     */
+    [HOME.SET_HOME_PERSONALIZED] (state,personData){
+      // console.log("首页独家放送数据",personData)
+      /** 所需的字段 */
+      /** MVId | MVId */
+      /** 封面  | picUrl */
+      /** 标题  | title */
+      personData.forEach(item => {
+        let tempPerson = {
+          MvId: item.id,
+          picUrl: item.picUrl,
+          title: item.name
+        }
+        state.personalizedData.push(tempPerson)
+      })
+      state.personLoading = false
     }
   },
   actions: {
@@ -135,6 +159,23 @@ const homeModule = {
           err => {
             console.error(err)
             store.commit(HOME.SET_RECOM_REQUEST_STATUS, false)
+          }
+        )
+    },
+
+    /**
+     * 获取首页独家放送数据
+     */
+    getPersonData: function (store) {
+      HTTPS.getPersonalized()
+        .then(
+          res => {
+            if (res.data.code === 200) {
+              store.commit(HOME.SET_HOME_PERSONALIZED,res.data.result)
+            }
+          },
+          err => {
+            console.error(err)
           }
         )
     }

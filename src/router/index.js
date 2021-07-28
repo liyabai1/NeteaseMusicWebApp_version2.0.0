@@ -6,6 +6,10 @@ import PrivateFm from '@/views/RouterPage/PrivateFm'
 import PlayList from '@/views/RouterPage/PlayList'
 import MV from '@/views/RouterPage/MV'
 
+
+import PersonalizedDetail from "@/views/details/PersonalizedDetail"
+import MvDetail from "@/views/details/MvDetail"
+
 // 首页路由页面
 import FindMusic from "@/views/RouterPage/Home/FindMusic"
 import SongList from "@/views/RouterPage/Home/SongList"
@@ -53,6 +57,16 @@ const routes = [
     path: '/playlist/:listId',
     name: 'playlist',
     component: PlayList
+  },
+  {
+    path: '/personalized',
+    name: 'personalized',
+    component: PersonalizedDetail
+  },
+  {
+    path: 'mvdetail/:MvId',
+    name: "mvDetail",
+    component: MvDetail
   },
   {
     path: '*',

@@ -57,11 +57,38 @@ function getRecomList(cookie){
   })
 }
 
+/**
+ * 获取首页独家放送 （只有三个数据）
+ */
+function getPersonalized(){
+  return GET_DATA({
+    url: '/personalized/privatecontent'
+  })
+}
+
+/**
+ * 获取独家放送列表
+ * @param {number | string} limit  
+ * @param {number | string} offset 
+ * @returns 
+ */
+function getPersonaList(limit,offset){
+  return GET_DATA({
+    url: '/personalized/privatecontent/list',
+    params:{
+      limit: limit,
+      offset: offset
+    }
+  })
+}
+
 const HTTPS = {
   login,
   getUserlist,
   getBannerData,
   getRecomListNotLogin,
-  getRecomList
+  getRecomList,
+  getPersonalized,
+  getPersonaList
 }
 export default HTTPS

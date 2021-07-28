@@ -29,6 +29,7 @@ export default {
 <style lang="scss" scoped>
 .siderBarBox {
   width: 200px;
+  min-width: 200px;
   height: 100%;
   border-right: 2px solid #aaaaaa;
   overflow-x: hidden;

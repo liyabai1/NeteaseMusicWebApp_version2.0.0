@@ -273,7 +273,7 @@ export default {
       height: 30px;
       border-radius: 15px;
       align-items: center;
-      background-color: #cccccc;
+      background-color: #ffffff;
 
       i {
         font-size: 16px;
@@ -284,7 +284,7 @@ export default {
         font-size: 16px;
         border: none;
         outline: none;
-        background: #cccccc;
+        background: #ffffff;
       }
     }
   }
