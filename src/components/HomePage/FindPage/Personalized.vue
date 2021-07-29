@@ -1,30 +1,31 @@
 <template>
   <div class="personContainer">
     <div class="scrollContainer">
-      <div 
-      class="itemBox" 
-      v-for="item in personList" 
+      <div
+      class="itemBox"
+      v-for="item in personList"
       :key="item.MvId"
       :style="{width: imgWidth}">
-        <router-link 
-        tag="div" 
+        <router-link
+        tag="div"
         :to="{name: 'mvDetail',params: {MvId: item.MvId}}">
           <div class="imgBox">
-            <el-image 
-            :src="item.picUrl" 
-            :style="{width: imgWidth,height: imgHeight }" 
+            <el-image
+            :src="item.picUrl"
+            :style="{width: imgWidth,height: imgHeight }"
             lazy></el-image>
             <i class="iconfont">&#xe667;</i>
           </div>
           <div class="title">{{item.title}}</div>
         </router-link>
       </div>
+      <slot></slot>
     </div>
   </div>
 </template>
 <script>
 export default {
-  data(){
+  data () {
     return {}
   },
   props: {
@@ -32,11 +33,11 @@ export default {
     imgWidth: String,
     imgHeight: String
   },
-  mounted(){
-    
+  mounted () {
+
   },
   watch: {
-    
+
   }
 }
 </script>

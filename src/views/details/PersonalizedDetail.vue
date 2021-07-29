@@ -1,7 +1,7 @@
 <template>
   <div class="personContainer">
-    <div class="contextBox" 
-    v-infinite-scroll="load" 
+    <div class="contextBox"
+    v-infinite-scroll="load"
     style="overflow:auto"
     :infinite-scroll-distance="100"
     :infinite-scroll-delay="500">
@@ -10,22 +10,24 @@
       :personList="personList"
       :imgWidth="'356px'"
       :imgHeight="'133px'"
-      ></personalized>
+      >
+        <div class="loading">加载中......</div>
+      </personalized>
     </div>
   </div>
 </template>
 <script>
-import Personalized from "@/components/HomePage/FindPage/Personalized"
-import HTTPS from "@/util/http.js"
+import Personalized from '@/components/HomePage/FindPage/Personalized'
+import HTTPS from '@/util/http.js'
 export default {
-  data(){
+  data () {
     return {
       personList: [],
       offsetPage: 1,
       limit: 60
     }
   },
-  mounted(){
+  mounted () {
     // // 首次加载  element-UI 会自动首次加载
     // this.load()
   },
@@ -33,14 +35,14 @@ export default {
     load: function () {
       // 给用户提示加载中
       this.$message({
-        message: "正在加载中...",
+        message: '正在加载中...',
         center: true
       })
       /**
        * 获取独家放送
        */
-      let _this = this;
-      HTTPS.getPersonaList(this.limit,(this.offsetPage-1)*this.limit)
+      const _this = this
+      HTTPS.getPersonaList(this.limit, (this.offsetPage - 1) * this.limit)
         .then(
           res => {
             console.log(res.data)
@@ -50,12 +52,12 @@ export default {
               /** MVId | MVId */
               /** 封面  | picUrl */
               /** 标题  | title */
-              res.forEach( item => {
+              res.forEach(item => {
                 // 获取的独家放送有MV和视频两种类型，视频类型的id字段为videoId,
                 if (item.id === 0) {
                   item.id = item.videoId
                 }
-                let temp = {
+                const temp = {
                   MvId: item.id,
                   picUrl: item.picUrl,
                   title: item.name
@@ -63,19 +65,19 @@ export default {
                 _this.personList.push(temp)
               })
               // 改变offsetPage 为下次做准备
-              _this.offsetPage ++
+              _this.offsetPage++
             } else {
               this.$message({
-                message: "获取数据失败",
-                type: "warning"
+                message: '获取数据失败',
+                type: 'warning'
               })
             }
           },
           err => {
             console.error(err)
             this.$message({
-              message: "获取数据失败",
-              type: "warning"
+              message: '获取数据失败',
+              type: 'warning'
             })
           }
         )
@@ -110,5 +112,12 @@ export default {
       font-weight: bold;
     }
   }
+}
+.loading {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  font-size: 20px;
+  text-align: center;
 }
 </style>
