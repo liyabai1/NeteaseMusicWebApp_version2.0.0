@@ -68,7 +68,7 @@ export default {
               _this.offsetPage++
             } else {
               this.$message({
-                message: '获取数据失败',
+                message: '获取独家放送数据失败',
                 type: 'warning'
               })
             }
@@ -76,7 +76,7 @@ export default {
           err => {
             console.error(err)
             this.$message({
-              message: '获取数据失败',
+              message: '获取独家放送数据失败',
               type: 'warning'
             })
           }

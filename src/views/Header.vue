@@ -20,7 +20,17 @@
           @focus="inputFouces = true"
           @blur="inputFouces = false"
           v-model="keyWords"
+          v-popover:historyContainer
         />
+        <!-- 搜索历史弹出框 -->
+        <el-popover
+        ref="historyContainer"
+        placement="bottom"
+        width="400"
+        trigger="click"
+        :visible-arrow="false">
+          <div>搜索历史记录</div>
+        </el-popover>
       </div>
     </div>
 
@@ -40,9 +50,17 @@
       <i
       class="iconfont changeThemeBtn"
       @click="viewTheme = !viewTheme"
-      >
-      &#xe7c0;
-      </i>
+      v-popover:themeContainer
+      >&#xe7c0;</i>
+      <!-- 主题弹出框 -->
+      <el-popover
+      ref="themeContainer"
+      placement="bottom"
+      width="200"
+      trigger="click"
+      :visible-arrow="false">
+        <div>主题选择框</div>
+      </el-popover>
     </div>
 
     <!-- 登录框 -->
@@ -78,7 +96,7 @@
 <script>
 import HTTPS from '@/util/http.js'
 import { getCookieInvalidTime } from '@/module/cookie.js'
-import { LOGIN } from "@/module/mutation-name.js"
+import { LOGIN } from '@/module/mutation-name.js'
 export default {
   data () {
     return {
@@ -137,7 +155,7 @@ export default {
         alert('请输入密码')
         return
       }
-      let regPhone = /[0-9]{11}/g
+      const regPhone = /[0-9]{11}/g
       if (regPhone.test(this.phoneNum)) {
         /**
          * 登录逻辑
@@ -145,24 +163,24 @@ export default {
          * 每次进如页面时判断cookie是否失效，如果失效了，删除本地缓存的用户信息
          */
         (async () => {
-          _this.$message("正在登录...")
+          _this.$message('正在登录...')
           const res = await HTTPS.login(_this.phoneNum, _this.passwords).then((res) => {
             // 登录成功
             if (res.data.code === 200) {
               _this.$message({
-                message: "登录成功",
-                type: "success",
+                message: '登录成功',
+                type: 'success',
                 center: true
               })
               return res.data
-            }else{
+            } else {
               _this.$message({
                 message: `登录失败：${res.data.message}`,
-                type: "warning",
+                type: 'warning',
                 center: true
               })
             }
-          },(err)=>{
+          }, (err) => {
             return err
           })
 
@@ -173,9 +191,9 @@ export default {
             // 保存用户的用户名
             localStorage.setItem('nickName', res.profile.nickname)
             // 保存用户Id
-            localStorage.setItem('userId',res.profile.userId)
+            localStorage.setItem('userId', res.profile.userId)
             // 保存cookie
-            localStorage.setItem('cookie',res.cookie)
+            localStorage.setItem('cookie', res.cookie)
             // 保存cookie的失效日期
             localStorage.setItem('cookieInvalid', getCookieInvalidTime(res.cookie))
             // 渲染用户信息到页面
@@ -198,12 +216,12 @@ export default {
       this.avatarUrl = localStorage.getItem('avatarUrl')
 
       // 将用户信息保存在loginModule模块中
-      let userInfo = {
+      const userInfo = {
         userName: localStorage.getItem('nickName'),
         userId: localStorage.getItem('userId'),
         avatarUrl: localStorage.getItem('avatarUrl')
       }
-      this.$store.commit(`login/${LOGIN.SET_USER_INFO}`,userInfo) 
+      this.$store.commit(`login/${LOGIN.SET_USER_INFO}`, userInfo)
     },
 
     /**
