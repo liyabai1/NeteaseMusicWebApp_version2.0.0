@@ -100,6 +100,8 @@ export default {
     .typeBox {
       width: 100px;
       font-size: 14px;
+      height: 30px;
+      line-height: 30px;
       color: #aaaaaa;
     }
     .tags {
