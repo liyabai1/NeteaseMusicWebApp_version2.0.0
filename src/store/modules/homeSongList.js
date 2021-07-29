@@ -56,7 +56,8 @@ const homeSonglist = {
             listTag[3].tags.push(item);
             break;
           case 4 :
-            listTag[4].tags.push(item)
+            listTag[4].tags.push(item);
+            break;
         }
       });
       state.listTag = listTag
