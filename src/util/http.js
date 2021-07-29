@@ -98,6 +98,25 @@ function getNewMusic (type) {
   })
 }
 
+/**
+ * 获取推荐Mv   ********首页*********
+ * @returns 
+ */
+function getRecomMv () {
+  return GET_DATA({
+    url: '/personalized/mv',
+  })
+}
+
+/**
+ * 获取精品歌单标签列表
+ */
+function getListTag(){
+  return GET_DATA({
+    url: '/playlist/highquality/tags'
+  })
+}
+
 const HTTPS = {
   login,
   getUserlist,
@@ -106,6 +125,8 @@ const HTTPS = {
   getRecomList,
   getPersonalized,
   getPersonaList,
-  getNewMusic
+  getNewMusic,
+  getRecomMv,
+  getListTag
 }
 export default HTTPS

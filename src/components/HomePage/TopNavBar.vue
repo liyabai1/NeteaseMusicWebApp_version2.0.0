@@ -1,7 +1,7 @@
 <template>
   <nav>
     <router-link tag="div" to="findmusic" active-class="linkActive theme-red">个性推荐</router-link>
-    <router-link tag="div" to="songlist" active-class="linkActive theme-red">歌单</router-link>
+    <router-link tag="div" to="songlist" active-class="linkActive theme-red">精品歌单</router-link>
     <router-link tag="div" to="rank" active-class="linkActive theme-red">排行榜</router-link>
     <router-link tag="div" to="newmusic" active-class="linkActive theme-red">最新音乐</router-link>
   </nav>

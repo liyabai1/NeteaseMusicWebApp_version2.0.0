@@ -15,7 +15,9 @@ const homeModule = {
     // 首页的独家放送是否正在请求
     personLoading: true,
     // 最新音乐
-    newMusic: []
+    newMusic: [],
+    // 首页推荐mv
+    homeRecomMv: []
   },
   mutations: {
     /**
@@ -89,7 +91,7 @@ const homeModule = {
     [HOME.SET_HOME_PERSONALIZED] (state, personData) {
       // console.log("首页独家放送数据",personData)
       /** 所需的字段 */
-      /** MVId | MVId   */
+      /** MVId | MvId   */
       /** 封面  | picUrl */
       /** 标题  | title  */
       personData.forEach(item => {
@@ -129,6 +131,30 @@ const homeModule = {
         tempData.push(tempSongInfo)
       })
       state.newMusic = tempData
+    },
+
+    /**
+     * 首页推荐MV
+     */
+    [HOME.SET_HOME_RECOMMV] (state,recomMv) {
+      let tempData = [];
+      /** 需要的字段 */
+      /** MVid   | MvId      */
+      /** 封面图片 | picUrl    */
+      /** 标题    | title     */
+      /** MV作者  | artistName*/
+      /** 播放量  | playCount */
+      recomMv.forEach( item => {
+        let tempMv = {
+          MvId: item.id,
+          picUrl: item.picUrl + "?param=313y176",
+          title: item.name,
+          artistName: item.artistName,
+          playCount: item.playCount
+        }
+        tempData.push(tempMv)
+      })
+      state.homeRecomMv = tempData
     }
   },
   actions: {
@@ -236,7 +262,25 @@ const homeModule = {
             })
           }
         )
-    }
+    },
+
+    /**
+     * 获取推荐MV  ****首页****
+     */
+     getRecomMV: function (store){
+       HTTPS.getRecomMv()
+        .then(
+          res => {
+            if (res.data.code === 200) {
+              console.log(res.data)
+              store.commit(HOME.SET_HOME_RECOMMV,res.data.result)
+            }
+          },
+          err => {
+            console.error(err)
+          }
+        )
+     }
   }
 }
 

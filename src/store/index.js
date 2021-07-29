@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// 导入登录模块
+
 import loginModule from './modules/login.js'
 import homeModule from './modules/home.js'
+import homeSonglist from'./modules/homeSongList.js'
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   },
   modules: {
     login:loginModule,
-    home: homeModule
+    home: homeModule,
+    homeSonglist: homeSonglist
   }
 })

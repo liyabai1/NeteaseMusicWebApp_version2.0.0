@@ -6,7 +6,7 @@ import PrivateFm from '@/views/RouterPage/PrivateFm'
 import PlayList from '@/views/RouterPage/PlayList'
 import MV from '@/views/RouterPage/MV'
 
-
+// 详请页
 import PersonalizedDetail from "@/views/details/PersonalizedDetail"
 import MvDetail from "@/views/details/MvDetail"
 
@@ -52,6 +52,7 @@ const routes = [
   },
   {
     path: '/mv',
+    name: "mv",
     component: MV
   },
   {
