@@ -2,7 +2,9 @@
   <div>
     <div class="topBar">
       <div>精品歌单</div>
-      <div class="tagBtn" v-popover:tagBox>
+      <div 
+      class="tagBtn" 
+      v-popover:tagBox>
         <i class="iconfont">&#xe713;</i>
         <span>全部</span>
       </div>
