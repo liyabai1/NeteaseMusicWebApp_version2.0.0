@@ -37,6 +37,7 @@ const routes = [
       },
       {
         path: "newmusic",
+        name: 'newMusic',
         component: NewMusic
       },
       {

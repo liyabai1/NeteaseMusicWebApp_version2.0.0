@@ -45,6 +45,10 @@ export default {
     // 跳转到独家放松列表页
     goPersonalized () {
       this.$router.push({ name: 'personalized' })
+    },
+    // 跳转到最新音乐界面
+    goNewMusic () {
+      this.$router.push({name: 'newMusic'})
     }
   },
   components: {
