@@ -40,9 +40,9 @@ const homeModule = {
       recomList = recomList.result
       const temp = []
       /** 歌单需要的字段 */
-      /** 歌单id   | listId */
-      /** 歌单标题  | listName */
-      /** 封面图片  | picUrl */
+      /** 歌单id   | listId    */
+      /** 歌单标题  | listName  */
+      /** 封面图片  | picUrl    */
       /** 播放量    | playCount */
       recomList.forEach(item => {
         const tempList = {
@@ -89,9 +89,9 @@ const homeModule = {
     [HOME.SET_HOME_PERSONALIZED] (state, personData) {
       // console.log("首页独家放送数据",personData)
       /** 所需的字段 */
-      /** MVId | MVId */
+      /** MVId | MVId   */
       /** 封面  | picUrl */
-      /** 标题  | title */
+      /** 标题  | title  */
       personData.forEach(item => {
         const tempPerson = {
           MvId: item.id,
