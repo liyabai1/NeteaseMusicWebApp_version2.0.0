@@ -12,24 +12,23 @@ function login (phone, password) {
   })
 }
 
-
 /**
  * 获取用户歌单
- * @param {string} userId 
+ * @param {string} userId
  */
-function getUserlist(userId){
+function getUserlist (userId) {
   return GET_DATA({
     url: '/user/playlist',
-    params: {uid: userId}
+    params: { uid: userId }
   })
 }
 
 /**
  * 获取banner轮播图
  */
-function getBannerData(){
+function getBannerData () {
   return GET_DATA({
-    url: "/banner",
+    url: '/banner',
     params: {
       type: 0
     }
@@ -39,11 +38,11 @@ function getBannerData(){
 /**
  * 获取推荐歌单  未登录状态下
  */
-function getRecomListNotLogin(){
+function getRecomListNotLogin () {
   return GET_DATA({
     url: '/personalized',
     params: {
-      limit: 8 
+      limit: 8
     }
   })
 }
@@ -51,11 +50,11 @@ function getRecomListNotLogin(){
 /**
  * 获取推荐歌单  登录状态下  需要用户在登录状态下
  */
-function getRecomList(cookie){
+function getRecomList (cookie) {
   return GET_DATA({
-    url: "/recommend/resource",
+    url: '/recommend/resource',
     params: {
-      cookie: cookie,
+      cookie: cookie
     }
   })
 }
@@ -63,7 +62,7 @@ function getRecomList(cookie){
 /**
  * 获取首页独家放送 （只有三个数据）
  */
-function getPersonalized(){
+function getPersonalized () {
   return GET_DATA({
     url: '/personalized/privatecontent'
   })
@@ -71,16 +70,30 @@ function getPersonalized(){
 
 /**
  * 获取独家放送列表
- * @param {number | string} limit  
- * @param {number | string} offset 
- * @returns 
+ * @param {number | string} limit
+ * @param {number | string} offset
+ * @returns
  */
-function getPersonaList(limit,offset){
+function getPersonaList (limit, offset) {
   return GET_DATA({
     url: '/personalized/privatecontent/list',
-    params:{
+    params: {
       limit: limit,
       offset: offset
+    }
+  })
+}
+
+/**
+ * 获取最新音乐
+ * @param {string | number} type 地区： 全部:0 华语:7 欧美:96 日本:8 韩国:16
+ * @returns
+ */
+function getNewMusic (type) {
+  return GET_DATA({
+    url: '/top/song',
+    params: {
+      type: type
     }
   })
 }
@@ -92,6 +105,7 @@ const HTTPS = {
   getRecomListNotLogin,
   getRecomList,
   getPersonalized,
-  getPersonaList
+  getPersonaList,
+  getNewMusic
 }
 export default HTTPS

@@ -13,7 +13,9 @@ const homeModule = {
     // 首页的独家放送入口数据
     personalizedData: [],
     // 首页的独家放送是否正在请求
-    personLoading: true
+    personLoading: true,
+    // 最新音乐
+    newMusic: []
   },
   mutations: {
     /**
@@ -84,14 +86,14 @@ const homeModule = {
     /**
      * 首页独家放松数据
      */
-    [HOME.SET_HOME_PERSONALIZED] (state,personData){
+    [HOME.SET_HOME_PERSONALIZED] (state, personData) {
       // console.log("首页独家放送数据",personData)
       /** 所需的字段 */
       /** MVId | MVId */
       /** 封面  | picUrl */
       /** 标题  | title */
       personData.forEach(item => {
-        let tempPerson = {
+        const tempPerson = {
           MvId: item.id,
           picUrl: item.picUrl,
           title: item.name
@@ -99,6 +101,34 @@ const homeModule = {
         state.personalizedData.push(tempPerson)
       })
       state.personLoading = false
+    },
+
+    /**
+     * 最新音乐歌单
+     */
+    [HOME.SET_NEW_MUSIC] (state, newMusicData) {
+      const tempData = []
+      /** 需要的字段 */
+      /** 歌曲Id  | songId   */
+      /** 歌曲封面 | picUrl   */
+      /** 歌名    | songName */
+      /** 歌手    | singer   */
+      /** 专辑名称 | album    */
+      /** 歌曲时长 | songTime */
+      /** 是否可听 | fee      */
+      newMusicData.forEach(item => {
+        const tempSongInfo = {
+          songId: item.id,
+          picUrl: item.album.picUrl + '?param=100y100', // 将图片大小缩小
+          songName: item.name,
+          singer: item.artists.map(i => i.name).join('/'),
+          album: item.album.name,
+          songTime: item.duration,
+          fee: item.fee
+        }
+        tempData.push(tempSongInfo)
+      })
+      state.newMusic = tempData
     }
   },
   actions: {
@@ -172,11 +202,38 @@ const homeModule = {
         .then(
           res => {
             if (res.data.code === 200) {
-              store.commit(HOME.SET_HOME_PERSONALIZED,res.data.result)
+              store.commit(HOME.SET_HOME_PERSONALIZED, res.data.result)
             }
           },
           err => {
             console.error(err)
+          }
+        )
+    },
+
+    /**
+     * 获取最新音乐
+     */
+    getNewMusic: function (store, type) {
+      HTTPS.getNewMusic(type)
+        .then(
+          res => {
+            if (res.data.code === 200) {
+              // console.log(res.data)
+              store.commit(HOME.SET_NEW_MUSIC, res.data.data)
+            } else {
+              this.$message({
+                message: '获取最新音乐失败',
+                type: 'warning'
+              })
+            }
+          },
+          err => {
+            console.error(err)
+            this.$message({
+              message: '获取最新音乐失败',
+              type: 'warning'
+            })
           }
         )
     }
