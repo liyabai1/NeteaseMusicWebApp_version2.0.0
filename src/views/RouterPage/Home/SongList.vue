@@ -1,5 +1,7 @@
 <template>
   <div class="songListPage">
+
+    <!-- 顶部信息 -->
     <div class="topBar">
       <div>精品歌单</div>
       <div
@@ -9,6 +11,8 @@
         <span>{{nowTag}}</span>
       </div>
     </div>
+
+
     <!-- 标签弹窗 -->
     <el-popover
     ref="tagBox"
@@ -18,18 +22,13 @@
     >
       <div
       class="allListTag"
-      @click="changeTag('全部')">
-        全部歌单
-      </div>
+      @click="changeTag('全部')">全部歌单</div>
       <div class="tagBox">
         <div
         class="typeItem"
         v-for="item in listTag"
-        :key="item.type"
-        >
-          <div class="typeBox">
-            {{item.category}}
-          </div>
+        :key="item.type">
+          <div class="typeBox">{{item.category}}</div>
           <div class="tags">
             <div
             class="tagItem"
@@ -50,6 +49,7 @@
     style="overflow:auto">
       <songlist-container :hqList="hqList"></songlist-container>
     </div>
+
   </div>
 </template>
 <script>
