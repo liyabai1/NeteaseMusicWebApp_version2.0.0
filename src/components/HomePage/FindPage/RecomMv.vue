@@ -20,6 +20,8 @@
         </div>
       </router-link>
     </div>
+    <!-- 加载中 -->
+    <slot></slot>
   </div>
 </template>
 <script>

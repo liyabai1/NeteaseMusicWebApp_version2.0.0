@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1627566326757') format('truetype');
+  src: url('iconfont.ttf?t=1627647884594') format('truetype');
 }
 
 .iconfont {
@@ -9,6 +9,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-delete2:before {
+  content: "\e7a5";
 }
 
 .icon-bofang:before {

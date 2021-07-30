@@ -119,6 +119,9 @@ function getListTag () {
 
 /**
  * 获取精品歌单信息
+ * @param {string} type  类型标签
+ * @param {number | string} limit 每页的数量
+ * @param {number | string} before 分页用，取上一页最后一个的updateTime
  */
 function getHighQualityList (type, limit, before) {
   if (before) {
@@ -141,6 +144,28 @@ function getHighQualityList (type, limit, before) {
   }
 }
 
+/**
+ * 
+ * @param {string} area 地区 全部,内地,港台,欧美,日本,韩国,不填则为全部
+ * @param {string} type  类型 全部,官方版,原生,现场版,网易出品
+ * @param {string} order 排序 上升最快,最热,最新,不填则为上升最快
+ * @param {number | string} offset 分页 (页数 -1)*limit 
+ * @param {number | string} limit  每页的数量
+ * @returns 
+ */
+function getMvList(area,type,order,offset,limit) {
+  return GET_DATA({
+    url: '/mv/all',
+    params: {
+      area: area,
+      order: order,
+      type: type,
+      limit: limit,
+      offset: offset
+    }
+  })
+}
+
 const HTTPS = {
   login,
   getUserlist,
@@ -152,6 +177,7 @@ const HTTPS = {
   getNewMusic,
   getRecomMv,
   getListTag,
-  getHighQualityList
+  getHighQualityList,
+  getMvList
 }
 export default HTTPS

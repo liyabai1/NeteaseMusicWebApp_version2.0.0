@@ -37,3 +37,15 @@ export const HOME_LIST = {
   CHANGE_NOW_TAG,
   INIT_TOTAL
 }
+
+/** MV列表 */
+const SET_TAG_AREA = "setAreaTag"
+const SET_TAG_TYPE = "setTypeTag"
+const SET_TAG_ORDER = "setOrderTag"
+const SET_MV_LIST = 'setMvList'
+export const MV = {
+  SET_TAG_AREA,
+  SET_TAG_TYPE,
+  SET_TAG_ORDER,
+  SET_MV_LIST
+}

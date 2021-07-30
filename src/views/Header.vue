@@ -39,7 +39,7 @@
                 <span @click="searchByHis(item)">{{item}}</span>
                 <i 
                 class="iconfont"
-                @click="delHistoryItem(item)">&#xe667;</i>
+                @click="delHistoryItem(item)">&#xe7a5;</i>
               </li>
             </ul>
           </div>
