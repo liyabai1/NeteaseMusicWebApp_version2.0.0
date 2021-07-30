@@ -11,7 +11,7 @@ const homeSonglist = {
     // 精品歌单信息
     hqList: [],
     // 当前标签下的歌单总数
-    total: null
+    total: 99999
   },
   mutations: {
 
@@ -78,6 +78,13 @@ const homeSonglist = {
     },
 
     /**
+     * 重置total字段，因为后续需要用数量来判断是否应该继续请求
+     */
+    [HOME_LIST.INIT_TOTAL] (state) {
+      state.total = 99999
+    },
+
+    /**
      * 精品歌单列表信息
      */
     [HOME_LIST.SET_SONG_LIST] (state, data) {
@@ -107,9 +114,12 @@ const homeSonglist = {
         }
         tempData.push(tempListinfo)
       })
-      console.log(tempData)
+      console.log(data.cat, state.nowTag)
       // 如果当前获取的数据内容与当前标签一致，则push进数组，否则替换
       data.cat === state.nowTag ? state.hqList = [...state.hqList, ...tempData] : state.hqList = tempData
+      // 先进行搜索，因为store中会判断当前是否更换了新标签
+      // 更改标签
+      this.commit(HOME_LIST.CHANGE_NOW_TAG, data.cat)
     }
   },
   actions: {
@@ -147,7 +157,7 @@ const homeSonglist = {
      * 获取精品歌单列表
      */
     getHqList: function (store, { cat, limit }) {
-      if (store.state.hqList.length === 0) {
+      if (store.state.hqList.length === 0 || cat !== store.state.nowTag) {
         HTTPS.getHighQualityList(cat, limit, null)
           .then(
             res => {
@@ -161,8 +171,8 @@ const homeSonglist = {
             }
           )
       } else {
+        console.log("YOU")
         const hqList = store.state.hqList
-
         HTTPS.getHighQualityList(cat, limit, hqList[hqList.length - 1].updateTime)
           .then(
             res => {

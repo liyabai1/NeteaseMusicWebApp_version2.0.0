@@ -18,7 +18,7 @@
     >
       <div
       class="allListTag"
-      @click="nowTag = '全部'">
+      @click="changeTag('全部')">
         全部歌单
       </div>
       <div class="tagBox">
@@ -72,11 +72,18 @@ export default {
   },
   methods: {
     /**
-     * 改变当前的标签分类
+     * 改变当前的标签分类  并进行搜索
      */
     changeTag: function (tagName) {
+      // 之前的标签
+      let beforeTag = this.nowTag
       this.nowTag = tagName
-      this.$store.commit([HOME_LIST.CHANGE_NOW_TAG], tagName)
+      console.log(tagName)
+      // console.log(this.$store)
+      // 搜索  只有在更换了标签的前提下才会进行搜索
+      if (beforeTag !== tagName) {
+        this.loadList()
+      }
     },
 
     /**

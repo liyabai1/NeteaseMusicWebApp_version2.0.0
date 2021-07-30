@@ -5,7 +5,9 @@
     v-for="item in hqList"
     :key="item.listId">
       <div class="contentBox">
-        <div class="imgBox">
+        <div 
+        class="imgBox"
+        @click="goListInfo(item.listId)">
           <el-image
           :src="item.picUrl"
           style="width:170px;height:170px"
@@ -33,6 +35,14 @@ export default {
   props: {
     hqList: Array
   },
+  methods: {
+    /**
+     * 跳转到歌单详情页
+     */
+    goListInfo: function (listId) {
+      this.$router.push({name: "playlist", params: {listId: listId} })
+    }
+  },
   filters: {
     changeView: function (playCount) {
       return changePlaycount(playCount)
@@ -46,7 +56,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   .itemBox {
-    width: 540px;
+    width: 530px;
     height: 170px;
     margin-bottom: 30px;
     .contentBox {
@@ -60,6 +70,7 @@ export default {
         border-radius: 10px;
         overflow: hidden;
         position: relative;
+        cursor: pointer;
         .playCount {
           position: absolute;
           top: 0px;
@@ -92,15 +103,18 @@ export default {
         }
         .copywriter {
           color: #bdbdbd;
-          height: 15px;
+          height: 16px;
           margin-top: 15px;
+          overflow: hidden;
+          display: flex;
           & > span {
             display: inline-block;
-            height: 15px;
-            line-height: 15px;
+            height: 16px;
+            line-height: 16px;
             font-size: 12px;
           }
-          & > span:nth-of-type(1) {
+          & > .tag {
+            width: auto;
             border: 1px solid red;
             box-sizing: border-box;
             border-radius: 2px;
@@ -109,6 +123,9 @@ export default {
               right: 5px;
               left: 5px;
             }
+          }
+          & > .content {
+            flex: 1;
           }
         }
       }
