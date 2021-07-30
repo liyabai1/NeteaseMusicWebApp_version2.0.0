@@ -9,12 +9,12 @@
   </div>
 </template>
 <script>
-import TopNavbar from "@/components/HomePage/TopNavBar"
+import TopNavbar from '@/components/HomePage/TopNavBar'
 export default {
-  data(){
-    return{}
+  data () {
+    return {}
   },
-  components:{
+  components: {
     TopNavbar
   }
 }
@@ -29,6 +29,7 @@ export default {
     overflow: auto;
     & > div {
       width: 1100px;
+      height: 100%;
       margin: auto;
     }
     &::-webkit-scrollbar {

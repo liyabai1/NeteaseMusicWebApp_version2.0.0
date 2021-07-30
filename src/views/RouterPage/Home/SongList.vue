@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="songListPage">
     <div class="topBar">
       <div>精品歌单</div>
-      <div 
-      class="tagBtn" 
+      <div
+      class="tagBtn"
       v-popover:tagBox>
         <i class="iconfont">&#xe713;</i>
-        <span>全部</span>
+        <span>{{nowTag}}</span>
       </div>
     </div>
     <!-- 标签弹窗 -->
@@ -15,8 +15,10 @@
     width="500"
     placement="bottom-end"
     trigger="hover"
-    > 
-      <div class="allListTag">
+    >
+      <div
+      class="allListTag"
+      @click="nowTag = '全部'">
         全部歌单
       </div>
       <div class="tagBox">
@@ -24,57 +26,117 @@
         class="typeItem"
         v-for="item in listTag"
         :key="item.type"
-        > 
+        >
           <div class="typeBox">
             {{item.category}}
           </div>
           <div class="tags">
-            <div 
+            <div
             class="tagItem"
             v-for="tag in item.tags"
-            :key="tag.id">{{tag.name}}</div>
+            :key="tag.id"
+            @click="changeTag(tag.name)">{{tag.name}}</div>
           </div>
         </div>
       </div>
     </el-popover>
+
+    <!-- 歌单内容 -->
+    <div class="listContent"
+    v-infinite-scroll="loadList"
+    :infinite-scroll-distance="100"
+    :infinite-scroll-delay="500"
+    style="overflow:auto">
+      <songlist-container :hqList="hqList"></songlist-container>
+    </div>
   </div>
 </template>
 <script>
+import SonglistContainer from '@/components/HomePage/SonglistPage/SonglistContainer'
+import { HOME_LIST } from '@/module/mutation-name.js'
 export default {
   data () {
-    return{
-      
+    return {
+      nowTag: '全部',
+      limit: 30
     }
   },
-  mounted(){
+  components: {
+    SonglistContainer
+  },
+  mounted () {
     // 获取标签，并将其保存在state中
     if (this.$store.state.homeSonglist.listTag.length === 0) {
-      this.$store.dispatch("getPlaylistTag")
+      this.$store.dispatch('getPlaylistTag')
+    }
+  },
+  methods: {
+    /**
+     * 改变当前的标签分类
+     */
+    changeTag: function (tagName) {
+      this.nowTag = tagName
+      this.$store.commit([HOME_LIST.CHANGE_NOW_TAG], tagName)
+    },
+
+    /**
+     * 请求歌单信息
+     */
+    loadList: function () {
+      this.$store.dispatch('getHqList', {
+        cat: this.nowTag,
+        limit: this.limit
+      })
     }
   },
   computed: {
-    listTag: function (){
+    listTag: function () {
       return this.$store.state.homeSonglist.listTag
+    },
+    // 精品歌单数据
+    hqList: function () {
+      return this.$store.state.homeSonglist.hqList
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.topBar {
+.songListPage {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  & > div:nth-child(1) {
-    font-size: 25px;
-    font-weight: bolder;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
+
+  .topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & > div:nth-child(1) {
+      font-size: 25px;
+      font-weight: bolder;
+    }
+    .tagBtn {
+      height: 20px;
+      min-width: 60px;
+      padding-left: 10px;
+      padding-right: 10px;
+      text-align: center;
+      border-radius: 10px;
+      border: 1px solid #aaaaaa;
+      cursor: pointer;
+    }
   }
-  .tagBtn {
-    height: 20px;
-    min-width: 60px;
-    text-align: center;
-    border-radius: 10px;
-    border: 1px solid #aaaaaa;
-    cursor: pointer;
+  .listContent {
+    flex: 1;
+    height: 0;
+    &::-webkit-scrollbar {
+      width: 6px;
+      opacity: 0;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #444;
+      border-radius: 3px;
+    }
   }
 }
 /** 标签弹出框样式 */

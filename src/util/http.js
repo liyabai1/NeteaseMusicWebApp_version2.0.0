@@ -100,21 +100,45 @@ function getNewMusic (type) {
 
 /**
  * 获取推荐Mv   ********首页*********
- * @returns 
+ * @returns
  */
 function getRecomMv () {
   return GET_DATA({
-    url: '/personalized/mv',
+    url: '/personalized/mv'
   })
 }
 
 /**
  * 获取精品歌单标签列表
  */
-function getListTag(){
+function getListTag () {
   return GET_DATA({
     url: '/playlist/highquality/tags'
   })
+}
+
+/**
+ * 获取精品歌单信息
+ */
+function getHighQualityList (type, limit, before) {
+  if (before) {
+    return GET_DATA({
+      url: '/top/playlist/highquality',
+      params: {
+        cat: type,
+        limit: limit,
+        before: before
+      }
+    })
+  } else {
+    return GET_DATA({
+      url: '/top/playlist/highquality',
+      params: {
+        cat: type,
+        limit: limit
+      }
+    })
+  }
 }
 
 const HTTPS = {
@@ -127,6 +151,7 @@ const HTTPS = {
   getPersonaList,
   getNewMusic,
   getRecomMv,
-  getListTag
+  getListTag,
+  getHighQualityList
 }
 export default HTTPS

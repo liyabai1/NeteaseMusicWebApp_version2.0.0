@@ -15,7 +15,7 @@ const SET_RECOM_REQUEST_STATUS = 'setRecomReqSta'
 const SET_RECOM_LIST_LOGIN = 'setRecomListLogin'
 const SET_HOME_PERSONALIZED = 'setHomePersonalized'
 const SET_NEW_MUSIC = 'setNewMusic'
-const SET_HOME_RECOMMV = "setHomeRecomMV"
+const SET_HOME_RECOMMV = 'setHomeRecomMV'
 export const HOME = {
   SET_BANNER_DATA,
   SET_RECOM_LIST,
@@ -27,7 +27,11 @@ export const HOME = {
 }
 
 /** 首页歌单 */
-const SET_SONG_TAG = "setSongTag"
+const SET_SONG_TAG = 'setSongTag'
+const SET_SONG_LIST = 'setSongList'
+const CHANGE_NOW_TAG = 'changeNowTag'
 export const HOME_LIST = {
-  SET_SONG_TAG
+  SET_SONG_TAG,
+  SET_SONG_LIST,
+  CHANGE_NOW_TAG
 }
