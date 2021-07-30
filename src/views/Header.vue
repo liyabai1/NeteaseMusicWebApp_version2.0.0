@@ -19,6 +19,7 @@
           placeholder="搜索"
           @focus="inputFouces = true"
           @blur="inputFouces = false"
+          @keydown.enter="search()"
           v-model="keyWords"
           v-popover:historyContainer
         />
@@ -29,7 +30,19 @@
         width="400"
         trigger="click"
         :visible-arrow="false">
-          <div>搜索历史记录</div>
+          <div class="historyBox">
+            <p>搜索历史记录</p>
+            <ul>
+              <li
+              v-for="item in history"
+              :key="item">
+                <span @click="searchByHis(item)">{{item}}</span>
+                <i 
+                class="iconfont"
+                @click="delHistoryItem(item)">&#xe667;</i>
+              </li>
+            </ul>
+          </div>
         </el-popover>
       </div>
     </div>
@@ -104,6 +117,8 @@ export default {
       inputFouces: false,
       // 搜索关键词
       keyWords: '',
+      // 搜索历史记录
+      history: [],
       // 用户是否登录
       logined: false,
       // 用户名
@@ -128,6 +143,10 @@ export default {
       cookieTime > new Date().getTime() && this.renderUserInfo()
       cookieTime > new Date().getTime() || this.delLocationStoring()
     }
+
+    // 首次获取历史搜索，并将其写入页面
+    let hisSet = this.getSearchHistory()
+    this.history = [...hisSet]
   },
   methods: {
     // 点击用户信息登录
@@ -142,7 +161,7 @@ export default {
     },
 
     /**
-     *
+     * 登录
      */
     toLogin () {
       var _this = this
@@ -232,6 +251,53 @@ export default {
       localStorage.removeItem('avatarUrl')
       localStorage.removeItem('userId')
       localStorage.removeItem('cookie')
+    },
+
+    /**
+     * 用户点击回车开始搜索
+     */
+    search () {
+      console.log("开始搜索",this.keyWords)
+      this.addHistrory(this.keyWords)
+    },
+
+    // 获取搜索历史记录
+    getSearchHistory () {
+      let strHis = localStorage.getItem("searchHistory")
+      if (strHis) {
+        return new Set(JSON.parse(strHis))
+      }
+      return new Set()
+    },
+
+    // 记录用户搜索历史，保存在缓存中
+    addHistrory (keyWords) {
+      // 首先获取用户记录
+      let hisSet = this.getSearchHistory()
+      // 添加记录
+      hisSet.add(keyWords)
+      // 将set转为json字符串形式
+      let hisStr = JSON.stringify([...hisSet])
+      localStorage.setItem("searchHistory",hisStr)
+      this.history = [...hisSet]
+    },
+
+    // 删除当前历史记录
+    delHistoryItem(item){
+      // 首先获取用户记录
+      let hisSet = this.getSearchHistory()
+      // 添加记录
+      hisSet.delete(item)
+      // 将set转为json字符串形式
+      let hisStr = JSON.stringify([...hisSet])
+      localStorage.setItem("searchHistory",hisStr)
+      this.history = [...hisSet]
+    },
+
+    // 从历史记录里面搜索
+    searchByHis(item) {
+      this.keyWords = item;
+      this.search()
     }
   }
 }
@@ -278,7 +344,7 @@ export default {
     }
   }
 
-  /* 搜索盒子，包含搜索历史 */
+  /* 搜索盒子 */
   .searchContainer {
     width: 400px;
     height: 30px;
@@ -362,6 +428,71 @@ export default {
     width: 200px;
     height: 35px;
     border: 2px solid #aaaaaa;
+  }
+}
+
+/** 搜索历史框 */
+.historyBox {
+  max-height: 750px;
+  overflow: hidden;
+  & > p {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+  }
+  & > ul {
+    list-style: none;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    & > li {
+      height: 20px;
+      max-width: 300px;
+      line-height: 20px;
+      font-size: 13px;
+      padding-right: 5px;
+      padding-left: 5px;
+      border-radius: 10px;
+      border: 1px solid #aaaaaa;
+      box-sizing: border-box;
+      margin: 0px {
+        right: 10px;
+        left: 10px;
+        top: 5px;
+        right: 5px;
+      }
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: flex;
+      justify-content: center;
+      & > span:nth-of-type(1) {
+        flex: 1;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-right: 5px;
+        cursor: pointer;
+        &:hover {
+          color: salmon;
+        }
+      }
+      & > i:nth-of-type(1) {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px;
+        text-align: center;
+        border-radius: 50%;
+        color: #858585;
+        cursor: pointer;
+        &:hover {
+          color: red;
+        }
+      }
+    }
   }
 }
 </style>
