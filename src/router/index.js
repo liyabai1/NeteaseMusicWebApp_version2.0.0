@@ -29,6 +29,7 @@ const routes = [
       },
       {
         path: "songlist",
+        name: 'homeSonglist',
         component: SongList
       },
       {

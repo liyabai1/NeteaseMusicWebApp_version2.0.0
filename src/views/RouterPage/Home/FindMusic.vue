@@ -1,7 +1,9 @@
 <template>
   <div>
     <banner-box></banner-box>
-    <div class="title">推荐歌单 > </div>
+    <div 
+    class="title"
+    @click="goSonglist()">推荐歌单 > </div>
     <recomlist-ske :load="recomListLoading">
       <recom-list :key="recomListLoading"></recom-list>
     </recomlist-ske>
@@ -49,6 +51,10 @@ export default {
     this.$store.dispatch('getRecomMV')
   },
   methods: {
+    // 跳转到推荐歌单页
+    goSonglist () {
+      this.$router.push({ name: 'homeSonglist' })
+    },
     // 跳转到独家放松列表页
     goPersonalized () {
       this.$router.push({ name: 'personalized' })
