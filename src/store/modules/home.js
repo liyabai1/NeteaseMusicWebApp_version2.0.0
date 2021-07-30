@@ -229,10 +229,12 @@ const homeModule = {
           res => {
             if (res.data.code === 200) {
               store.commit(HOME.SET_HOME_PERSONALIZED, res.data.result)
+            } else {
+              console.error("获取首页独家放送失败",res)
             }
           },
           err => {
-            console.error(err)
+            console.error("获取首页独家放送失败",err)
           }
         )
     },
@@ -248,18 +250,11 @@ const homeModule = {
               // console.log(res.data)
               store.commit(HOME.SET_NEW_MUSIC, res.data.data)
             } else {
-              this.$message({
-                message: '获取最新音乐失败',
-                type: 'warning'
-              })
+              console.error("获取最新音乐失败",res)
             }
           },
           err => {
-            console.error(err)
-            this.$message({
-              message: '获取最新音乐失败',
-              type: 'warning'
-            })
+            console.error("获取最新音乐失败",err)
           }
         )
     },
@@ -274,10 +269,12 @@ const homeModule = {
             if (res.data.code === 200) {
               console.log(res.data)
               store.commit(HOME.SET_HOME_RECOMMV,res.data.result)
+            } else {
+              console.error("获取首页推荐MV失败",res)
             }
           },
           err => {
-            console.error(err)
+            console.error("获取首页推荐MV失败",err)
           }
         )
      }

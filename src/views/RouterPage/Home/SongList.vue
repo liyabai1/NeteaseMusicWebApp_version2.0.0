@@ -121,6 +121,7 @@ export default {
     & > div:nth-child(1) {
       font-size: 25px;
       font-weight: bolder;
+      margin: 15px;
     }
     .tagBtn {
       height: 20px;

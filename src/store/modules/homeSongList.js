@@ -114,7 +114,6 @@ const homeSonglist = {
         }
         tempData.push(tempListinfo)
       })
-      console.log(data.cat, state.nowTag)
       // 如果当前获取的数据内容与当前标签一致，则push进数组，否则替换
       data.cat === state.nowTag ? state.hqList = [...state.hqList, ...tempData] : state.hqList = tempData
       // 先进行搜索，因为store中会判断当前是否更换了新标签
@@ -127,7 +126,7 @@ const homeSonglist = {
      * 获取精品歌单标签列表
      */
     getPlaylistTag: function (store) {
-      const _this = this
+
       HTTPS.getListTag()
         .then(
           res => {
@@ -135,20 +134,11 @@ const homeSonglist = {
               // console.log(res.data)
               store.commit(HOME_LIST.SET_SONG_TAG, res.data.tags)
             } else {
-              // 获取歌单标签失败
-              _this.$message({
-                message: '获取歌单失败',
-                type: 'warning'
-              })
+              console.error("获取精品歌单标签失败",res)
             }
           },
           err => {
-            console.error(err)
-            // 获取歌单标签失败
-            _this.$message({
-              message: '获取歌单失败',
-              type: 'warning'
-            })
+            console.error("获取精品歌单标签失败",err)
           }
         )
     },
@@ -164,24 +154,28 @@ const homeSonglist = {
               if (res.data.code === 200) {
                 console.log(res.data)
                 store.commit(HOME_LIST.SET_SONG_LIST, { hqListInfo: res.data, cat: cat })
+              } else {
+                console.error("加载精品歌单列表失败")
               }
             },
             err => {
-              console.log(err)
+              // console.error(err)
+              console.error("加载精品歌单列表失败",err)
             }
           )
       } else {
-        console.log('YOU')
         const hqList = store.state.hqList
         HTTPS.getHighQualityList(cat, limit, hqList[hqList.length - 1].updateTime)
           .then(
             res => {
               if (res.data.code === 200) {
                 store.commit(HOME_LIST.SET_SONG_LIST, { hqListInfo: res.data, cat: cat })
+              } else {
+                console.error("加载精品歌单列表失败".res)
               }
             },
             err => {
-              console.log(err)
+              console.error("加载精品歌单列表失败",err)
             }
           )
       }
