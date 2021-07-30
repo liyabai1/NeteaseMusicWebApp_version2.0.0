@@ -171,7 +171,7 @@ const homeSonglist = {
             }
           )
       } else {
-        console.log("YOU")
+        console.log('YOU')
         const hqList = store.state.hqList
         HTTPS.getHighQualityList(cat, limit, hqList[hqList.length - 1].updateTime)
           .then(

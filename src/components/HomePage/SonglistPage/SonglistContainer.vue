@@ -5,7 +5,7 @@
     v-for="item in hqList"
     :key="item.listId">
       <div class="contentBox">
-        <div 
+        <div
         class="imgBox"
         @click="goListInfo(item.listId)">
           <el-image
@@ -40,7 +40,7 @@ export default {
      * 跳转到歌单详情页
      */
     goListInfo: function (listId) {
-      this.$router.push({name: "playlist", params: {listId: listId} })
+      this.$router.push({ name: 'playlist', params: { listId: listId } })
     }
   },
   filters: {

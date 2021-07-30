@@ -30,7 +30,7 @@ export const HOME = {
 const SET_SONG_TAG = 'setSongTag'
 const SET_SONG_LIST = 'setSongList'
 const CHANGE_NOW_TAG = 'changeNowTag'
-const INIT_TOTAL = "initTotal"
+const INIT_TOTAL = 'initTotal'
 export const HOME_LIST = {
   SET_SONG_TAG,
   SET_SONG_LIST,

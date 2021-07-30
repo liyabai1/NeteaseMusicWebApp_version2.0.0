@@ -76,7 +76,7 @@ export default {
      */
     changeTag: function (tagName) {
       // 之前的标签
-      let beforeTag = this.nowTag
+      const beforeTag = this.nowTag
       this.nowTag = tagName
       console.log(tagName)
       // console.log(this.$store)
