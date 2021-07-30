@@ -3,8 +3,7 @@
     <div
     class="itemBox"
     v-for="item in newMusic"
-    :key="item.songId"
-    >
+    :key="item.songId">
       <div class="itemContent">
         <i class="iconfont">&#xe6ba;</i>
         <el-image
