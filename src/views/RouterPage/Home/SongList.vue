@@ -42,7 +42,8 @@
     </el-popover>
 
     <!-- 歌单内容 -->
-    <div class="listContent"
+    <div 
+    class="listContent"
     v-infinite-scroll="loadList"
     :infinite-scroll-distance="100"
     :infinite-scroll-delay="500"
@@ -53,7 +54,6 @@
 </template>
 <script>
 import SonglistContainer from '@/components/HomePage/SonglistPage/SonglistContainer'
-import { HOME_LIST } from '@/module/mutation-name.js'
 export default {
   data () {
     return {
