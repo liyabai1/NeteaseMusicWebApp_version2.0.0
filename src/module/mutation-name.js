@@ -60,3 +60,9 @@ const SET_RANK = "setRankData"
 export const RANK = {
   SET_RANK
 }
+
+/** 最新音乐 */
+
+export const newMusic = {
+  
+}

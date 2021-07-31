@@ -130,7 +130,10 @@ const homeModule = {
         }
         tempData.push(tempSongInfo)
       })
+      // 首页的最新音乐数据
       state.newMusic = tempData
+      // 最新音乐页的最新音乐数据
+      this.state.nm.topSongList = tempData
     },
 
     /**

@@ -7,7 +7,8 @@ import loginModule from './modules/login.js'
 import homeModule from './modules/home.js'
 import homeSonglist from'./modules/homeSongList.js'
 import Mv from './modules/MV.js'
-import rank from './modules/Rank';
+import rank from './modules/Rank.js';
+import newMusic from "./modules/newMusic.js"
 
 Vue.use(Vuex)
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     home: homeModule,
     homeSonglist: homeSonglist,
     mv: Mv,
-    rank: rank
+    rank: rank,
+    nm: newMusic
   }
 })
