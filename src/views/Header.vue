@@ -1,5 +1,5 @@
 <template>
-  <div class="headerBox theme-red">
+  <div class="headerBox" :data-theme="theme">
     <img
     class="logoImg"
     src="../../public/logo.jpg"
@@ -69,10 +69,18 @@
       <el-popover
       ref="themeContainer"
       placement="bottom"
-      width="200"
+      width="400"
       trigger="click"
-      :visible-arrow="false">
-        <div>主题选择框</div>
+      :visible-arrow="true">
+        <div class="themeBox">
+          <span
+          v-for="item in themeColor"
+          :key="item.name"
+          :style="{ background: item.color }"
+          @click="changeTheme($event.target,item.name)">
+            <i class="iconfont noshow" ref="activeColor">&#xe60a;</i>
+          </span>
+        </div>
       </el-popover>
     </div>
 
@@ -109,7 +117,7 @@
 <script>
 import HTTPS from '@/util/http.js'
 import { getCookieInvalidTime } from '@/module/cookie.js'
-import { LOGIN } from '@/module/mutation-name.js'
+import { LOGIN,ROOT } from '@/module/mutation-name.js'
 export default {
   data () {
     return {
@@ -132,7 +140,15 @@ export default {
       // 输入的手机号
       phoneNum: null,
       // 输入的密码
-      passwords: null
+      passwords: null,
+      // 主题选择
+      themeColor: [
+        {name:'red',color: '#ff0000'},
+        {name:'green',color: '#00ff00'},
+        {name:'blue',color: '#0000ff'},
+        {name:'yellow',color: '#ffff00'},
+        {name:'black',color: '#222222'},
+      ]
     }
   },
   mounted () {
@@ -147,6 +163,10 @@ export default {
     // 首次获取历史搜索，并将其写入页面
     let hisSet = this.getSearchHistory()
     this.history = [...hisSet]
+
+    // 初始化主题选择
+    // console.log(this.$refs.activeColor[0].parentElement)
+    this.changeTheme(this.$refs.activeColor[0].parentElement,"red")
   },
   methods: {
     // 点击用户信息登录
@@ -298,6 +318,21 @@ export default {
     searchByHis(item) {
       this.keyWords = item;
       this.search()
+    },
+
+    // 改变主题
+    changeTheme(el,themeName){
+      console.log(el);
+      [...this.$refs.activeColor].forEach( item => item.classList.add("noshow"))
+      el.children[0].classList.remove("noshow")
+      el.children[0].classList.add("show")
+      // 更改state 中的主题
+      this.$store.commit(ROOT.CHANGE_THEME,themeName)
+    }
+  },
+  computed: {
+    theme: function (){
+      return this.$store.state.theme
     }
   }
 }
@@ -494,5 +529,33 @@ export default {
       }
     }
   }
+}
+
+/** 主题选择框 */
+.themeBox {
+  width: 100%;
+  & > span {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+    margin: 20px;
+    position: relative;
+    cursor: pointer;
+    & > i {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+    }
+  }
+}
+/* 被选择主题的选中状态展示 */
+.show {
+  display: block;
+}
+.noshow {
+  display: none;
 }
 </style>

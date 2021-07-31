@@ -1,5 +1,5 @@
 <template>
-  <div class="footerBox theme-red">
+  <div class="footerBox" :data-theme="theme">
     <div class="player">
 
       <div class="songInfo">
@@ -21,7 +21,7 @@
           <span>00:00</span>
           <div class="progressBar">
             <div class="buffer"></div>
-            <div class="played theme-red"></div>
+            <div class="played" :data-theme="theme"></div>
           </div>
           <span>05:20</span>
         </div>
@@ -30,7 +30,7 @@
       <div class="volBtnBox">
         <i class="iconfont">&#xe61f;</i>
         <div class="volBar">
-          <div class="theme-red"></div>
+          <div :data-theme="theme"></div>
         </div>
       </div>
 
@@ -62,6 +62,11 @@ export default {
   methods:{
     setPlayPageH(){
       this.height = window.innerHeight - 70;
+    }
+  },
+  computed: {
+    theme: function (){
+      return this.$store.state.theme
     }
   }
 }

@@ -166,6 +166,13 @@ function getMvList(area,type,order,offset,limit) {
   })
 }
 
+/** 获取首页排行榜信息 */
+function getRank(){
+  return GET_DATA({
+    url: "/toplist/detail"
+  })
+}
+
 const HTTPS = {
   login,
   getUserlist,
@@ -178,6 +185,7 @@ const HTTPS = {
   getRecomMv,
   getListTag,
   getHighQualityList,
-  getMvList
+  getMvList,
+  getRank
 }
 export default HTTPS

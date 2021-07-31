@@ -1,4 +1,9 @@
 /** Root */
+const CHANGE_THEME = "changeTheme"
+export const ROOT = {
+  CHANGE_THEME
+}
+
 
 /** Login */
 const SET_USER_INFO = 'setUserInfo'
@@ -48,4 +53,10 @@ export const MV = {
   SET_TAG_TYPE,
   SET_TAG_ORDER,
   SET_MV_LIST
+}
+
+/** 排行榜 */
+const SET_RANK = "setRankData"
+export const RANK = {
+  SET_RANK
 }
