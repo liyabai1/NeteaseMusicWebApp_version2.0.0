@@ -66,6 +66,7 @@ export default {
       & > span:nth-of-type(1) {
         width: 60px;
         text-align: center;
+        color: #acacac;
       }
       & > span:nth-of-type(2) {
         flex: 1;
@@ -73,6 +74,7 @@ export default {
       & > span:nth-of-type(3) {
         width: 200px;
         text-align: end;
+        color: #acacac;
       }
     }
   }
