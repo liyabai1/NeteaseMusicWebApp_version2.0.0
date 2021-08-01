@@ -9,6 +9,7 @@ import MV from '@/views/RouterPage/MV'
 // 详请页
 import PersonalizedDetail from "@/views/details/PersonalizedDetail"
 import MvDetail from "@/views/details/MvDetail"
+import SearchDetail from "@/views/details/SearchDetail"
 
 // 首页路由页面
 import FindMusic from "@/views/RouterPage/Home/FindMusic"
@@ -16,7 +17,20 @@ import SongList from "@/views/RouterPage/Home/SongList"
 import Rank from "@/views/RouterPage/Home/Rank"
 import NewMusic from "@/views/RouterPage/Home/NewMusic"
 
+// 搜索页面
+import SearchSong from "@/views/RouterPage/Search/SearchSong"
+import SearchPlaylist from "@/views/RouterPage/Search/SearchPlaylist"
+import SearchMv from "@/views/RouterPage/Search/SearchMv"
+
+
+
 Vue.use(VueRouter)
+
+/** 解决重复指向同一路由报错问题 */
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location){
+  return originalPush.call(this, location).catch(err => err)
+}
 
 const routes = [
   {
@@ -70,6 +84,32 @@ const routes = [
     path: 'mvdetail/:MvId',
     name: "mvDetail",
     component: MvDetail
+  },
+  {
+    path: "search",
+    name: "search",
+    component: SearchDetail,
+    children: [
+      {
+        path: "/search/song/:keywords",
+        name: "serSong",
+        component: SearchSong
+      },
+      {
+        path: "/search/songlist/:keywords",
+        name: "serplaylist",
+        component: SearchPlaylist
+      },
+      {
+        path: "/search/songmv/:keywords",
+        name: "sermv",
+        component: SearchMv
+      },
+      {
+        path: '',
+        redirect: "song"
+      }
+    ]
   },
   {
     path: '*',

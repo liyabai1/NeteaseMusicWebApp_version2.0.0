@@ -94,7 +94,7 @@ export default {
   height: 100%;
   width: 100%;
   .contextBox {
-    width: 1100px;
+    width: 1200px;
     height: 100%;
     margin: auto;
     &::-webkit-scrollbar {

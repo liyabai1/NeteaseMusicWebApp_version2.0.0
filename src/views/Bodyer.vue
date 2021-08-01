@@ -14,6 +14,11 @@ export default {
   },
   components: {
     SideBar
+  },
+  computed: {
+    path: function () {
+      return this.$store.path
+    }
   }
 }
 </script>

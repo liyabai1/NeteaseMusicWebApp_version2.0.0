@@ -48,11 +48,12 @@ export default {
   .scrollContainer {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
     .itemBox {
       margin-bottom: 10px;
       cursor: pointer;
+      margin: 5px;
       .imgBox {
         position: relative;
         top: 0px;

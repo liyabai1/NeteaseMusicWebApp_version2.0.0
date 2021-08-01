@@ -22,6 +22,10 @@ $theme-black:(
   background-color: #222222,
   color: #cccccc,
 );
+$theme-pink:(
+  background-color: #fa5793,
+  color: #cccccc,
+);
 
 $theme: (
   "red": $theme-red,
@@ -29,4 +33,5 @@ $theme: (
   "blue": $theme-blue,
   "yellow": $theme-yellow,
   "black": $theme-black,
+  "pink": $theme-pink
 );

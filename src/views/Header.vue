@@ -117,7 +117,7 @@
 <script>
 import HTTPS from '@/util/http.js'
 import { getCookieInvalidTime } from '@/module/cookie.js'
-import { LOGIN,ROOT } from '@/module/mutation-name.js'
+import { LOGIN,ROOT,SEARCH_RES } from '@/module/mutation-name.js'
 export default {
   data () {
     return {
@@ -148,6 +148,7 @@ export default {
         {name:'blue',color: '#0000ff'},
         {name:'yellow',color: '#ffff00'},
         {name:'black',color: '#222222'},
+        {name: "pink",color: '#fa5793'}
       ]
     }
   },
@@ -277,7 +278,10 @@ export default {
      * 用户点击回车开始搜索
      */
     search () {
-      console.log("开始搜索",this.keyWords)
+      // 设置state的搜索关键词
+      this.$store.commit(SEARCH_RES.SET_KEYWORDS,this.keyWords)
+      // 跳转到搜索结果页面
+      this.$router.push({name: "serSong", params: {keywords: this.keyWords} })
       this.addHistrory(this.keyWords)
     },
 
@@ -322,7 +326,6 @@ export default {
 
     // 改变主题
     changeTheme(el,themeName){
-      console.log(el);
       [...this.$refs.activeColor].forEach( item => item.classList.add("noshow"))
       el.children[0].classList.remove("noshow")
       el.children[0].classList.add("show")
@@ -448,6 +451,7 @@ export default {
       height: 20px;
       color: #cccccc;
       cursor: pointer;
+      font-weight: bolder;
     }
   }
 }

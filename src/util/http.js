@@ -173,6 +173,26 @@ function getRank(){
   })
 }
 
+/**
+ * 搜索结果
+ * @param {string} keywords 搜索关键词
+ * @param {number | string} limit 每页的数量
+ * @param {number | string} offset 分页
+ * @param {number | string} type 搜索类型，不写为单曲  1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
+ * @returns 
+ */
+function search(keywords,limit,offset,type = 1){
+  return GET_DATA({
+    url: "/search",
+    params: {
+      keywords: keywords,
+      limit: limit,
+      offset: offset,
+      type: type
+    }
+  })
+}
+
 
 const HTTPS = {
   login,
@@ -187,6 +207,7 @@ const HTTPS = {
   getListTag,
   getHighQualityList,
   getMvList,
-  getRank
+  getRank,
+  search
 }
 export default HTTPS

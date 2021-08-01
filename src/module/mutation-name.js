@@ -62,7 +62,22 @@ export const RANK = {
 }
 
 /** 最新音乐 */
-
 export const newMusic = {
   
+}
+
+/** 搜索结果 */
+const SET_SEAR_SONG = "setSearSong"
+const SET_TYPE = "setType"
+const SET_KEYWORDS = "setKeyWords"
+const SET_SONGLOADING = "setSongLoading"
+const SET_SEAR_MV = "setSearMv"
+const SET_MVLOADING = "setMvLoading"
+export const SEARCH_RES = {
+  SET_SEAR_SONG,
+  SET_TYPE,
+  SET_KEYWORDS,
+  SET_SONGLOADING,
+  SET_SEAR_MV,
+  SET_MVLOADING
 }
