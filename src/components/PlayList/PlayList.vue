@@ -37,7 +37,7 @@ export default {
     songData: Array
   },
   mounted () {
-
+    console.log("传入数据：",this.songData)
   },
   filters: {
     changeTimeView: function (time) {
@@ -92,6 +92,7 @@ export default {
   }
   i {
     display: inline-block;
+    color: red;
   }
 }
 .singer {

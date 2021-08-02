@@ -198,15 +198,28 @@ function search(keywords,limit,offset,type = 1){
  * @param {number | string} listId 歌单ID
  * @returns 
  */
-function playListInfo(listId){
+function playListInfo(listId,cookie){
   return GET_DATA({
     url: '/playlist/detail',
     params: {
-      id: listId
+      id: listId,
+      cookie: cookie
     }
   })
 }
 
+/**
+ * 获取歌曲详情 （可批量获取）
+ * @param {string} ids 歌曲id 
+ */
+function getSongInfo (ids) {
+  return GET_DATA({
+    url: '/song/detail',
+    params: {
+      ids: ids
+    }
+  })
+}
 
 const HTTPS = {
   login,
@@ -223,6 +236,7 @@ const HTTPS = {
   getMvList,
   getRank,
   search,
-  playListInfo
+  playListInfo,
+  getSongInfo
 }
 export default HTTPS

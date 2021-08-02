@@ -87,6 +87,10 @@ export const SEARCH_RES = {
 
 /** 歌单详细信息 */
 const SET_PLAYLIST_INFO = "setPlaylistInfo"
+const SET_LISTID = "setListid"
+const SET_SONG_INFO = "setSongInfo"
 export const PLAYLIST = {
-  SET_PLAYLIST_INFO
+  SET_PLAYLIST_INFO,
+  SET_LISTID,
+  SET_SONG_INFO
 }
