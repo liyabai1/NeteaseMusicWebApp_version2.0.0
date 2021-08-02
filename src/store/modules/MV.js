@@ -1,3 +1,6 @@
+/** MV模块 */
+
+
 import HTTPS from '@/util/http.js'
 import { MV } from '@/module/mutation-name.js'
 const MVPAGE = {

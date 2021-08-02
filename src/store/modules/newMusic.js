@@ -1,3 +1,5 @@
+/** 首页最新音乐 */
+
 import HTTPS from '@/util/http.js'
 import { newMusic } from '@/module/mutation-name.js'
 const newmusic = {

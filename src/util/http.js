@@ -193,6 +193,20 @@ function search(keywords,limit,offset,type = 1){
   })
 }
 
+/**
+ * 搜索歌单详情信息
+ * @param {number | string} listId 歌单ID
+ * @returns 
+ */
+function playListInfo(listId){
+  return GET_DATA({
+    url: '/playlist/detail',
+    params: {
+      id: listId
+    }
+  })
+}
+
 
 const HTTPS = {
   login,
@@ -208,6 +222,7 @@ const HTTPS = {
   getHighQualityList,
   getMvList,
   getRank,
-  search
+  search,
+  playListInfo
 }
 export default HTTPS

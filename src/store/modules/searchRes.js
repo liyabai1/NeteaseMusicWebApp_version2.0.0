@@ -1,3 +1,6 @@
+/** 搜索结果 */
+
+
 import HTTPS from '@/util/http.js'
 import { SEARCH_RES } from '@/module/mutation-name.js'
 const search = {

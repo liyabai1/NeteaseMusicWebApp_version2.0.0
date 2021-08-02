@@ -1,3 +1,5 @@
+/** 首页排行榜模块 */
+
 import HTTPS from '@/util/http.js'
 import { RANK } from '@/module/mutation-name.js'
 const rank = {

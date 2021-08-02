@@ -1,3 +1,5 @@
+/*  登录模块 */
+
 import HTTPS from '@/util/http.js'
 import { LOGIN } from "@/module/mutation-name.js"
 const loginModule = {

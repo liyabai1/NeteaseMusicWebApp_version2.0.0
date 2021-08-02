@@ -84,3 +84,9 @@ export const SEARCH_RES = {
   SET_SEAR_LIST,
   SET_LISTLOADING
 }
+
+/** 歌单详细信息 */
+const SET_PLAYLIST_INFO = "setPlaylistInfo"
+export const PLAYLIST = {
+  SET_PLAYLIST_INFO
+}
