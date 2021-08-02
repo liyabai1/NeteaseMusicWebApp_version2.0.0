@@ -8,7 +8,7 @@
         <span class="album">专辑</span>
         <span class="time">时长</span>
       </div>
-      <div 
+      <div
       class="listContent"
       v-for="(item,index) in songData"
       :key="item.songId">
@@ -28,16 +28,16 @@
   </div>
 </template>
 <script>
-import { changeTimeToMinute } from "@/module/fun.js"
+import { changeTimeToMinute } from '@/module/fun.js'
 export default {
-  data(){
+  data () {
     return {}
   },
   props: {
     songData: Array
   },
-  mounted(){
-    console.log("刷新",this.songData)
+  mounted () {
+
   },
   filters: {
     changeTimeView: function (time) {
