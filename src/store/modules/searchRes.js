@@ -17,8 +17,11 @@ const search = {
     // 搜索mv的结果
     mvCount: null,
     searchResMv: [],
-    mvLoading: true
-    // ******
+    mvLoading: true,
+    // 搜索歌单的结果
+    listCount: null,
+    searchResList: [],
+    listLoading: true
   },
   mutations: {
     // 重置搜索类型
@@ -84,6 +87,36 @@ const search = {
         state.searchResMv.push(tempData)
       })
       this.commit(SEARCH_RES.SET_MVLOADING, false)
+    },
+
+    // 设置歌单的搜索状态
+    [SEARCH_RES.SET_LISTLOADING] (state, status) {
+      state.listLoading = status
+    },
+    // 设置歌单的搜索结果
+    [SEARCH_RES.SET_SEAR_LIST] (state, listData) {
+      listData.result.playlistCount && (state.listCount = listData.result.playlistCount)
+      // 清空之前的搜索结果
+      state.searchResList = []
+      listData.result.playlists.forEach(item => {
+        /** 歌单需要的字段 */
+        /** 歌单id   | listId    */
+        /** 歌单标题  | listName  */
+        /** 封面图片  | picUrl    */
+        /** 播放量    | playCount */
+        /** 创建人    | creator    */
+        /** 歌曲数量  |  trackCount */
+        const tempData = {
+          listId: item.id,
+          listName: item.name,
+          picUrl: item.coverImgUrl + '?param=150y150',
+          playCount: item.playCount,
+          creator: item.creator.nickname,
+          trackCount: item.trackCount
+        }
+        state.searchResList.push(tempData)
+      })
+      this.commit(SEARCH_RES.SET_LISTLOADING, false)
     }
   },
   actions: {
@@ -112,6 +145,8 @@ const search = {
         Number(type) === 1 && store.commit(SEARCH_RES.SET_SEAR_SONG, search)
         // 搜索Mv
         Number(type) === 1004 && store.commit(SEARCH_RES.SET_SEAR_MV, search)
+        // 搜索歌单
+        Number(type) === 1000 && store.commit(SEARCH_RES.SET_SEAR_LIST, search)
       }
     }
   }

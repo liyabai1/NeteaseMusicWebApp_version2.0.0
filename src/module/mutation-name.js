@@ -1,9 +1,8 @@
 /** Root */
-const CHANGE_THEME = "changeTheme"
+const CHANGE_THEME = 'changeTheme'
 export const ROOT = {
   CHANGE_THEME
 }
-
 
 /** Login */
 const SET_USER_INFO = 'setUserInfo'
@@ -44,9 +43,9 @@ export const HOME_LIST = {
 }
 
 /** MV列表 */
-const SET_TAG_AREA = "setAreaTag"
-const SET_TAG_TYPE = "setTypeTag"
-const SET_TAG_ORDER = "setOrderTag"
+const SET_TAG_AREA = 'setAreaTag'
+const SET_TAG_TYPE = 'setTypeTag'
+const SET_TAG_ORDER = 'setOrderTag'
 const SET_MV_LIST = 'setMvList'
 export const MV = {
   SET_TAG_AREA,
@@ -56,28 +55,32 @@ export const MV = {
 }
 
 /** 排行榜 */
-const SET_RANK = "setRankData"
+const SET_RANK = 'setRankData'
 export const RANK = {
   SET_RANK
 }
 
 /** 最新音乐 */
 export const newMusic = {
-  
+
 }
 
 /** 搜索结果 */
-const SET_SEAR_SONG = "setSearSong"
-const SET_TYPE = "setType"
-const SET_KEYWORDS = "setKeyWords"
-const SET_SONGLOADING = "setSongLoading"
-const SET_SEAR_MV = "setSearMv"
-const SET_MVLOADING = "setMvLoading"
+const SET_SEAR_SONG = 'setSearSong'
+const SET_TYPE = 'setType'
+const SET_KEYWORDS = 'setKeyWords'
+const SET_SONGLOADING = 'setSongLoading'
+const SET_SEAR_MV = 'setSearMv'
+const SET_MVLOADING = 'setMvLoading'
+const SET_SEAR_LIST = 'setSearList'
+const SET_LISTLOADING = 'setListLoading'
 export const SEARCH_RES = {
   SET_SEAR_SONG,
   SET_TYPE,
   SET_KEYWORDS,
   SET_SONGLOADING,
   SET_SEAR_MV,
-  SET_MVLOADING
+  SET_MVLOADING,
+  SET_SEAR_LIST,
+  SET_LISTLOADING
 }
