@@ -11,6 +11,7 @@ import rank from './modules/Rank.js';
 import newMusic from "./modules/newMusic.js"
 import search from "./modules/searchRes.js"
 import pl from './modules/playList.js'
+import video from './modules/video.js'
 
 Vue.use(Vuex)
 
@@ -35,6 +36,7 @@ export default new Vuex.Store({
     rank: rank,
     nm: newMusic,
     search: search,
-    pl: pl
+    pl: pl,
+    video: video
   }
 })

@@ -221,6 +221,42 @@ function getSongInfo (ids) {
   })
 }
 
+/**
+ * 获取视频详情
+ * @param {number | string} id 视频Id
+ */
+function getVideoData (id) {
+  return GET_DATA({
+    url: '/video/detail',
+    params: {
+      id: id
+    }
+  })
+}
+/**
+ * 获取相关推荐视频详情
+ * @param {number | string} id 视频Id
+ */
+function getRecomVideo (id) {
+  return GET_DATA({
+    url: '/related/allvideo',
+    params: {
+      id: id
+    }
+  })
+}
+/**
+ * 获取视频播放地址
+ */
+function getVideoUrl (id) {
+  return GET_DATA({
+    url: '/video/url',
+    params: {
+      id: id
+    }
+  })
+}
+
 const HTTPS = {
   login,
   getUserlist,
@@ -237,6 +273,9 @@ const HTTPS = {
   getRank,
   search,
   playListInfo,
-  getSongInfo
+  getSongInfo,
+  getVideoData,
+  getRecomVideo,
+  getVideoUrl
 }
 export default HTTPS

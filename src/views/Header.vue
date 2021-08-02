@@ -8,8 +8,12 @@
 
     <span class="weclome">Hello!</span>
     <div class="navToPage">
-      <i class="iconfont">&#xe620;</i>
-      <i class="iconfont">&#xe629;</i>
+      <i 
+      class="iconfont"
+      @click="navBack()">&#xe620;</i>
+      <i 
+      class="iconfont"
+      @click="navNext()">&#xe629;</i>
     </div>
     <div class="searchContainer">
       <div class="inputBox">
@@ -331,6 +335,15 @@ export default {
       el.children[0].classList.add("show")
       // 更改state 中的主题
       this.$store.commit(ROOT.CHANGE_THEME,themeName)
+    },
+
+    //页面后退
+    navBack() {
+      window.history.back()
+    },
+    // 页面前进
+    navNext() {
+      window.history.forward()
     }
   },
   computed: {

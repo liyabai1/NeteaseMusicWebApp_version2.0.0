@@ -96,3 +96,9 @@ export const PLAYLIST = {
   SET_SONG_INFO,
   SET_LISTLOAD_STATUS
 }
+
+/** 视频和MV的播放页 */
+
+export const VIDEO = {
+  
+}
