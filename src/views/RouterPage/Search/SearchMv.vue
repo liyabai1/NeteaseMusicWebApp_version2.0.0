@@ -25,7 +25,7 @@ export default {
     return {
       limit: 30,
       offsetPage: 1,
-      type: 1004,    // 不更改
+      type: 1014,    // 不更改
     }
   },
   components: {

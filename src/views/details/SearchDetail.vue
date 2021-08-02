@@ -23,7 +23,7 @@ export default {
         // {type: 100, name: "歌手"},
         {type: 1000, name: "歌单", routerName: 'serplaylist'},
         // {type: 1002, name: "用户"},
-        {type: 1004, name: "MV", routerName: 'sermv'},
+        {type: 1014, name: "视频", routerName: 'sermv'},
         // {type: 1006, name: "歌词"},
       ]
     }

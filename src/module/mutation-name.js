@@ -89,8 +89,10 @@ export const SEARCH_RES = {
 const SET_PLAYLIST_INFO = "setPlaylistInfo"
 const SET_LISTID = "setListid"
 const SET_SONG_INFO = "setSongInfo"
+const SET_LISTLOAD_STATUS = "setListloadStatus"
 export const PLAYLIST = {
   SET_PLAYLIST_INFO,
   SET_LISTID,
-  SET_SONG_INFO
+  SET_SONG_INFO,
+  SET_LISTLOAD_STATUS
 }

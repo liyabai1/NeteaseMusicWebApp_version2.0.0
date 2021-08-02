@@ -1,32 +1,41 @@
 <template>
   <div class="listInfoContainer">
-    <div class="listInfoBox">
-      <div class="imageBox">
-        <el-image 
-        :src="listInfo.coverImgUrl"
-        style="width:185px;height:185px"></el-image>
+    <el-skeleton 
+    style="width: 100%" 
+    :loading="listLoading" 
+    animated
+    :rows="20">
+      <div>
+        <div class="listInfoBox">
+          <div class="imageBox">
+            <el-image 
+            :src="listInfo.coverImgUrl"
+            style="width:185px;height:185px"></el-image>
+          </div>
+          <div class="infoContent">
+            <div class="title">{{listInfo.name}}</div>
+            <div class="creator">
+              <el-image
+              class="creator_img"
+              :src="listInfo.creator.avatarUrl + '?param=100y100'"
+              style="width: 35px;height: 35px"
+              lazy></el-image>
+              <span>{{listInfo.creator.nickname}}</span>
+              <span>{{listInfo.createTime | toTime()}}创建</span>
+            </div>
+            <div class="tags">标签: <span>{{listInfo.tags.join("、")}}</span></div>
+            <div class="count">
+              <span>歌曲：<span>{{listInfo.trackCount}}</span></span>
+              <span>播放：<span>{{listInfo.playCount}}</span></span>
+            </div>
+            <div class="des">
+              简介：<span>{{listInfo.description}}</span>
+            </div>
+          </div>
+        </div>
+        <playlist-com :songData="listInfo.tracks | getSongdata()"></playlist-com>
       </div>
-      <div class="infoContent">
-        <div class="title">{{listInfo.name}}</div>
-        <div class="creator">
-          <el-image
-          class="creator_img"
-          :src="listInfo.creator.avatarUrl + '?param=100y100'"
-          style="width: 35px;height: 35px"></el-image>
-          <span>{{listInfo.creator.nickname}}</span>
-          <span>{{listInfo.createTime | toTime()}}创建</span>
-        </div>
-        <div class="tags">标签: <span>{{listInfo.tags.join("、")}}</span></div>
-        <div class="count">
-          <span>歌曲：<span>{{listInfo.trackCount}}</span></span>
-          <span>播放：<span>{{listInfo.playCount}}</span></span>
-        </div>
-        <div class="des">
-          简介：<span>{{listInfo.description}}</span>
-        </div>
-      </div>
-    </div>
-    <playlist-com :songData="listInfo.tracks | getSongdata()"></playlist-com>
+    </el-skeleton>
   </div>
 </template>
 <script>
@@ -57,6 +66,9 @@ export default {
   computed: {
     listInfo: function () {
       return this.$store.state.pl.listInfo
+    },
+    listLoading: function () {
+      return this.$store.state.pl.listLoading
     }
   },
   filters: {

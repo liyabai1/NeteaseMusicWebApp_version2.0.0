@@ -74,18 +74,18 @@ const search = {
     },
     // 设置Mv搜索结果
     [SEARCH_RES.SET_SEAR_MV] (state, mvData) {
-      mvData.result.mvCount && (state.mvCount = mvData.result.mvCount)
+      mvData.result.videoCount && (state.mvCount = mvData.result.videoCount)
       // 清空之前的搜索结果
       state.searchResMv = []
       /** MV所需字段 */
       /** MVId | MvId   */
       /** 封面  | picUrl */
       /** 标题  | title  */
-      mvData.result.mvs.forEach(item => {
+      mvData.result.videos.forEach(item => {
         const tempData = {
-          MvId: item.id,
-          picUrl: item.cover,
-          title: item.name
+          MvId: item.vid,
+          picUrl: item.coverUrl,
+          title: item.title
         }
         state.searchResMv.push(tempData)
       })
@@ -146,8 +146,8 @@ const search = {
       if (search.code === 200) {
         // 如果搜索的是单曲
         Number(type) === 1 && store.commit(SEARCH_RES.SET_SEAR_SONG, search)
-        // 搜索Mv
-        Number(type) === 1004 && store.commit(SEARCH_RES.SET_SEAR_MV, search)
+        // 搜索Mv => 改为了视频
+        Number(type) === 1014 && store.commit(SEARCH_RES.SET_SEAR_MV, search)
         // 搜索歌单
         Number(type) === 1000 && store.commit(SEARCH_RES.SET_SEAR_LIST, search)
       }
