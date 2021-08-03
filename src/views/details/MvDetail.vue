@@ -1,11 +1,11 @@
 <template>
   <div class="videoContainer">
     <el-skeleton
-    style="width:50%"
+    style="width:100%"
     :loading="loading"
     :row="10"
     animated>
-      <div>
+      <div style="display: flex;align-items: flex-start;justify-content: space-between;width: 1100px;margin:auto;">
         <div class="videoInfo">
           <video :src="videoUrl" autoplay loop controls></video>
           <div class="videoContent">
@@ -17,7 +17,7 @@
             </div>
             <div class="title">{{video.title}}</div>
             <div class="publishTime">
-              <span>发布：<span>{{video.publishTime | changeTime()}}</span></span>
+              <span>发布：<span>{{video.publishTime}}</span></span>
               <span>播放：<span>{{video.playTime}}次</span></span>
             </div>
             <div class="des">{{video.description}}</div>
@@ -75,12 +75,10 @@ export default {
     }
   },
   mounted () {
-    console.log('刷新')
     // 因为视频可能为MV，也可能为视频
     // MV的id为纯数字， 视频为字母和数字的组合
     // 使用Number() 进行判断 ， 为NaN的是视频，执行视频对应的API NaN === NaN ==> false  坑
     this.id = this.$route.params.MvId
-    console.log(this.id)
     this.isMOrV(this.id)
   },
   methods: {
@@ -90,28 +88,30 @@ export default {
     isMOrV: function (id) {
       if (Number(id).toString() === 'NaN') {
         this.type = 'video'
-        this.getVideoUrl() // 获取视频地址
+        this.loading = true
+        this.getVideoUrl()   // 获取视频地址
         this.getRecomVideo() // 获取相关推荐
-        this.getVideoData() // 获取视频信息
+        this.getVideoData()  // 获取视频信息
       } else {
         this.type = 'mv'
+        this.getMvUrl()   // 获取视频Url
+        this.getRecomMV() // 获取相关推荐
+        this.getMvData()  // 获取MV信息
       }
     },
     /**
      * 获取***视频***的信息
      */
     getVideoData: function () {
-      this.loading = true
       HTTPS.getVideoData(this.id)
         .then((res) => {
           if (res.data.code === 200) {
-            console.log(res.data)
-            const tempData = res.data.data
+            let tempData = res.data.data
             this.video = {
               avatarUrl: tempData.avatarUrl,
               nickname: tempData.creator.nickname,
               title: tempData.title,
-              publishTime: tempData.publishTime,
+              publishTime: this.changeTime(tempData.publishTime),
               playTime: tempData.playTime,
               description: tempData.description
             }
@@ -138,14 +138,14 @@ export default {
           if (res.data.code === 200) {
             this.videoUrl = res.data.urls[0].url
           } else {
-            console.log(res)
+            console.error("获取视频地址失败",res)
             this.$message({
               message: '获取视频地址失败',
               type: 'warning'
             })
           }
         }).catch(err => {
-          console.log(err)
+          console.error(err)
           this.$message({
             message: '获取视频地址失败',
             type: 'warning'
@@ -153,7 +153,7 @@ export default {
         })
     },
     /**
-     * 获取相关视频 *** 视频 ***
+     * 获取相关推荐视频 *** 视频 ***
      */
     getRecomVideo: function () {
       HTTPS.getRecomVideo(this.id)
@@ -168,7 +168,6 @@ export default {
               }
               return temp
             })
-            console.log(this.recomVideo)
           } else {
             this.$message({
               message: '获取相关推荐视频失败',
@@ -187,6 +186,85 @@ export default {
     /**
      * 获取***MV***的信息
      */
+    getMvData: function () {
+      HTTPS.getMvData(this.id)
+      .then( res => {
+        if (res.data.code === 200) {
+          let tempData = res.data.data
+          this.video = {
+            avatarUrl: tempData.cover,
+            nickname: tempData.artistName,
+            title: tempData.name,
+            publishTime: tempData.publishTime,
+            playTime: tempData.playCount,
+            description: ""
+          }
+          this.loading = false
+        } else {
+          this.$message({
+            message: '获取MV信息失败',
+            type: 'warning'
+          })
+        }
+      }).catch( err => {
+        this.$message({
+          message: '获取MV信息失败',
+          type: 'warning'
+        })
+      }); 
+    },
+
+    /**
+     * 获取MV的相关推荐
+     */
+    getRecomMV: function () {
+      HTTPS.getRecommv(this.id)
+      .then( res => {
+        if (res.data.code === 200) {
+          const list = res.data.mvs
+          this.recomVideo = list.map(item => {
+            const temp = {
+              MvId: item.id,
+              picUrl: item.cover + '?param=140y80',
+              title: item.name
+            }
+            return temp
+          })
+        } else {
+          this.$message({
+            message: '获取相关推荐视频失败',
+            type: 'warning'
+          })
+        }
+      }).catch( err => {
+        this.$message({
+          message: '获取相关推荐视频失败',
+          type: 'warning'
+        })
+      });
+    },
+    /**
+     * 获取Mv的播放地址
+     */
+    getMvUrl: function () {
+      HTTPS.getMvUrl(this.id)
+      .then( res => {
+        if (res.data.code === 200) {
+          this.videoUrl = res.data.data.url
+        } else {
+          this.$message({
+            message: '获取视频地址失败',
+            type: 'warning'
+          })
+        }
+      }).catch( err => {
+        console.error(err)
+        this.$message({
+          message: '获取视频地址失败',
+          type: 'warning'
+        })
+      });
+    },
 
     /**
      * 跳转到Mv播放页，也就是当前页面
@@ -195,6 +273,12 @@ export default {
      */
     goMv: function (MvId) {
       this.id = MvId
+    },
+    // 时间戳改为正常显示时间
+    changeTime: function (time) {
+      time = new Date(time)
+      time = time.toLocaleDateString().replace(/\//g, '-') + ' ' + time.toTimeString().substr(0, 8)
+      return time
     }
   },
   watch: {
@@ -203,11 +287,7 @@ export default {
     }
   },
   filters: {
-    changeTime: function (time) {
-      time = new Date(time)
-      time = time.toLocaleDateString().replace(/\//g, '-') + ' ' + time.toTimeString().substr(0, 8)
-      return time
-    }
+    
   }
 }
 </script>
@@ -221,9 +301,6 @@ export default {
   margin: auto {
     top: 0px;
   }
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
   &::-webkit-scrollbar {
     width: 6px;
     opacity: 0;

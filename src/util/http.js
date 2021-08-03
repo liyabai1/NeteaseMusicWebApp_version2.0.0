@@ -257,6 +257,46 @@ function getVideoUrl (id) {
   })
 }
 
+/**
+ * 获取mv视频信息
+ * @param {number | string } id MvId
+ */
+function getMvData (id) {
+  return GET_DATA({
+    url: '/mv/detail',
+    params: {
+      mvid: id
+    }
+  })
+}
+
+/**
+ * 获取mv相关推荐视频
+ * @param {number | string } id MvId
+ */
+function getRecommv (id) {
+  return GET_DATA({
+    url: '/simi/mv',
+    params: {
+      mvid: id
+    }
+  })
+}
+
+/**
+ * 获取MV的播放地址
+ * @param {number | string} id MVid
+ * @returns 
+ */
+function getMvUrl (id) {
+  return GET_DATA({
+    url: '/mv/url',
+    params: {
+      id: id
+    }
+  })
+}
+
 const HTTPS = {
   login,
   getUserlist,
@@ -276,6 +316,9 @@ const HTTPS = {
   getSongInfo,
   getVideoData,
   getRecomVideo,
-  getVideoUrl
+  getVideoUrl,
+  getMvData,
+  getRecommv,
+  getMvUrl
 }
 export default HTTPS
