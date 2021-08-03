@@ -107,7 +107,7 @@ const routes = [
       },
       {
         path: '',
-        redirect: "song"
+        redirect: "serSong"
       }
     ]
   },
