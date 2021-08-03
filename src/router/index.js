@@ -81,12 +81,12 @@ const routes = [
     component: PersonalizedDetail
   },
   {
-    path: 'mvdetail/:MvId',
+    path: '/mvdetail/:MvId',
     name: "mvDetail",
     component: MvDetail
   },
   {
-    path: "search",
+    path: "/search",
     name: "search",
     component: SearchDetail,
     children: [
