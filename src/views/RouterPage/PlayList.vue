@@ -17,10 +17,10 @@
             <div class="creator">
               <el-image
               class="creator_img"
-              :src="listInfo.creator.avatarUrl + '?param=100y100'"
+              :src="listInfo.avatarUrl + '?param=100y100'"
               style="width: 35px;height: 35px"
               lazy></el-image>
-              <span>{{listInfo.creator.nickname}}</span>
+              <span>{{listInfo.nickname}}</span>
               <span>{{listInfo.createTime | toTime()}}创建</span>
             </div>
             <div class="tags">标签: <span>{{listInfo.tags.join("、")}}</span></div>
