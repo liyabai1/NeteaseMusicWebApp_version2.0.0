@@ -3,7 +3,8 @@
     <div
     class="itemBox"
     v-for="item in newMusic"
-    :key="item.songId">
+    :key="item.songId"
+    @click="playThis({musicId:item.songId, picUrl: item.picUrl, songName: item.songName, singer: item.singer})">
       <div class="itemContent">
         <i class="iconfont">&#xe6ba;</i>
         <el-image
@@ -20,12 +21,18 @@
   </div>
 </template>
 <script>
+import { ROOT } from '@/module/mutation-name.js'
 export default {
   props: {
     newMusic: Array
   },
   mounted () {
     // console.log('传入的最新音乐数据', this.newMusic)
+  },
+  methods: {
+    playThis: function (songInfo) {
+      this.$store.commit(ROOT.CHANGE_MUSIC, songInfo)
+    }
   }
 }
 </script>

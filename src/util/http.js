@@ -333,6 +333,6 @@ const HTTPS = {
   getMvData,
   getRecommv,
   getMvUrl,
-  getRecomSong
+  getRecomSong,
 }
 export default HTTPS

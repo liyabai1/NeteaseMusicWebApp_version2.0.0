@@ -24,7 +24,7 @@
           @focus="inputFouces = true"
           @blur="inputFouces = false"
           @keydown.enter="search()"
-          v-model="keyWords"
+          v-model.trim="keyWords"
           v-popover:historyContainer
         />
         <!-- 搜索历史弹出框 -->
@@ -282,6 +282,10 @@ export default {
      * 用户点击回车开始搜索
      */
     search () {
+      // 验证用户的搜索关键词 不能为空
+      if (!this.keyWords) {
+        return null;
+      }
       // 设置state的搜索关键词
       this.$store.commit(SEARCH_RES.SET_KEYWORDS,this.keyWords)
       // 跳转到搜索结果页面

@@ -1,7 +1,11 @@
 /** Root */
 const CHANGE_THEME = 'changeTheme'
+const CHANGE_MUSIC = "changeMusic"
+const SET_PLAYMUSIC_PICURL = "setPlayPic"
 export const ROOT = {
-  CHANGE_THEME
+  CHANGE_THEME,
+  CHANGE_MUSIC,
+  SET_PLAYMUSIC_PICURL
 }
 
 /** Login */

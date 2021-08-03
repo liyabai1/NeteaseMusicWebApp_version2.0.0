@@ -7,7 +7,12 @@
     animated>
       <div style="display: flex;align-items: flex-start;justify-content: space-between;width: 1100px;margin:auto;">
         <div class="videoInfo">
-          <video :src="videoUrl" autoplay loop controls></video>
+          <video 
+          :src="videoUrl" 
+          autoplay 
+          loop 
+          controls
+          ref="video"></video>
           <div class="videoContent">
             <div class="creator">
               <el-image
@@ -80,6 +85,9 @@ export default {
     // 使用Number() 进行判断 ， 为NaN的是视频，执行视频对应的API NaN === NaN ==> false  坑
     this.id = this.$route.params.MvId
     this.isMOrV(this.id)
+    
+    // 设置视频暂停时暂停音乐播放
+    
   },
   methods: {
     /**
@@ -284,6 +292,16 @@ export default {
   watch: {
     id: function (newV) {
       this.isMOrV(this.id)
+    },
+    // 监听loading,因为骨架屏的原因，初始的时候没有video这个DOM节点，所以无法对其进行操作
+    loading: function (newV) {
+      this.$nextTick(()=>{
+        let video = this.$refs.video;
+        // 当MV播放时，暂停音乐播放
+        video.onplaying = this.$store.state.musicplayer.pause()
+        // 当手动点击音乐播放时，暂停Mv的播放
+        
+      })
     }
   },
   filters: {

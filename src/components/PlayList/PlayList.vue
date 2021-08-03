@@ -11,9 +11,10 @@
       <div
       class="listContent"
       v-for="(item,index) in songData"
-      :key="item.songId">
+      :key="item.songId"
+      @click="playThis({musicId:item.songId, picUrl: item.picUrl, songName: item.songName, singer: item.singer})">
         <span class="index">
-          <div v-if="true">{{++index}}</div>
+          <div v-if="item.songId !== musicInfo.id">{{++index}}</div>
           <i v-else class="iconfont">&#xe61f;</i>
         </span>
         <span class="songname" style="display: flex;">
@@ -28,6 +29,7 @@
   </div>
 </template>
 <script>
+import { ROOT } from '@/module/mutation-name.js'
 import { changeTimeToMinute } from '@/module/fun.js'
 export default {
   data () {
@@ -37,7 +39,21 @@ export default {
     songData: Array
   },
   mounted () {
-    // console.log("传入数据：",this.songData)
+    console.log("传入数据：",this.songData)
+  },
+  methods: {
+    playThis: function (songInfo) {
+      this.$store.commit(ROOT.CHANGE_MUSIC, songInfo)
+      // 因为调用搜索歌曲的api返回的结果没有picUrl这个字段，图片不显示
+      // 所以调用一次获取歌曲详情API 😭
+      this.$store.dispatch("getSongInfo_",songInfo.musicId)
+    }
+  },
+  computed: {
+    // 当前播放的音乐信息
+    musicInfo: function () {
+      return this.$store.state.musicInfo
+    }
   },
   filters: {
     changeTimeView: function (time) {
@@ -78,6 +94,9 @@ export default {
   min-width: 50px;
   text-align: center;
   color: #b8b8b8;
+  & > i {
+    color: red;
+  }
 }
 .songname {
   width: toRem(300px);

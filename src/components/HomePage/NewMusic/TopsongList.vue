@@ -3,8 +3,15 @@
     <div
     class="listItem"
     v-for="(item,index) in listData"
-    :key="item.songId">
-      <span class="index">{{index+1}}</span>
+    :key="item.songId"
+    @click="playThis({musicId:item.songId, picUrl: item.picUrl, songName: item.songName, singer: item.singer})">
+      <span class="index">
+        <span 
+        v-if="item.songId !== musicInfo.id">{{index+1}}</span>
+        <i 
+        v-else 
+        class="iconfont">&#xe61f;</i>
+      </span>
       <span class="picUrl">
         <el-image
         :src="item.picUrl"
@@ -25,6 +32,7 @@
   </div>
 </template>
 <script>
+import { ROOT } from '@/module/mutation-name.js'
 import { changeTimeToMinute } from "@/module/fun.js"
 export default {
   props: {
@@ -34,6 +42,15 @@ export default {
     // vip: function (fee) {
     //   return (fee !== 0 && fee !== 8)
     // }
+    playThis: function (songInfo) {
+      this.$store.commit(ROOT.CHANGE_MUSIC, songInfo)
+    }
+  },
+  computed: {
+    // 当前播放的音乐信息
+    musicInfo: function () {
+      return this.$store.state.musicInfo
+    }
   },
   filters: {
     changeTimeView: function (time) {
@@ -69,6 +86,9 @@ export default {
     width: 60px;
     text-align: end;
     padding-right: 10px;
+    & > i {
+      color: red;
+    }
   }
   .picUrl {
     width: 60px;

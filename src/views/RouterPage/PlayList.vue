@@ -88,7 +88,8 @@ export default {
           songTime: item.dt,
           singer: item.ar.map(item=>item.name).join("/"),
           album: item.al.name,
-          fee: item.fee
+          fee: item.fee,
+          picUrl: item.al.picUrl
         }
         return temp
       })
@@ -96,7 +97,7 @@ export default {
     // 时间戳转为时间
     toTime: function (time) {
       time = new Date(time)
-      time = time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().substr(0, 8)
+      time = time.toLocaleDateString().replace(/\//g, "-")
       return time
     }
   }

@@ -41,6 +41,7 @@ const search = {
     },
     // 设置搜索单曲的结果
     [SEARCH_RES.SET_SEAR_SONG] (state, resData) {
+      console.log(resData)
       // 设置单曲的搜索结果数量
       resData.result.songCount && (state.songCount = resData.result.songCount)
       // 清空之前的搜索结果

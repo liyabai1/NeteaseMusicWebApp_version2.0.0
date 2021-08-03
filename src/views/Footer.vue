@@ -3,34 +3,55 @@
     <div class="player">
 
       <div class="songInfo">
-        <img src="" alt="封面" @click="viewSongPlay = !viewSongPlay">
+        <img 
+        :src="musicInfo.picUrl+'?param=50y50'" 
+        @click="viewSongPlay = !viewSongPlay">
         <div>
-          <p>歌名</p>
-          <p>歌手</p>
+          <p>{{musicInfo.songName}}</p>
+          <p>{{musicInfo.singer}}</p>
         </div>
       </div>
 
       <div class="playerBtns">
         <div class="btns">
           <i class="iconfont">&#xe6ac;</i>
-          <i class="iconfont" v-if="playing">&#xe61b;</i>
-          <i class="iconfont" v-else>&#xe6ba;</i>
+          <i 
+          class="iconfont" 
+          v-if="playing"
+          @click="playOrPause()">&#xe61b;</i>
+          <i 
+          class="iconfont" 
+          v-else
+          @click="playOrPause()">&#xe6ba;</i>
           <i class="iconfont">&#xe6a9;</i>
         </div>
         <div class="progress">
-          <span>00:00</span>
-          <div class="progressBar">
-            <div class="buffer"></div>
-            <div class="played" :data-theme="theme"></div>
+          <span>{{nowPlayTime}}</span>
+          <div 
+          class="progressBar"
+          ref="progressBar"
+          @click="changeCurrent($event)">
+            <div 
+            class="buffer"
+            :style="{width: bufferPer + '%'}"></div>
+            <div 
+            class="played" 
+            :data-theme="theme"
+            :style="{width: playWidth + '%'}"></div>
           </div>
-          <span>05:20</span>
+          <span>{{duration}}</span>
         </div>
       </div>
 
       <div class="volBtnBox">
         <i class="iconfont">&#xe61f;</i>
-        <div class="volBar">
-          <div :data-theme="theme"></div>
+        <div 
+        class="volBar"
+        ref="volBar"
+        @click="changeVol($event)">
+          <div 
+          :data-theme="theme"
+          :style="{width: volWidth + '%'}"></div>
         </div>
       </div>
 
@@ -44,12 +65,24 @@
 </template>
 <script>
 import SongPlay from "@/components/SongPlay"
+import { changeTimeToMinute } from "@/module/fun.js"
 export default {
   data () {
     return {
       playing: false,
       viewSongPlay: false,
-      height: 0
+      // 音乐播放详情页高度
+      height: 0,
+      // 当前播放百分比
+      playWidth: 0,
+      // 缓冲百分比
+      bufferPer: 0,
+      // 当前播放时间的显示
+      nowPlayTime: "00:00",
+      // 歌曲总时长
+      duration: "00:00",
+      // 音量百分比
+      volWidth: 100
     }
   },
   components:{
@@ -58,15 +91,118 @@ export default {
   mounted(){
     // 设置歌曲播放详情页的高度
     this.setPlayPageH()
+    this.musicplayer.autoplay = true
+    // this.musicplayer.src = "https://music.163.com/song/media/outer/url?id=1481966854.mp3"
+    // audio 正在缓冲
+    this.musicplayer.onprogress = this.onmusicloading
+    // 为audio设置timeupdate事件，用于控制播放进度条
+    this.musicplayer.ontimeupdate = this.ontimeupdate
+    // audio 开始播放了
+    this.musicplayer.onplaying = this.onplay
+    this.musicplayer.onpause = this.onpause
   },
   methods:{
     setPlayPageH(){
       this.height = window.innerHeight - 70;
+    },
+
+    /**
+     * 歌曲的播放操作
+     */
+    // 播放或者暂停
+    playOrPause: function () {
+      this.musicplayer.paused 
+      ? this.musicplayer.play()
+      : this.musicplayer.pause()
+    },
+    // 下一曲
+
+    // 上一曲
+
+
+    // 手动改变当前播放位置
+    changeCurrent: function (event) {
+      // 获取点击位置
+      let offsetX = event.offsetX
+      let allWidth = window.getComputedStyle(this.$refs.progressBar).width;
+          allWidth = parseInt(allWidth)
+      // 进度百分比
+      let percent = offsetX/allWidth;
+      // 前进到的时间
+      this.$store.state.musicplayer.currentTime = this.$store.state.musicplayer.duration * percent
+    },
+
+    // 改变当前音量值
+    changeVol: function (event) {
+      let offsetX = event.offsetX
+      let allWidth = window.getComputedStyle(this.$refs.volBar).width;
+          allWidth = parseInt(allWidth)
+      // 进度百分比
+      let percent = offsetX/allWidth
+      this.$store.state.musicplayer.volume = percent;
+      // 改变显示
+      this.volWidth = percent*100
+    },
+
+    // 正在缓冲
+    onmusicloading: function () {
+      let buffer = this.musicplayer.buffered
+      let bufferedTime = buffer.end(buffer.length - 1)
+      let bufferPercent = ((bufferedTime/this.musicplayer.duration)*100).toFixed(2)
+      this.bufferPer = bufferPercent
+    },
+
+    // 正在播放事件
+    ontimeupdate: function () {
+      // 获取当前的播放时间
+      let currentTime = this.musicplayer.currentTime;
+      // 获取歌曲总时长
+      let duration = this.musicplayer.duration;
+      // 当前播放的百分比
+      let percent = ((currentTime/duration)*100).toFixed(2)
+      // 设置百分比
+      this.playWidth = percent
+      // 设置播放时间显示
+      this.nowPlayTime = changeTimeToMinute(currentTime)
+    },
+
+    // 媒体开始播放了
+    onplay: function () {
+      this.playing = true
+      // 设置总时长显示
+      let duration = this.musicplayer.duration;
+      this.duration = changeTimeToMinute(duration)
+      // 暂停MV的播放
+      
+    },
+    // 媒体暂停了
+    onpause: function () {
+      this.playing = false
     }
   },
   computed: {
+    // 控制主题颜色
     theme: function (){
       return this.$store.state.theme
+    },
+    // 音乐播放器
+    musicplayer: function () {
+      return this.$store.state.musicplayer
+    },
+    // 当前播放的音乐id
+    musicId: function () {
+      return this.$store.state.musicInfo.id
+    },
+    // 当前播放歌曲的信息 
+    musicInfo: function () {
+      return this.$store.state.musicInfo
+    }
+  },
+  watch: {
+    // 监听当前播放ID的变化
+    musicId: function (newV) {
+      this.$store.state.musicplayer.src = `https://music.163.com/song/media/outer/url?id=${newV}.mp3`;
+
     }
   }
 }
@@ -112,6 +248,10 @@ export default {
           text-overflow: ellipsis;
           white-space: nowrap;
         }
+        & > p:nth-of-type(2) {
+          font-size: 13px;
+          color: #aaaaaa;
+        }
       }
     }
 
@@ -155,7 +295,7 @@ export default {
           .buffer {
             position: absolute;
             height: 100%;
-            width: 50%;
+            width: 0%;
             background-color: #888888;
             border-radius: 2px;
             &:hover {
@@ -166,7 +306,7 @@ export default {
           .played {
             position: absolute;
             height: 100%;
-            width: 20%;
+            width: 0%;
             border-radius: 2px;
             &:hover {
               border-radius: 3px;
