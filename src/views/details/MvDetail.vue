@@ -51,7 +51,7 @@
 <script>
 import HTTPS from '@/util/http.js'
 export default {
-  data() {
+  data () {
     return {
       // 是否正在加载
       loading: true,
@@ -63,7 +63,7 @@ export default {
       recomVideo: [],
       // 视频信息
       video: {},
-      /** 统一视频和MV的格式*/
+      /** 统一视频和MV的格式 */
       /** 作者头像 | avatarUrl */
       /** 作者昵称 | nickname  */
       /** 视频标题 | title     */
@@ -74,9 +74,9 @@ export default {
       videoUrl: ''
     }
   },
-  mounted() {
-    console.log("刷新")
-    // 因为视频可能为MV，也可能为视频 
+  mounted () {
+    console.log('刷新')
+    // 因为视频可能为MV，也可能为视频
     // MV的id为纯数字， 视频为字母和数字的组合
     // 使用Number() 进行判断 ， 为NaN的是视频，执行视频对应的API NaN === NaN ==> false  坑
     this.id = this.$route.params.MvId
@@ -87,26 +87,26 @@ export default {
     /**
      * 判断当前的id是否为MV或视频
      */
-    isMOrV : function (id) {
-      if ( Number(id).toString() === "NaN" ) {
-        this.type = "video"
-        this.getVideoUrl();   // 获取视频地址
-        this.getRecomVideo(); // 获取相关推荐
-        this.getVideoData();  // 获取视频信息
+    isMOrV: function (id) {
+      if (Number(id).toString() === 'NaN') {
+        this.type = 'video'
+        this.getVideoUrl() // 获取视频地址
+        this.getRecomVideo() // 获取相关推荐
+        this.getVideoData() // 获取视频信息
       } else {
-        this.type = "mv"
+        this.type = 'mv'
       }
     },
     /**
      * 获取***视频***的信息
      */
-    getVideoData: function() {
+    getVideoData: function () {
       this.loading = true
       HTTPS.getVideoData(this.id)
         .then((res) => {
           if (res.data.code === 200) {
             console.log(res.data)
-            let tempData = res.data.data;
+            const tempData = res.data.data
             this.video = {
               avatarUrl: tempData.avatarUrl,
               nickname: tempData.creator.nickname,
@@ -115,42 +115,42 @@ export default {
               playTime: tempData.playTime,
               description: tempData.description
             }
-            this.loading = false;
+            this.loading = false
           } else {
             this.$message({
               message: '获取视频信息失败',
-              type: "warning"
+              type: 'warning'
             })
           }
         }).catch((err) => {
           this.$message({
             message: '获取视频信息失败',
-            type: "warning"
+            type: 'warning'
           })
-        });
+        })
     },
     /**
      * 获取视频的播放地址
      */
     getVideoUrl: function () {
       HTTPS.getVideoUrl(this.id)
-        .then( res => {
+        .then(res => {
           if (res.data.code === 200) {
             this.videoUrl = res.data.urls[0].url
           } else {
             console.log(res)
             this.$message({
               message: '获取视频地址失败',
-              type: "warning"
+              type: 'warning'
             })
           }
-        }).catch( err => {
+        }).catch(err => {
           console.log(err)
           this.$message({
             message: '获取视频地址失败',
-            type: "warning"
+            type: 'warning'
           })
-        });
+        })
     },
     /**
      * 获取相关视频 *** 视频 ***
@@ -158,12 +158,12 @@ export default {
     getRecomVideo: function () {
       HTTPS.getRecomVideo(this.id)
         .then(res => {
-          if (res.data.code === 200)  {
-            let list  = res.data.data
-            this.recomVideo = list.map( item => {
-              let temp = {
+          if (res.data.code === 200) {
+            const list = res.data.data
+            this.recomVideo = list.map(item => {
+              const temp = {
                 MvId: item.vid,
-                picUrl: item.coverUrl + "?param=140y80",
+                picUrl: item.coverUrl + '?param=140y80',
                 title: item.title
               }
               return temp
@@ -172,32 +172,30 @@ export default {
           } else {
             this.$message({
               message: '获取相关推荐视频失败',
-              type: "warning"
+              type: 'warning'
             })
           }
-        }).catch( err => {
-          console.error("获取推荐视频失败：",err)
+        }).catch(err => {
+          console.error('获取推荐视频失败：', err)
           this.$message({
             message: '获取相关推荐视频失败',
-            type: "warning"
+            type: 'warning'
           })
-        });
+        })
     },
-
 
     /**
      * 获取***MV***的信息
      */
 
-
     /**
-     * 跳转到Mv播放页，也就是当前页面 
+     * 跳转到Mv播放页，也就是当前页面
      * 由于页面还是在该页面，所以改变当前页面的id值即可，监听id的变化，当发生改变时，重新获取新的数据进行渲染
      * 缺点是点击上一页返回时，不会返回到上一个视频播放页
      */
     goMv: function (MvId) {
       this.id = MvId
-    },
+    }
   },
   watch: {
     id: function (newV) {
@@ -207,7 +205,7 @@ export default {
   filters: {
     changeTime: function (time) {
       time = new Date(time)
-      time = time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().substr(0, 8)
+      time = time.toLocaleDateString().replace(/\//g, '-') + ' ' + time.toTimeString().substr(0, 8)
       return time
     }
   }
