@@ -6,7 +6,7 @@ import { api } from '@/util/api.js'
  */
 export const GET_DATA = axios.create({
   baseURL: api,
-  timeout: 5000
+  timeout: 10000
 })
 // 添加请求拦截器
 GET_DATA.interceptors.request.use(function (config) {

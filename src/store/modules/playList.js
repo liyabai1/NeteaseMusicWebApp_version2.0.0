@@ -26,7 +26,6 @@ const pl = {
     },
     // 歌单信息
     [PLAYLIST.SET_PLAYLIST_INFO] (state, playlistData) {
-      console.log(playlistData.tags)
       let tempData = {
         name: playlistData.name,
         coverImgUrl: playlistData.coverImgUrl,
@@ -59,6 +58,7 @@ const pl = {
         .then( res => {
           if (res.data.code === 200) {
             store.commit( PLAYLIST.SET_PLAYLIST_INFO, res.data.playlist )
+            store.commit(PLAYLIST.SET_LISTLOAD_STATUS, false)
             // 返回Ids
             resolve(res.data.playlist.trackIds.map(item=> item.id).join(","))
           }
@@ -69,13 +69,48 @@ const pl = {
       this.dispatch("getSongInfo",playListIds)
     },
 
+    // 获取每日推荐歌曲信息
+    getRecomSong: async function (store,cookie) {
+      store.commit(PLAYLIST.SET_LISTLOAD_STATUS, true)
+      let playListIds = await new Promise( (resolve, reject) => {
+        HTTPS.getRecomSong(cookie)
+        .then( res => {
+          if (res.data.code === 200) {
+            // 拟造每日推荐的歌单信息
+            let playListInfo  = {
+              name: "每日歌曲推荐",
+              // 封面取第一首歌的封面
+              coverImgUrl: res.data.data.dailySongs[0].al.picUrl,
+              // 创建者头像取用户本人头像
+              creator: {
+                avatarUrl: localStorage.getItem("avatarUrl"),
+                nickname: "***",
+              },
+              createTime: (new Date()).valueOf(),
+              tags: [],
+              trackCount: res.data.data.dailySongs.length,
+              playCount: 0,
+              description: "每日歌曲推荐",
+              tracks: []
+            }
+            store.commit( PLAYLIST.SET_PLAYLIST_INFO, playListInfo )
+            store.commit(PLAYLIST.SET_LISTLOAD_STATUS, false)
+            let ids = res.data.data.dailySongs.map(item=>item.id).join(",")
+            resolve(ids)
+          }
+        })
+        .catch(err => console.error("请求每日推荐歌曲信息失败",err))
+      } )
+      // 请求歌曲详情
+      this.dispatch("getSongInfo",playListIds)
+    },
+
     // 获取歌曲详情
     getSongInfo: function (store,ids) {
       HTTPS.getSongInfo(ids)
         .then( res => {
           if (res.data.code === 200) {
             store.commit(PLAYLIST.SET_SONG_INFO, res.data.songs)
-            store.commit(PLAYLIST.SET_LISTLOAD_STATUS, false)
           }
         })
         .catch( err => console.error("获取歌曲详情失败：",err))

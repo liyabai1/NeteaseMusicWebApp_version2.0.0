@@ -50,7 +50,15 @@ export default {
     PlaylistCom
   },
   mounted () {
-    this.$store.dispatch("getListInfo", {listId: this.$route.params.listId,cookie: localStorage.getItem("cookie")})
+    // 因为首页在登录后有一个每日推荐歌单，自定义其歌单id为0，
+    // 因此当歌单Id为0时，需要搜索每日推荐歌曲
+    if ( Number(this.$route.params.listId) !== 0) {
+      this.$store.dispatch("getListInfo", {listId: this.$route.params.listId,cookie: localStorage.getItem("cookie")})
+    } else {
+      // 获取每日推荐
+      this.$store.dispatch('getRecomSong', localStorage.getItem("cookie"))
+    }
+    
   },
   methods: {
     

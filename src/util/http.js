@@ -297,6 +297,19 @@ function getMvUrl (id) {
   })
 }
 
+/**
+ * 获取每日推荐歌曲
+ * @param {string} cookie 
+ */
+function getRecomSong(cookie){
+  return GET_DATA({
+    url: '/recommend/songs',
+    params: {
+      cookie: cookie
+    }
+  })
+}
+
 const HTTPS = {
   login,
   getUserlist,
@@ -319,6 +332,7 @@ const HTTPS = {
   getVideoUrl,
   getMvData,
   getRecommv,
-  getMvUrl
+  getMvUrl,
+  getRecomSong
 }
 export default HTTPS
