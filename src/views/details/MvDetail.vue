@@ -1,43 +1,51 @@
 <template>
   <div class="videoContainer">
-    <div class="videoInfo">
-      <video :src="videoUrl" autoplay loop controls></video>
-      <div class="videoContent">
-        <div class="creator">
-          <el-image
-          style="width: 50px; height: 50px"
-          :src="video.avatarUrl + '?param=50y50'"></el-image>
-          <span>{{video.creator.nickname}}</span>
-        </div>
-        <div class="title">{{video.title}}</div>
-        <div class="publishTime">
-          <span>发布：<span>{{video.publishTime | changeTime()}}</span></span>
-          <span>播放：<span>{{video.playTime}}次</span></span>
-        </div>
-        <div class="des">{{video.description}}</div>
-      </div>
-    </div>
-    <div class="recomVideo">
-      <p>推荐视频</p>
-      <div class="recomContent">
-        <div
-        class="item"
-        v-for="item in recomVideo"
-        :key="item.MvId"
-        @click="goMv(item.MvId)">
-          <div class="imageBox">
-            <!-- 后续可添加时长 -->
-            <el-image
-            style="width:140px;height:80px;"
-            :src="item.picUrl"
-            lazy></el-image>
-          </div>
-          <div class="content">
-            <p>{{item.title}}</p>
+    <el-skeleton
+    style="width:50%"
+    :loading="loading"
+    :row="10"
+    animated>
+      <div>
+        <div class="videoInfo">
+          <video :src="videoUrl" autoplay loop controls></video>
+          <div class="videoContent">
+            <div class="creator">
+              <el-image
+              style="width: 50px; height: 50px"
+              :src="video.avatarUrl + '?param=50y50'"></el-image>
+              <span>{{video.nickname}}</span>
+            </div>
+            <div class="title">{{video.title}}</div>
+            <div class="publishTime">
+              <span>发布：<span>{{video.publishTime | changeTime()}}</span></span>
+              <span>播放：<span>{{video.playTime}}次</span></span>
+            </div>
+            <div class="des">{{video.description}}</div>
           </div>
         </div>
+        <div class="recomVideo">
+          <p>推荐视频</p>
+          <div class="recomContent">
+            <div
+            class="item"
+            v-for="item in recomVideo"
+            :key="item.MvId"
+            @click="goMv(item.MvId)">
+              <div class="imageBox">
+                <!-- 后续可添加时长 -->
+                <el-image
+                style="width:140px;height:80px;"
+                :src="item.picUrl"
+                lazy></el-image>
+              </div>
+              <div class="content">
+                <p>{{item.title}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </el-skeleton>
   </div>
 </template>
 <script>
@@ -45,13 +53,23 @@ import HTTPS from '@/util/http.js'
 export default {
   data() {
     return {
+      // 是否正在加载
+      loading: true,
+      // 类型 ： 视频（video） or  MV
       type: null,
       // 视频或mv的id
       id: null,
       // 相关推荐
       recomVideo: [],
       // 视频信息
-      video: null,
+      video: {},
+      /** 统一视频和MV的格式*/
+      /** 作者头像 | avatarUrl */
+      /** 作者昵称 | nickname  */
+      /** 视频标题 | title     */
+      /** 发布时间 | publishTime */
+      /** 播放次数 | playTime */
+      /** 视频描述 | description */
       // 视频播放地址
       videoUrl: ''
     }
@@ -64,7 +82,6 @@ export default {
     this.id = this.$route.params.MvId
     console.log(this.id)
     this.isMOrV(this.id)
-    this.getRecomVideo()
   },
   methods: {
     /**
@@ -84,14 +101,32 @@ export default {
      * 获取***视频***的信息
      */
     getVideoData: function() {
+      this.loading = true
       HTTPS.getVideoData(this.id)
         .then((res) => {
           if (res.data.code === 200) {
             console.log(res.data)
-            this.video = res.data.data
+            let tempData = res.data.data;
+            this.video = {
+              avatarUrl: tempData.avatarUrl,
+              nickname: tempData.creator.nickname,
+              title: tempData.title,
+              publishTime: tempData.publishTime,
+              playTime: tempData.playTime,
+              description: tempData.description
+            }
+            this.loading = false;
+          } else {
+            this.$message({
+              message: '获取视频信息失败',
+              type: "warning"
+            })
           }
         }).catch((err) => {
-          
+          this.$message({
+            message: '获取视频信息失败',
+            type: "warning"
+          })
         });
     },
     /**
@@ -181,6 +216,8 @@ export default {
 <style lang="scss" scoped>
 .videoContainer {
   width: 1100px;
+  flex: 1;
+  height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   margin: auto {
@@ -188,6 +225,15 @@ export default {
   }
   display: flex;
   align-items: flex-start;
+  justify-content: center;
+  &::-webkit-scrollbar {
+    width: 6px;
+    opacity: 0;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #aaaaaa;
+    border-radius: 3px;
+  }
   .videoInfo {
     display: inline-block;
     width: 750px;
