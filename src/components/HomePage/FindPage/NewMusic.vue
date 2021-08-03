@@ -25,7 +25,7 @@ export default {
     newMusic: Array
   },
   mounted () {
-    console.log('传入的最新音乐数据', this.newMusic)
+    // console.log('传入的最新音乐数据', this.newMusic)
   }
 }
 </script>

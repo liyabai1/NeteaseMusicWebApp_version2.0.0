@@ -65,7 +65,6 @@ const homeModule = {
      * 推荐歌单数据  登录状态
      */
     [HOME.SET_RECOM_LIST_LOGIN] (state, recomList) {
-      console.log(recomList.recommend)
       recomList = recomList.recommend
       recomList.splice(7)
       const temp = []
@@ -273,7 +272,6 @@ const homeModule = {
         .then(
           res => {
             if (res.data.code === 200) {
-              console.log(res.data)
               store.commit(HOME.SET_HOME_RECOMMV,res.data.result)
             } else {
               console.error("获取首页推荐MV失败",res)
