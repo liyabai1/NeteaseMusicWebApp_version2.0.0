@@ -90,7 +90,6 @@ export default {
     margin-left: 10px;
     margin: 10px {
       right: 0px;
-      left: 0px;
     }
   }
   .listNameBox {

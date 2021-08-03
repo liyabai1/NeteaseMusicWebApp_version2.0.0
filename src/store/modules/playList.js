@@ -90,7 +90,7 @@ const pl = {
               tags: [],
               trackCount: res.data.data.dailySongs.length,
               playCount: 0,
-              description: "每日歌曲推荐",
+              description: "根据你的音乐口味生成，每天6:00更新",
               tracks: []
             }
             store.commit( PLAYLIST.SET_PLAYLIST_INFO, playListInfo )

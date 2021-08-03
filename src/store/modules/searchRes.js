@@ -147,7 +147,7 @@ const search = {
       if (search.code === 200) {
         // 如果搜索的是单曲
         Number(type) === 1 && store.commit(SEARCH_RES.SET_SEAR_SONG, search)
-        // 搜索Mv => 改为了视频
+        // 搜索视频
         Number(type) === 1014 && store.commit(SEARCH_RES.SET_SEAR_MV, search)
         // 搜索歌单
         Number(type) === 1000 && store.commit(SEARCH_RES.SET_SEAR_LIST, search)

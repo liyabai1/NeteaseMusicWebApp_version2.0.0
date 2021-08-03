@@ -45,10 +45,10 @@ export default new Vuex.Store({
       }
     },
     
-    // // 设置图片
-    // [ROOT.SET_PLAYMUSIC_PICURL] (state,picUrl) {
-    //   state.musicInfo.picUrl = picUrl
-    // }
+    // 设置图片
+    [ROOT.SET_PLAYMUSIC_PICURL] (state,picUrl) {
+      state.musicInfo.picUrl = picUrl
+    }
   },
   actions: {
     // 获取歌曲详情，只为显示一张图片  艹 fuck  

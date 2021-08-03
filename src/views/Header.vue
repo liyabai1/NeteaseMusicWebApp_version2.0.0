@@ -147,10 +147,10 @@ export default {
       passwords: null,
       // 主题选择
       themeColor: [
-        {name:'red',color: '#ff0000'},
-        {name:'green',color: '#00ff00'},
-        {name:'blue',color: '#0000ff'},
-        {name:'yellow',color: '#ffff00'},
+        {name:'red',color: '#fd544e'},
+        {name:'green',color: '#2bb669'},
+        {name:'blue',color: '#4791eb'},
+        {name:'yellow',color: '#e2ab12'},
         {name:'black',color: '#222222'},
         {name: "pink",color: '#fa5793'}
       ]
