@@ -29,6 +29,8 @@ export default new Vuex.Store({
       songName: null,
       singer: null
     },
+    // 歌词
+    lyric: '',
   },
   mutations: {
     // 改变主题

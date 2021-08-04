@@ -352,6 +352,19 @@ function getFloorComment(parentCommentId, id, type, limit, time){
   })
 }
 
+/**
+ * 
+ * @param {number | string} id  歌曲id
+ */
+function getLrc(id){
+  return GET_DATA({
+    url:"/lyric",
+    params: {
+      id: id
+    }
+  })
+}
+
 const HTTPS = {
   login,
   getUserlist,
@@ -377,6 +390,7 @@ const HTTPS = {
   getMvUrl,
   getRecomSong,
   getComment,
-  getFloorComment
+  getFloorComment,
+  getLrc
 }
 export default HTTPS
