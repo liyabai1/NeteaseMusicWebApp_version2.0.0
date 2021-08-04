@@ -30,7 +30,8 @@
           <!-- 评论信息 -->
           <comment-view
           :id="this.id"
-          :type="this.type"></comment-view>
+          :type="this.type"
+          :key="this.id"></comment-view>
         </div>
         <div class="recomVideo">
           <p>推荐视频</p>

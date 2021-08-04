@@ -23,7 +23,7 @@
               v-if="item.showFloorComment.replyCount !== 0"
               @click="showFloor(item.commentId)">{{item.showFloorComment.replyCount}}条回复 > </div>
               <div class="liked">
-                <i class="iconfont">&#xe629;</i>
+                <i class="iconfont">&#xe609;</i>
                 <span>{{item.likedCount}}</span>
               </div>
             </div>

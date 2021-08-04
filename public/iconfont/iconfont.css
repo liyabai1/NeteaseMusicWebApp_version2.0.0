@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1627706694524') format('truetype');
+  src: url('iconfont.ttf?t=1628079189500') format('truetype');
 }
 
 .iconfont {
@@ -37,6 +37,10 @@
 
 .icon-xihuan:before {
   content: "\e501";
+}
+
+.icon-zan:before {
+  content: "\e609";
 }
 
 .icon-1_music82:before {

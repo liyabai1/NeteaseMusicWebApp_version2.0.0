@@ -55,6 +55,13 @@
       "unicode_decimal": 58625
     },
     {
+      "icon_id": "9074813",
+      "name": "赞",
+      "font_class": "zan",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
       "icon_id": "15262786",
       "name": "1_music82",
       "font_class": "1_music82",
