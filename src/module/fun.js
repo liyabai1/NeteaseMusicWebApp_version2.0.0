@@ -22,3 +22,27 @@ export function changeTimeToMinute (time) {
   s < 10 ? s = `0${s}` : s
   return m + ':' + s
 }
+
+/**
+ * 歌词转换
+ */
+export function toLrcArr(lrc) {
+	let reg = /\[\d{2,}:\d{2,}.\d{2,}\]/g
+	let tiemArr = lrc.match(reg)
+	let ctxArr = lrc.split(reg).splice(1)
+	tiemArr = tiemArr.map( item => {
+		let reg = /(?!=\])\d{2,}:\d{2,}.\d{2,}(?!=\])/g
+		time = item.match(reg)[0]
+		let min = time.split(":")[0]
+		let sec = time.split(":")[1]
+		let ms = ((Number(min)*60 + Number(sec))*1000).toFixed(0)
+		return ms
+	})
+	let lrcArr = tiemArr.map( (item,index)=>{
+		return {
+			time: item,
+			ctx: ctxArr[index]
+		}
+	})
+	return lrcArr
+}

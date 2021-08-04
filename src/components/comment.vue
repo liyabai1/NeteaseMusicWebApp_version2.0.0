@@ -100,7 +100,7 @@ export default {
         if (res.data.code === 200) {
           let resData = res.data.data
           // 设置所需信息
-          console.log(resData.comments)
+          // console.log(resData.comments)
           this.hasmore = resData.hasMore;
           this.comment = resData.comments;
           this.loading = false

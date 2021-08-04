@@ -7,35 +7,47 @@
     </div>
     <lrc 
     :key="musicInfo.id"
-    :lyric="lrcData"
     style="width: 550px;height: 600px;"></lrc>
+    <comment
+    style="margin:auto;"
+    :id="this.$store.state.musicInfo.id"
+    :type='0'></comment>
   </div>
 </template>
 <script>
 import lrc from '@/components/lrc'
+import comment from '@/components/comment'
 export default {
   data(){
     return {
-      lrcData: []
+      
     }
   },
   components: {
-    lrc
+    lrc,
+    comment
   },
   mounted(){
-    // 获取歌词
-    
+    this.$store.dispatch('getLyric')
   },
   computed: {
     musicInfo: function () {
       return this.$store.state.musicInfo
+    },
+    // 歌词信息
+    lrcData: function () {
+      return this.$store.state.lyric
     }
+  },
+  watch: {
+    
   }
 }
 </script>
 <style lang="scss" scoped>
 .songPlayBox {
   height: 100%;
+  overflow: auto;
   background-image: linear-gradient(
     to bottom,
     #525252ff,

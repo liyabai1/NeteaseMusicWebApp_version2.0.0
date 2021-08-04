@@ -31,6 +31,8 @@ export default new Vuex.Store({
     },
     // 歌词
     lyric: '',
+    // 歌词ID === 歌曲id 用于判断是否需要获取数据
+    lyricId: 0
   },
   mutations: {
     // 改变主题
@@ -50,6 +52,11 @@ export default new Vuex.Store({
     // 设置图片
     [ROOT.SET_PLAYMUSIC_PICURL] (state,picUrl) {
       state.musicInfo.picUrl = picUrl
+    },
+
+    [ROOT.SET_LRC] (state, lrcData) {
+      state.lyric = lrcData;
+      state.lyricId = state.musicInfo.id
     }
   },
   actions: {
@@ -63,7 +70,20 @@ export default new Vuex.Store({
         }
       })
       .catch( err => console.error(err) )
-    }
+    },
+
+    /**
+     * 获取歌词
+     */
+     getLyric: function (store) {
+       HTTPS.getLrc(store.state.musicInfo.id)
+       .then( res => {
+        res.data.code === 200 
+          ? store.commit(ROOT.SET_LRC, res.data.lrc.lyric)
+          : console.error("获取歌词失败：",res)
+       })
+       .catch( err => console.error("获取歌词失败",err) )
+     }
   },
   modules: {
     login:loginModule,
