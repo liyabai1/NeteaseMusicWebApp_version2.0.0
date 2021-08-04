@@ -1,38 +1,50 @@
 <template>
   <div class="commentContainer">
     <div
-    class="item"
-    v-for="item in comment"
-    :key="item.commentId">
-      <div class="comment">
-        <div class="imageBox">
-          <el-image 
-          style="width:50px;height:50px;"
-          :src="item.user.avatarUrl + '?param=50y50'" 
-          lazy></el-image>
-        </div>
-        <div class="infoBox">
-          <p class="nickname">{{item.user.nickname}}</p>
-          <p class="content">{{item.content}}</p>
-          <p class="time">{{item.time | changeView()}}</p>
-          <div class="info">
-            <div 
-            class="replay"
-            v-if="item.showFloorComment.replyCount !== 0"
-            @click="showFloor(item.commentId)">{{item.showFloorComment.replyCount}}条回复 > </div>
-            <div class="liked">
-              <i class="iconfont">&#xe629;</i>
-              <span>{{item.likedCount}}</span>
+    v-if="!loading">
+      <div
+      class="item"
+      v-for="item in comment"
+      :key="item.commentId">
+        <div class="comment">
+          <div class="imageBox">
+            <el-image 
+            style="width:50px;height:50px;"
+            :src="item.user.avatarUrl + '?param=50y50'" 
+            lazy></el-image>
+          </div>
+          <div class="infoBox">
+            <p class="nickname">{{item.user.nickname}}</p>
+            <p class="content">{{item.content}}</p>
+            <p class="time">{{item.time | changeView()}}</p>
+            <div class="info">
+              <div 
+              class="replay"
+              v-if="item.showFloorComment.replyCount !== 0"
+              @click="showFloor(item.commentId)">{{item.showFloorComment.replyCount}}条回复 > </div>
+              <div class="liked">
+                <i class="iconfont">&#xe629;</i>
+                <span>{{item.likedCount}}</span>
+              </div>
             </div>
           </div>
         </div>
+        <!-- 楼层评论 -->
+        <floor-comment 
+        v-if="show && floorSet.has(item.commentId)" 
+        :id='id'
+        :parentCommentId="item.commentId"
+        :type="type"></floor-comment>
       </div>
-      <!-- 楼层评论 -->
-      <floor-comment v-if="show && floorSet.has(item.commentId)" :id='id'></floor-comment>
     </div>
+    <div v-else>加载中....</div>
     
-    
-
+    <!-- 分页器 -->
+    <div class="pagnations">
+      <i class="iconfont" @click="searchPre()">&#xe620;</i>
+      <span>{{pageNo}}</span>
+      <i class="iconfont" @click="searchNext()">&#xe629;</i>
+    </div>
   </div>
 </template>
 <script>
@@ -41,7 +53,8 @@ import  HTTPS  from "@/util/http.js"
 export default {
   data(){
     return {
-      show: false,
+      // 正在加载
+      loading: true,
       // 是否还有更多的评论
       hasmore: true,
       // 页数
@@ -72,6 +85,7 @@ export default {
      * 当获取视频的评论时， sortType 的参数设置为： 99： 推荐排序，2:按热度排序,3:按时间排序
      * 当获取MV的评论时， sortType 的参数与文档一致
      */
+    console.log(this.id,this.type)
     Number(this.type) === 5 && (this.sortType = 99)
     this.getComments()
   },
@@ -79,6 +93,7 @@ export default {
     
     // 获取评论
     getComments: function () {
+      this.loading = true
       HTTPS.getComment(this.id, this.type, this.pageNo, this.pageSize, this.sortType)
       .then(res => {
         if (res.data.code === 200) {
@@ -87,6 +102,7 @@ export default {
           console.log(resData.comments)
           this.hasmore = resData.hasMore;
           this.comment = resData.comments;
+          this.loading = false
         }
       })
       .catch(err => console.error(err))
@@ -98,6 +114,21 @@ export default {
       this.floorSet.add(commentId)
       this.show = true
       console.log(this.floorSet)
+    },
+
+    // 上一页
+    searchPre: function () {
+      this.pageNo !== 1 && (()=>{
+        this.pageNo --;
+        this.getComments()
+      })() 
+    },
+    // 下一页
+    searchNext: function () {
+      this.hasmore && (()=>{
+        this.pageNo++;
+        this.getComments()
+      })()
     }
   },
   filters: {
@@ -166,6 +197,30 @@ export default {
           }
         }
       }
+    }
+  }
+}
+.pagnations {
+  width: 200px;
+  height: 50px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+  }
+  i {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      color: red;
     }
   }
 }
