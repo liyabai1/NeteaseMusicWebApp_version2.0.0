@@ -27,6 +27,10 @@
             </div>
             <div class="des">{{video.description}}</div>
           </div>
+          <!-- 评论信息 -->
+          <comment-view
+          :id="this.id"
+          :type="this.type"></comment-view>
         </div>
         <div class="recomVideo">
           <p>推荐视频</p>
@@ -55,6 +59,7 @@
 </template>
 <script>
 import HTTPS from '@/util/http.js'
+import commentView from '@/components/comment'
 export default {
   data () {
     return {
@@ -79,14 +84,15 @@ export default {
       videoUrl: ''
     }
   },
+  components: {
+    commentView
+  },
   mounted () {
     // 因为视频可能为MV，也可能为视频
     // MV的id为纯数字， 视频为字母和数字的组合
     // 使用Number() 进行判断 ， 为NaN的是视频，执行视频对应的API NaN === NaN ==> false  坑
     this.id = this.$route.params.MvId
     this.isMOrV(this.id)
-    
-    // 设置视频暂停时暂停音乐播放
     
   },
   methods: {
@@ -95,13 +101,13 @@ export default {
      */
     isMOrV: function (id) {
       if (Number(id).toString() === 'NaN') {
-        this.type = 'video'
+        this.type = 5;  // 用于传值给评论获取
         this.loading = true
         this.getVideoUrl()   // 获取视频地址
         this.getRecomVideo() // 获取相关推荐
         this.getVideoData()  // 获取视频信息
       } else {
-        this.type = 'mv'
+        this.type = 1
         this.getMvUrl()   // 获取视频Url
         this.getRecomMV() // 获取相关推荐
         this.getMvData()  // 获取MV信息
@@ -298,7 +304,7 @@ export default {
       this.$nextTick(()=>{
         let video = this.$refs.video;
         // 当MV播放时，暂停音乐播放
-        video.onplaying = this.$store.state.musicplayer.pause()
+        video && (video.onplaying = this.$store.state.musicplayer.pause())
         // 当手动点击音乐播放时，暂停Mv的播放
         
       })
