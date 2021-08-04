@@ -8,7 +8,7 @@
       :style="{width: imgWidth}">
         <router-link
         tag="div"
-        :to="{name: 'mvDetail',params: {MvId: item.MvId}}">
+        :to="{name: 'mvDetail',params: {MvId: item.MvId, type:item.type}}">
           <div class="imgBox">
             <el-image
             :src="item.picUrl"

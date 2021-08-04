@@ -92,7 +92,9 @@ export default {
     // 因为视频可能为MV，也可能为视频
     // MV的id为纯数字， 视频为字母和数字的组合
     // 使用Number() 进行判断 ， 为NaN的是视频，执行视频对应的API NaN === NaN ==> false  坑
+    // console.log(this.$route.params)
     this.id = this.$route.params.MvId
+    // this.type = this.$route.params.type
     this.isMOrV(this.id)
     
   },

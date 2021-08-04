@@ -88,7 +88,7 @@ const search = {
           MvId: item.vid,
           picUrl: item.coverUrl,
           title: item.title,
-          type: item.type
+          type: item.type  /** 此处所有的类型都为5 */
         }
         state.searchResMv.push(tempData)
       })

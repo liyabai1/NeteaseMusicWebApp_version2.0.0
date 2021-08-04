@@ -85,8 +85,9 @@ export default {
      * 当获取视频的评论时， sortType 的参数设置为： 99： 推荐排序，2:按热度排序,3:按时间排序
      * 当获取MV的评论时， sortType 的参数与文档一致
      */
-    console.log(this.id,this.type)
-    Number(this.type) === 5 && (this.sortType = 99)
+    // console.log(this.id,this.type)
+    // Number(this.type) === 5 && (this.sortType = 99)
+    this.sortType = 99
     this.getComments()
   },
   methods: {

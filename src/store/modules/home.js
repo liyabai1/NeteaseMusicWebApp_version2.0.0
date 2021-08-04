@@ -91,7 +91,6 @@ const homeModule = {
      * 首页独家放松数据
      */
     [HOME.SET_HOME_PERSONALIZED] (state, personData) {
-      console.log(personData)
       // console.log("首页独家放送数据",personData)
       /** 所需的字段 */
       /** MVId | MvId   */
@@ -101,7 +100,8 @@ const homeModule = {
         const tempPerson = {
           MvId: item.id,
           picUrl: item.picUrl,
-          title: item.name
+          title: item.name,
+          type: item.type
         }
         state.personalizedData.push(tempPerson)
       })
@@ -156,7 +156,8 @@ const homeModule = {
           picUrl: item.picUrl + "?param=313y176",
           title: item.name,
           artistName: item.artistName,
-          playCount: item.playCount
+          playCount: item.playCount,
+          type: item.type
         }
         tempData.push(tempMv)
       })
