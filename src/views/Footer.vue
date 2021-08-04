@@ -5,7 +5,7 @@
       <div class="songInfo">
         <img 
         :src="musicInfo.picUrl+'?param=50y50'" 
-        @click="viewSongPlay = !viewSongPlay">
+        @click="showPlay()">
         <div>
           <p>{{musicInfo.songName}}</p>
           <p>{{musicInfo.singer}}</p>
@@ -89,8 +89,6 @@ export default {
     SongPlay
   },
   mounted(){
-    // 设置歌曲播放详情页的高度
-    this.setPlayPageH()
     this.musicplayer.autoplay = true
     // this.musicplayer.src = "https://music.163.com/song/media/outer/url?id=1481966854.mp3"
     // audio 正在缓冲
@@ -104,6 +102,11 @@ export default {
   methods:{
     setPlayPageH(){
       this.height = window.innerHeight - 70;
+    },
+    // 显示音乐播放页
+    showPlay: function () {
+      this.viewSongPlay = !this.viewSongPlay
+      this.setPlayPageH()
     },
 
     /**

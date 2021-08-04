@@ -34,7 +34,7 @@ export default {
     imgHeight: String
   },
   mounted () {
-
+    // console.log("独家放送接受数据：", this.personList)
   },
   watch: {
 

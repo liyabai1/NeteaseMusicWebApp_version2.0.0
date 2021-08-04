@@ -82,11 +82,13 @@ const search = {
       /** MVId | MvId   */
       /** 封面  | picUrl */
       /** 标题  | title  */
+      /** 类型  | type */
       mvData.result.videos.forEach(item => {
         const tempData = {
           MvId: item.vid,
           picUrl: item.coverUrl,
-          title: item.title
+          title: item.title,
+          type: item.type
         }
         state.searchResMv.push(tempData)
       })

@@ -91,6 +91,7 @@ const homeModule = {
      * 首页独家放松数据
      */
     [HOME.SET_HOME_PERSONALIZED] (state, personData) {
+      console.log(personData)
       // console.log("首页独家放送数据",personData)
       /** 所需的字段 */
       /** MVId | MvId   */
