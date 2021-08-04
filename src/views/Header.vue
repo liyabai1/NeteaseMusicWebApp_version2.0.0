@@ -25,8 +25,7 @@
           @blur="inputFouces = false"
           @keydown.enter="search()"
           v-model.trim="keyWords"
-          v-popover:historyContainer
-        />
+          v-popover:historyContainer/>
         <!-- 搜索历史弹出框 -->
         <el-popover
         ref="historyContainer"
