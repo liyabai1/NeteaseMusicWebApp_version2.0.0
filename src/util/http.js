@@ -310,6 +310,48 @@ function getRecomSong(cookie){
   })
 }
 
+/**
+ * 获取评论接口
+ * @param {number | string} id 资源id 歌曲id 或者视频、MVid
+ * @param {number | string} type  类型 0: 歌曲 1: mv  2: 歌单  3: 专辑  4: 电台  5: 视频
+ * @param {number | string} pageNo  页数
+ * @param {number | string} pageSize  每页多少条数据
+ * @param {number | string} sortType  排序方式
+ */
+function getComment(id, type, pageNo, pageSize, sortType){
+  return GET_DATA({
+    url: '/comment/new',
+    params: {
+      id: id,
+      type: type,
+      pageNo: pageNo,
+      pageSize: pageSize,
+      sortType: sortType
+    }
+  })
+}
+
+/**
+ * 获取楼层评论
+ * @param {number | string} parentCommentId  楼层评论id 
+ * @param {number | string} id  资源id  歌曲id MV、视频id 
+ * @param {number | string} type  资源类型  0: 歌曲 1: mv  2: 歌单  3: 专辑  4: 电台  5: 视频
+ * @param {number} limit  每页多少条数据 
+ * @param {number} time   分页参数,取上一页最后一项的 time 获取下一页数据
+ */
+function getFloorComment(parentCommentId, id, type, limit, time){
+  return GET_DATA({
+    url: '/comment/floor',
+    params: {
+      parentCommentId: parentCommentId,
+      id: id,
+      type: type,
+      limit: limit,
+      time: time
+    }
+  })
+}
+
 const HTTPS = {
   login,
   getUserlist,
@@ -334,5 +376,7 @@ const HTTPS = {
   getRecommv,
   getMvUrl,
   getRecomSong,
+  getComment,
+  getFloorComment
 }
 export default HTTPS
