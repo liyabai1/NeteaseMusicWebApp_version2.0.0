@@ -36,6 +36,12 @@ export default {
     })
     
     EventBus.$on("playsong",this.goLrc)
+    this.BS.on('refresh', () => {
+      // console.log("我刷新了")
+    })
+    this.BS.on('scrollStart', () => {
+      console.log("即将滚动")
+    })
   },
   updated(){
     // EventBus.$on('playsong',this.goLrc)
@@ -58,30 +64,30 @@ export default {
   methods: {
     
     goLrc: function () {
-      // this.BS.refresh() // 不要改****搞不清楚，不晓得在哪加这行代码，，造孽啊
+      this.BS.refresh() // 不要改****搞不清楚，不晓得在哪加这行代码，，造孽啊
       // 获取音乐的时间
       let currentTime = this.musicplayer.currentTime;
       let lrcS = this.$refs.lrcBox.children
-        // 样式
-        lrcS.forEach(item => {
-          item.style.fontWeight= "normal";
-          item.style.color = "#4c4c4c";
-        })
-        // 获取所有已经播放的歌词
-        let playedLrc = this.lrcArr.filter(item => currentTime*1000 >= item.time )
-        let index = playedLrc.length
-        if (index >= 1) {
-          
-          lrcS[index - 1].style.fontWeight = "bolder";
-          lrcS[index - 1].style.color = "#000000"
-          this.BS.scrollToElement(
-            lrcS[index - 1],
-            300,
-            0,
-            true,
-            undefined
-          );
-        }
+      // 样式
+      lrcS.forEach(item => {
+        item.style.fontWeight= "normal";
+        item.style.color = "#4c4c4c";
+      })
+      // 获取所有已经播放的歌词
+      let playedLrc = this.lrcArr.filter(item => currentTime*1000 >= item.time )
+      let index = playedLrc.length
+      if (index >= 1) {
+        
+        lrcS[index - 1].style.fontWeight = "bolder";
+        lrcS[index - 1].style.color = "#000000"
+        this.BS.scrollToElement(
+          lrcS[index - 1],
+          300,
+          0,
+          true,
+          undefined
+        );
+      }
     },
     // // 转字符串歌词为数组形式
     // toLrcArr: function(lrc) {
@@ -105,16 +111,15 @@ export default {
   watch: {
     lrcArr: {
       handler(newV,oldV){
-        console.log("更新DOM之前：",this.BS)
+        console.log("更新DOM之前：",this.BS.content.childElementCount)
         // debugger
         this.$nextTick( () =>{
           console.log("DOM更新之后",this.BS)
           // debugger
-          // 此处设置500毫秒后刷新BS  不晓得为啥，直接刷新不起作用
-          setTimeout(()=>{   
-            this.BS.refresh()
-          },500)
-          console.log("刷新之后",this.BS)
+          // 此处设置500毫秒后刷新BS  不晓得为啥，直接刷新不起作用  refresh放在了goLrc()内
+          // this.BS.refresh()
+          // debugger
+          console.log("刷新之后",this.BS.content.childElementCount)
           // debugger
         })
       },
