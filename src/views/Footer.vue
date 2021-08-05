@@ -53,6 +53,8 @@
           :data-theme="theme"
           :style="{width: volWidth + '%'}"></div>
         </div>
+        <i class="iconfont" v-popover:hisplay>&#xe61f;</i>
+        
       </div>
 
     </div>
@@ -61,6 +63,16 @@
         <song-play></song-play>
       </div>
     </transition>
+    <!-- 播放记录 -->
+    <el-popover
+    ref="hisplay"
+    placement="top-start"
+    width="300"
+    trigger="click">
+      <div style="width:100%;height:500px;">
+
+      </div>
+    </el-popover>
   </div>
 </template>
 <script>
@@ -83,7 +95,9 @@ export default {
       // 歌曲总时长
       duration: "00:00",
       // 音量百分比
-      volWidth: 100
+      volWidth: 100,
+      // 播放历史
+      playhis: false
     }
   },
   components:{
