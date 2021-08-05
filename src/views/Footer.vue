@@ -57,7 +57,7 @@
 
     </div>
     <transition name="songPlay">
-      <div class="songPlay" :style="{height: height + 'px'}" v-if="viewSongPlay">
+      <div class="songPlay" :style="{height: height + 'px'}" v-show="viewSongPlay">
         <song-play></song-play>
       </div>
     </transition>
@@ -66,6 +66,7 @@
 <script>
 import SongPlay from "@/components/SongPlay"
 import { changeTimeToMinute } from "@/module/fun.js"
+import { EventBus } from '@/util/bus.js'
 export default {
   data () {
     return {
@@ -98,6 +99,8 @@ export default {
     // audio 开始播放了
     this.musicplayer.onplaying = this.onplay
     this.musicplayer.onpause = this.onpause
+    
+    // EventBus.$on("playSong",this.ontimeupdate())
   },
   methods:{
     setPlayPageH(){
@@ -157,6 +160,7 @@ export default {
 
     // 正在播放事件
     ontimeupdate: function () {
+      EventBus.$emit("playsong")
       // 获取当前的播放时间
       let currentTime = this.musicplayer.currentTime;
       // 获取歌曲总时长

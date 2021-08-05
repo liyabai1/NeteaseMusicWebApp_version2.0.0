@@ -6,17 +6,19 @@
       <p class="singer">{{musicInfo.singer}}</p>
     </div>
     <lrc 
-    :key="musicInfo.id"
-    style="width: 550px;height: 600px;"></lrc>
+    
+    style="width: 550px;height: 500px;"></lrc>
     <comment
     style="margin:auto;"
     :id="this.$store.state.musicInfo.id"
-    :type='0'></comment>
+    :type='0'
+    :key="this.$store.state.musicInfo.id"></comment>
   </div>
 </template>
 <script>
 import lrc from '@/components/lrc'
 import comment from '@/components/comment'
+
 export default {
   data(){
     return {
@@ -28,16 +30,12 @@ export default {
     comment
   },
   mounted(){
-    this.$store.dispatch('getLyric')
+    
   },
   computed: {
     musicInfo: function () {
       return this.$store.state.musicInfo
     },
-    // 歌词信息
-    lrcData: function () {
-      return this.$store.state.lyric
-    }
   },
   watch: {
     

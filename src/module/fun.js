@@ -32,7 +32,7 @@ export function toLrcArr(lrc) {
 	let ctxArr = lrc.split(reg).splice(1)
 	tiemArr = tiemArr.map( item => {
 		let reg = /(?!=\])\d{2,}:\d{2,}.\d{2,}(?!=\])/g
-		time = item.match(reg)[0]
+		let time = item.match(reg)[0]
 		let min = time.split(":")[0]
 		let sec = time.split(":")[1]
 		let ms = ((Number(min)*60 + Number(sec))*1000).toFixed(0)
@@ -45,4 +45,15 @@ export function toLrcArr(lrc) {
 		}
 	})
 	return lrcArr
+}
+
+/**
+ * 字符串转16进制
+ */
+ export function stringToHex(str){
+  var val="";
+  for(var i = 0; i < str.length; i++){
+      val += str.charCodeAt(i).toString(16);
+  }
+  return val;
 }

@@ -14,6 +14,8 @@ import search from "./modules/searchRes.js"
 import pl from './modules/playList.js'
 import video from './modules/video.js'
 
+import { toLrcArr, stringToHex } from "@/module/fun.js"
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -30,9 +32,9 @@ export default new Vuex.Store({
       singer: null
     },
     // 歌词
-    lyric: '',
+    lyric: [{time:0,ctx:""}],
     // 歌词ID === 歌曲id 用于判断是否需要获取数据
-    lyricId: 0
+    lyricId: 1
   },
   mutations: {
     // 改变主题
@@ -55,8 +57,18 @@ export default new Vuex.Store({
     },
 
     [ROOT.SET_LRC] (state, lrcData) {
-      state.lyric = lrcData;
-      state.lyricId = state.musicInfo.id
+      if (lrcData === "暂无歌词") {
+        state.lyric = [
+          {time:0,ctx:"轻音乐",hex: "aa"},
+          {time:0,ctx:"暂无歌词",hex: "bb"}
+        ]
+      } else {
+        state.lyric = toLrcArr(lrcData);
+        state.lyric.forEach( item=> {
+          item.hex = stringToHex(item.ctx + item.time)
+        })
+      }
+      state.lyricId = state.musicInfo.id + 1
     }
   },
   actions: {
@@ -78,12 +90,43 @@ export default new Vuex.Store({
      getLyric: function (store) {
        HTTPS.getLrc(store.state.musicInfo.id)
        .then( res => {
-        res.data.code === 200 
-          ? store.commit(ROOT.SET_LRC, res.data.lrc.lyric)
-          : console.error("获取歌词失败：",res)
+        if (res.data.code === 200){
+          if (res.data.nolyric){
+            store.commit( ROOT.SET_LRC, "暂无歌词" )
+          } else {
+            store.commit(ROOT.SET_LRC, res.data.lrc.lyric)
+          }
+        } else {
+          console.log("获取歌词失败：",res)
+        } 
        })
        .catch( err => console.error("获取歌词失败",err) )
      }
+  },
+  getters: {
+    // lrcArr: state => {
+    //   let lrc = state.lyric;
+    //   if (!!lrc) {
+    //     let reg = /\[\d{2,}:\d{2,}.\d{2,}\]/g
+    //     let tiemArr = lrc.match(reg)
+    //     let ctxArr = lrc.split(reg).splice(1)
+    //     tiemArr = tiemArr.map( item => {
+    //       let reg = /(?!=\])\d{2,}:\d{2,}.\d{2,}(?!=\])/g
+    //       let time = item.match(reg)[0]
+    //       let min = time.split(":")[0]
+    //       let sec = time.split(":")[1]
+    //       let ms = ((Number(min)*60 + Number(sec))*1000).toFixed(0)
+    //       return ms
+    //     })
+    //     let lrcArr = tiemArr.map( (item,index)=>{
+    //       return {
+    //         time: item,
+    //         ctx: ctxArr[index]
+    //       }
+    //     })
+    //     return lrcArr
+    //   } 
+    // }
   },
   modules: {
     login:loginModule,
