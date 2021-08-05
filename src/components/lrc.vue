@@ -80,13 +80,7 @@ export default {
         
         lrcS[index - 1].style.fontWeight = "bolder";
         lrcS[index - 1].style.color = "#000000"
-        this.BS.scrollToElement(
-          lrcS[index - 1],
-          300,
-          0,
-          true,
-          undefined
-        );
+        this.BS.scrollToElement(lrcS[index - 1], 300, 0, true, undefined );
       }
     },
     // // 转字符串歌词为数组形式
