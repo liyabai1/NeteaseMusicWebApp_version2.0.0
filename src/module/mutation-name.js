@@ -3,11 +3,13 @@ const CHANGE_THEME = 'changeTheme'
 const CHANGE_MUSIC = "changeMusic"
 const SET_PLAYMUSIC_PICURL = "setPlayPic"
 const SET_LRC = "setlrc"
+const SET_HISPLAY = "setHistoryPlay"
 export const ROOT = {
   CHANGE_THEME,
   CHANGE_MUSIC,
   SET_PLAYMUSIC_PICURL,
-  SET_LRC
+  SET_LRC,
+  SET_HISPLAY
 }
 
 /** Login */

@@ -34,7 +34,9 @@ export default new Vuex.Store({
     // 歌词
     lyric: [{time:0,ctx:""}],
     // 歌词ID === 歌曲id 用于判断是否需要获取数据
-    lyricId: 1
+    lyricId: 1,
+    // 播放历史
+    historyPlay: []
   },
   mutations: {
     // 改变主题
@@ -55,7 +57,7 @@ export default new Vuex.Store({
     [ROOT.SET_PLAYMUSIC_PICURL] (state,picUrl) {
       state.musicInfo.picUrl = picUrl
     },
-
+    // 设置歌词
     [ROOT.SET_LRC] (state, lrcData) {
       if (lrcData === "暂无歌词") {
         state.lyric = [
@@ -69,6 +71,10 @@ export default new Vuex.Store({
         })
       }
       state.lyricId = state.musicInfo.id + 1
+    },
+    // 设置播放历史记录
+    [ROOT.SET_HISPLAY] (state, historyPlay){
+      state.historyPlay = historyPlay
     }
   },
   actions: {

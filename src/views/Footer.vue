@@ -53,7 +53,9 @@
           :data-theme="theme"
           :style="{width: volWidth + '%'}"></div>
         </div>
-        <i class="iconfont" v-popover:hisplay>&#xe61f;</i>
+        <i 
+        class="iconfont songListBtn" 
+        v-popover:hisplay>&#xe610;</i>
         
       </div>
 
@@ -69,8 +71,28 @@
     placement="top-start"
     width="300"
     trigger="click">
-      <div style="width:100%;height:500px;">
-
+      <div 
+      class="hisPlayBox"
+      style="width:100%;height:500px;">
+        <transition-group name="hisPlay" tag="div">
+          <div
+          class="hisplay_item"
+          v-for="(item,index) in historyPlay"
+          :key="item.id"
+          @mouseenter="viewDelBtn($event.target)"
+          @mouseleave="closeDelBtn($event.target)"
+          @click="playIt(item)">
+            <div class="hisplay_item_index">
+              <span v-if="Number(item.id)!==Number(musicId)">{{index+1}}</span>
+              <i v-else class="iconfont" style="color:red;">&#xe61f;</i>
+            </div>
+            <div class="hisplay_item_songName">{{item.songName}}</div>
+            <div class="hisplay_item_singer">{{item.singer}}</div>
+            <i 
+            class="iconfont delBtn"
+            @click="delItem(item.id)">&#xe7a5;</i>
+          </div>
+        </transition-group>
       </div>
     </el-popover>
   </div>
@@ -79,6 +101,7 @@
 import SongPlay from "@/components/SongPlay"
 import { changeTimeToMinute } from "@/module/fun.js"
 import { EventBus } from '@/util/bus.js'
+import { ROOT } from '@/module/mutation-name.js'
 export default {
   data () {
     return {
@@ -96,7 +119,7 @@ export default {
       duration: "00:00",
       // 音量百分比
       volWidth: 100,
-      // 播放历史
+      // 播放历史 显示开关
       playhis: false
     }
   },
@@ -114,7 +137,8 @@ export default {
     this.musicplayer.onplaying = this.onplay
     this.musicplayer.onpause = this.onpause
     
-    // EventBus.$on("playSong",this.ontimeupdate())
+    this.$store.commit( ROOT.SET_HISPLAY, this.getHisPlay() )
+     
   },
   methods:{
     setPlayPageH(){
@@ -199,6 +223,74 @@ export default {
     // 媒体暂停了
     onpause: function () {
       this.playing = false
+    },
+
+    // 获取用户的播放记录
+    getHisPlay(){
+      let hisplay = localStorage.getItem('hisplay')
+      if (hisplay) {
+        return JSON.parse(hisplay)
+      } else {
+        return []
+      } 
+    },
+    
+    /**
+     * 将新的记录添加在缓存中
+     * @param {object} newMusicInfo 要添加的历史记录
+     */
+    addHisPlay: function (newMusicInfo){
+      // 获取以前的历史记录
+      let storHisPlay = this.getHisPlay()
+      // 判断以前是否存在该歌曲
+      let hasId = storHisPlay.some( item =>{
+        return Number(item.id) === Number(newMusicInfo.id)
+      })
+      // console.log("是否存在该歌曲",hasId)
+      if (!hasId) {
+        // 添加进缓存
+        storHisPlay.push(newMusicInfo)
+        localStorage.setItem("hisplay",JSON.stringify(storHisPlay))
+        // console.log(storHisPlay)
+        // 改变state播放历史
+        this.$store.commit( ROOT.SET_HISPLAY, storHisPlay )
+      }
+    },
+    /**
+     * 删除选中的歌曲
+     */
+    delItem: function (id) {
+      let index = null
+      console.log(Number(this.historyPlay[0].id) === Number(id))
+      for (var i = 0; i < this.historyPlay.length; i++) {
+        if (Number(this.historyPlay[i].id) === Number(id)) {
+          index = i
+        }
+      }
+      console.log("index",index)
+      let newList = this.historyPlay
+      newList.splice(index,1)
+      localStorage.setItem("hisplay",JSON.stringify(newList))
+      this.$store.commit( ROOT.SET_HISPLAY, newList )
+    },
+    /**
+     * 播放选中的歌曲  播放历史记录里
+     */
+    playIt: function (musicInfo) {
+      this.$store.commit(ROOT.CHANGE_MUSIC,{
+        musicId: musicInfo.id,
+        picUrl: musicInfo.picUrl,
+        songName: musicInfo.songName,
+        singer: musicInfo.singer
+      })
+    },
+    // 显示播放历史列表的删除按钮
+    viewDelBtn: function (el) {
+      el.children[3].style.display = "block"
+    },
+    // 不显示播放历史列表的删除按钮
+    closeDelBtn: function (el) {
+      el.children[3].style.display = "none"
     }
   },
   computed: {
@@ -217,13 +309,18 @@ export default {
     // 当前播放歌曲的信息 
     musicInfo: function () {
       return this.$store.state.musicInfo
+    },
+    // 历史播放记录
+    historyPlay: function () {
+      return this.$store.state.historyPlay
     }
   },
   watch: {
     // 监听当前播放ID的变化
     musicId: function (newV) {
       this.$store.state.musicplayer.src = `https://music.163.com/song/media/outer/url?id=${newV}.mp3`;
-
+      // 监听到id变化后，将新的一组数据写入缓存中
+      this.addHisPlay(this.musicInfo)
     }
   }
 }
@@ -367,6 +464,10 @@ export default {
           width: 80%;
         }
       }
+      .songListBtn {
+        margin-left: 10px;
+        cursor: pointer;
+      }
     }
   }
 
@@ -376,6 +477,55 @@ export default {
     background-color: #aaaaaa;
     position: fixed;
     bottom: 70px;
+  }
+}
+
+/** 历史播放记录 */
+.hisPlayBox {
+  overflow-y: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 6px;
+    opacity: 0;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #bbbbbb;
+    border-radius: 3px;
+  }
+  .hisplay_item {
+    display: flex;
+    align-items: center;
+    height: 25px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    &:hover {
+      color: #8f8f8f;
+      background: #e2e2e2;
+    }
+    .hisplay_item_index {
+      width: 25px;
+      height: 25px;
+      line-height: 25px;
+      text-align: center;
+    }
+    .hisplay_item_songName,
+    .hisplay_item_singer {
+      width: 170px;
+      height: 25px;
+      line-height: 25px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .hisplay_item_singer {
+      width: 70px;
+    }
+    .delBtn {
+      display: none;
+      &:hover {
+        color: red;
+      }
+    }
   }
 }
 
@@ -392,5 +542,16 @@ export default {
   100% {
     bottom: 0px;
   }
+}
+
+/** 播放历史记录 */
+.hisPlay-enter-active,
+.hisPlay-leave-active {
+  transition: all 1s;
+}
+.hisPlay-enter, .hisPlay-leave-to
+/* .list-leave-active for below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateX(200px);
 }
 </style>
