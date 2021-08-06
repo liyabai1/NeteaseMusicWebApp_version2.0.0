@@ -85,7 +85,7 @@
           :key="item.id"
           @mouseenter="viewDelBtn($event.target)"
           @mouseleave="closeDelBtn($event.target)"
-          @click="playIt(item)">
+          @click.stop="playIt(item)">
             <div class="hisplay_item_index">
               <span v-if="Number(item.id)!==Number(musicId)">{{index+1}}</span>
               <i v-else class="iconfont" style="color:red;">&#xe61f;</i>
@@ -94,7 +94,7 @@
             <div class="hisplay_item_singer">{{item.singer}}</div>
             <i 
             class="iconfont delBtn"
-            @click="delItem(item.id)">&#xe7a5;</i>
+            @click.stop="delItem(item.id)">&#xe7a5;</i>
           </div>
         </transition-group>
       </div>
