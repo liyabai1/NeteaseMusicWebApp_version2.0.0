@@ -14,7 +14,9 @@
 
       <div class="playerBtns">
         <div class="btns">
-          <i class="iconfont">&#xe6ac;</i>
+          <i 
+          class="iconfont"
+          @click="lastSong()">&#xe6ac;</i>
           <i 
           class="iconfont" 
           v-if="playing"
@@ -23,7 +25,9 @@
           class="iconfont" 
           v-else
           @click="playOrPause()">&#xe6ba;</i>
-          <i class="iconfont">&#xe6a9;</i>
+          <i 
+          class="iconfont"
+          @click="nextSong()">&#xe6a9;</i>
         </div>
         <div class="progress">
           <span>{{nowPlayTime}}</span>
@@ -136,9 +140,11 @@ export default {
     // audio 开始播放了
     this.musicplayer.onplaying = this.onplay
     this.musicplayer.onpause = this.onpause
-    
+    this.musicplayer.onended = this.nextSong
+    // 设置历史播放记录
     this.$store.commit( ROOT.SET_HISPLAY, this.getHisPlay() )
-     
+    // 初始设置当前播放历史记录里的第一首歌
+    this.historyPlay.length !==0 && this.playIt(this.historyPlay[0])
   },
   methods:{
     setPlayPageH(){
@@ -159,10 +165,40 @@ export default {
       ? this.musicplayer.play()
       : this.musicplayer.pause()
     },
-    // 下一曲
-
     // 上一曲
-
+    lastSong: function () {
+      let nowId = this.musicId;
+      let index = null;
+      for (var i = 0; i < this.historyPlay.length; i++) {
+        if (Number(this.historyPlay[i].id) === Number(nowId)) {
+          index = i;
+          break;
+        }
+      }
+      if (index === 0) {
+        let playMusicInfo = this.historyPlay[this.historyPlay.length-1]
+        this.playIt(playMusicInfo)
+      } else {
+        this.playIt(this.historyPlay[index-1])
+      }
+    },
+    // 下一曲
+    nextSong: function () {
+      let nowId = this.musicId;
+      let index = null;
+      for (var i = 0; i < this.historyPlay.length; i++) {
+        if (Number(this.historyPlay[i].id) === Number(nowId)) {
+          index = i;
+          break;
+        }
+      }
+      if (index === this.historyPlay.length-1) {
+        let playMusicInfo = this.historyPlay[0]
+        this.playIt(playMusicInfo)
+      } else {
+        this.playIt(this.historyPlay[index+1])
+      }
+    },
 
     // 手动改变当前播放位置
     changeCurrent: function (event) {
@@ -264,7 +300,8 @@ export default {
       console.log(Number(this.historyPlay[0].id) === Number(id))
       for (var i = 0; i < this.historyPlay.length; i++) {
         if (Number(this.historyPlay[i].id) === Number(id)) {
-          index = i
+          index = i;
+          break
         }
       }
       console.log("index",index)
