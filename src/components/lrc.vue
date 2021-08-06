@@ -36,12 +36,7 @@ export default {
     })
     
     EventBus.$on("playsong",this.goLrc)
-    this.BS.on('refresh', () => {
-      // console.log("我刷新了")
-    })
-    this.BS.on('scrollStart', () => {
-      console.log("即将滚动")
-    })
+    
   },
   updated(){
     // EventBus.$on('playsong',this.goLrc)
