@@ -425,7 +425,16 @@ export default {
 
         & > i {
           font-size: 30px;
+          width: 33px;
+          height: 33px;
+          line-height: 33px;
+          text-align: center;
           cursor: pointer;
+          overflow: hidden;
+          &:hover {
+            border-radius: 50%;
+            background-color: #dfdfdf;
+          }
         }
       }
       .progress {
