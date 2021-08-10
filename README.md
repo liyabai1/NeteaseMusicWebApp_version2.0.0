@@ -4,8 +4,11 @@
 ### 介绍
 项目界面仿照网易云PC端的界面，接口使用[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi),实现了用户登录，首页推荐歌单，独家放送，最新音乐，推荐MV，精品歌单，搜索歌曲、歌单、视频，获取视频评论以及歌曲评论等功能。
 
+### 线上地址预览
+[👉仿网易云音乐😁](https://music.liyabai.top/)
+
 ***
-其实这个项目有点为了实现功能而实现功能了，并没有什么封装的思想在里面，要问为什么，问就是不会啊，我也想造轮子，不知道怎么造啊。😢有人带我造轮子就更好了。
+❤其实这个项目有点为了实现功能而实现功能了，并没有什么封装的思想在里面，要问为什么，问就是不会啊，我也想造轮子，不知道怎么造啊。😢有人带我造轮子就更好了。
 ***
 
 ### 技术栈
@@ -92,3 +95,6 @@ npm run lint
 
 ### 致谢
 感谢[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)提供的接口地址。
+
+### 开源
+[MIT](./LICENSE)
