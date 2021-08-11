@@ -88,6 +88,8 @@ export default {
     display: block;
     width: 175px;
     margin-left: 10px;
+    font-size: 18px;
+    font-weight: bold;
     margin: 10px {
       right: 0px;
     }
@@ -109,6 +111,7 @@ export default {
       display: inline-block;
       height: 50px;
       width: 150px;
+      font-size: 14px;
       padding: 5px;
       overflow: hidden;
       text-overflow: ellipsis;

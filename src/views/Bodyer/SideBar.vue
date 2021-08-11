@@ -35,12 +35,12 @@ export default {
   overflow-x: hidden;
   overflow-y: auto;
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
     opacity: 0;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: #444;
-    border-radius: 3px;
+    background-color: #999999ca;
+    border-radius: 2px;
   }
   & > li {
     list-style: none;

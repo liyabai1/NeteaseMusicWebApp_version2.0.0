@@ -150,7 +150,7 @@ export default {
         {name:'green',color: '#2bb669'},
         {name:'blue',color: '#4791eb'},
         {name:'yellow',color: '#e2ab12'},
-        {name:'black',color: '#222222'},
+        {name:'black',color: '#363636'},
         {name: "pink",color: '#fa5793'}
       ]
     }
@@ -407,7 +407,7 @@ export default {
     /* 搜索框 */
     .inputBox {
       display: flex;
-      width: 170px;
+      width: 400px;
       height: 30px;
       border-radius: 15px;
       align-items: center;
@@ -417,7 +417,7 @@ export default {
         font-size: 16px;
       }
       input {
-        width: 140px;
+        width: 370px;
         height: 30px;
         font-size: 16px;
         border: none;
@@ -434,8 +434,12 @@ export default {
     display: flex;
     align-items: center;
     cursor: pointer;
-
-    i,
+    margin-left: toRem(100px);
+    i{
+      border-radius: 50%;
+      color: #cccccc;
+      font-size: 30px;
+    }
     img {
       width: 35px;
       height: 35px;
@@ -449,6 +453,7 @@ export default {
       height: 25px;
       line-height: 25px;
       font-size: 16px;
+      padding-left: 5px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -460,6 +465,7 @@ export default {
   .changeThemeBox {
     width: 200px;
     height: 35px;
+    line-height: 35px;
 
     /* 主题选择按钮 */
     .changeThemeBtn {
