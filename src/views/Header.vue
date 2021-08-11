@@ -434,7 +434,7 @@ export default {
     display: flex;
     align-items: center;
     cursor: pointer;
-    margin-left: toRem(100px);
+    margin-left: toRem(400px);
     i{
       border-radius: 50%;
       color: #cccccc;

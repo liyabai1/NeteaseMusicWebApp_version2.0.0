@@ -11,7 +11,8 @@ nav {
   display: flex;
   height: 65px;
   align-items: center;
-  margin-left: 20px;
+  margin: auto;
+  margin-bottom: 20px;
   div {
     width: 100px;
     height: 100%;
