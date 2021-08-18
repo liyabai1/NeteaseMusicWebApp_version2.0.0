@@ -94,7 +94,10 @@ npm run lint
 ![音乐播放界面](./src/static/音乐播放界面.png)
 
 ### 致谢
-感谢[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)提供的接口地址。
+感谢[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)提供的接口地址。  
+
+### 特别致谢
+**感谢吴同学对页面提出的一些建议👍，还是很不错的哦。**
 
 ### 开源
 [MIT](./LICENSE)
