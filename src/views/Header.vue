@@ -1,92 +1,95 @@
 <template>
   <div class="headerBox" :data-theme="theme">
-    <img
-    class="logoImg"
-    src="../../public/logo.jpg"
-    alt="Logo"
-    />
+    <div class="leftBox">
+      <img
+      class="logoImg"
+      src="../../public/logo.jpg"
+      alt="Logo"
+      />
 
-    <span class="weclome">Hello!</span>
-    <div class="navToPage">
-      <i 
-      class="iconfont"
-      @click="navBack()">&#xe620;</i>
-      <i 
-      class="iconfont"
-      @click="navNext()">&#xe629;</i>
+      <span class="weclome">Hello!</span>
+      <div class="navToPage">
+        <i 
+        class="iconfont"
+        @click="navBack()">&#xe620;</i>
+        <i 
+        class="iconfont"
+        @click="navNext()">&#xe629;</i>
+      </div>
+      <div class="searchContainer">
+        <div class="inputBox">
+          <i class="iconfont">&#xe61e; </i>
+          <input
+            type="text"
+            placeholder="搜索"
+            @focus="inputFouces = true"
+            @blur="inputFouces = false"
+            @keydown.enter="search()"
+            v-model.trim="keyWords"
+            v-popover:historyContainer/>
+          <!-- 搜索历史弹出框 -->
+          <el-popover
+          ref="historyContainer"
+          placement="bottom"
+          width="400"
+          trigger="click"
+          :visible-arrow="false">
+            <div class="historyBox">
+              <p>搜索历史记录</p>
+              <ul>
+                <li
+                v-for="item in history"
+                :key="item">
+                  <span @click="searchByHis(item)">{{item}}</span>
+                  <i 
+                  class="iconfont"
+                  @click="delHistoryItem(item)">&#xe7a5;</i>
+                </li>
+              </ul>
+            </div>
+          </el-popover>
+        </div>
+      </div>
     </div>
-    <div class="searchContainer">
-      <div class="inputBox">
-        <i class="iconfont">&#xe61e; </i>
-        <input
-          type="text"
-          placeholder="搜索"
-          @focus="inputFouces = true"
-          @blur="inputFouces = false"
-          @keydown.enter="search()"
-          v-model.trim="keyWords"
-          v-popover:historyContainer/>
-        <!-- 搜索历史弹出框 -->
+
+    <div class="rightBox">
+      <!-- 用户信息|头像、用户名 -->
+      <div class="userBox"  @click="login()">
+        <img
+        :src="avatarUrl"
+        v-if="logined" />
+        <i
+        class="iconfont"
+        v-else>&#xe65f;</i>
+        <span class="userName">{{ userName }}</span>
+      </div>
+
+      <!-- 主题选择 -->
+      <div class="changeThemeBox">
+        <i
+        class="iconfont changeThemeBtn"
+        @click="viewTheme = !viewTheme"
+        v-popover:themeContainer
+        >&#xe7c0;</i>
+        <!-- 主题弹出框 -->
         <el-popover
-        ref="historyContainer"
+        ref="themeContainer"
         placement="bottom"
         width="400"
         trigger="click"
-        :visible-arrow="false">
-          <div class="historyBox">
-            <p>搜索历史记录</p>
-            <ul>
-              <li
-              v-for="item in history"
-              :key="item">
-                <span @click="searchByHis(item)">{{item}}</span>
-                <i 
-                class="iconfont"
-                @click="delHistoryItem(item)">&#xe7a5;</i>
-              </li>
-            </ul>
+        :visible-arrow="true">
+          <div class="themeBox">
+            <span
+            v-for="item in themeColor"
+            :key="item.name"
+            :style="{ background: item.color }"
+            @click="changeTheme($event.target,item.name)">
+              <i class="iconfont noshow" ref="activeColor">&#xe60a;</i>
+            </span>
           </div>
         </el-popover>
       </div>
     </div>
-
-    <!-- 用户信息|头像、用户名 -->
-    <div class="userBox"  @click="login()">
-      <img
-      :src="avatarUrl"
-      v-if="logined" />
-      <i
-      class="iconfont"
-      v-else>&#xe65f;</i>
-      <span class="userName">{{ userName }}</span>
-    </div>
-
-    <!-- 主题选择 -->
-    <div class="changeThemeBox">
-      <i
-      class="iconfont changeThemeBtn"
-      @click="viewTheme = !viewTheme"
-      v-popover:themeContainer
-      >&#xe7c0;</i>
-      <!-- 主题弹出框 -->
-      <el-popover
-      ref="themeContainer"
-      placement="bottom"
-      width="400"
-      trigger="click"
-      :visible-arrow="true">
-        <div class="themeBox">
-          <span
-          v-for="item in themeColor"
-          :key="item.name"
-          :style="{ background: item.color }"
-          @click="changeTheme($event.target,item.name)">
-            <i class="iconfont noshow" ref="activeColor">&#xe60a;</i>
-          </span>
-        </div>
-      </el-popover>
-    </div>
-
     <!-- 登录框 -->
     <el-dialog
       title="登录"
@@ -360,73 +363,81 @@ export default {
 .headerBox {
   height: 60px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid #aaaaaa;
   box-sizing: border-box;
-
-  /* logo的图片 */
-  .logoImg {
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
-    margin-left: toRem(20px);
-  }
-
-  /* logo旁边的欢迎语 */
-  .weclome {
-    font-size: 20px;
-    align-self: flex-end;
-    margin-left: toRem(5px);
-  }
-
-  /* 两个小按钮控制页面的前进与后退 */
-  .navToPage {
-    width: 60px;
-    height: 27px;
-    display: flex;
-    justify-content: space-around;
+  .leftBox{
     align-items: center;
-    margin-left: 70px;
-
-    i {
-      font-size: 20px;
-      color: #aaaaaa;
-      &:hover {
-        cursor: pointer;
-        color: #eeeeee;
-      }
+    display: flex;
+  
+    /* logo的图片 */
+    .logoImg {
+      width: 50px;
+      height: 50px;
+      border-radius: 5px;
+      margin-left: toRem(20px);
     }
-  }
 
-  /* 搜索盒子 */
-  .searchContainer {
-    width: 400px;
-    height: 30px;
-    margin-left: toRem(15px);
+    /* logo旁边的欢迎语 */
+    .weclome {
+      font-size: 20px;
+      align-self: flex-end;
+      margin-left: toRem(5px);
+    }
 
-    /* 搜索框 */
-    .inputBox {
+    /* 两个小按钮控制页面的前进与后退 */
+    .navToPage {
+      width: 60px;
+      height: 27px;
       display: flex;
-      width: 400px;
-      height: 30px;
-      border-radius: 15px;
+      justify-content: space-around;
       align-items: center;
-      background-color: #ffffff;
+      margin-left: 70px;
 
       i {
-        font-size: 16px;
+        font-size: 20px;
+        color: #aaaaaa;
+        &:hover {
+          cursor: pointer;
+          color: #eeeeee;
+        }
       }
-      input {
-        width: 370px;
+    }
+
+    /* 搜索盒子 */
+    .searchContainer {
+      width: 400px;
+      height: 30px;
+      margin-left: toRem(15px);
+
+      /* 搜索框 */
+      .inputBox {
+        display: flex;
+        width: 400px;
         height: 30px;
-        font-size: 16px;
-        border: none;
-        outline: none;
-        background: #ffffff;
+        border-radius: 15px;
+        align-items: center;
+        background-color: #ffffff;
+
+        i {
+          font-size: 16px;
+        }
+        input {
+          width: 370px;
+          height: 30px;
+          font-size: 16px;
+          border: none;
+          outline: none;
+          background: #ffffff;
+        }
       }
     }
   }
-
+  .rightBox{
+    display: flex;
+    align-items: center;
+  }
   /** */
   .userBox {
     width: 170px;
@@ -434,7 +445,6 @@ export default {
     display: flex;
     align-items: center;
     cursor: pointer;
-    margin-left: toRem(400px);
     i{
       border-radius: 50%;
       color: #cccccc;
